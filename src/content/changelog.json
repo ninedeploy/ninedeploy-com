@@ -1,0 +1,624 @@
+{
+ "total": 125,
+ "releases": [
+  {
+   "version": "0.12.0",
+   "date": "2026-10-08",
+   "tagline": "Backups, preview environments and disk alerts — the first release of the roadmap.",
+   "groups": [
+    {
+     "title": "Added",
+     "total": 4,
+     "items": [
+      "Per-database backup policy.",
+      "Panel self-backup.",
+      "Preview-only environment. A git-backed service can hold environment values that only its PR previews receive. Previews still never receive the service's secrets.",
+      "Alert metrics `disk` and `server_offline`."
+     ]
+    },
+    {
+     "title": "Changed",
+     "total": 2,
+     "items": [
+      "System export and import share one archive implementation (`lib/systemArchive.ts`) with panel backup. The API and the archive format are unchanged.",
+      "An alert rule PATCH now validates the merged rule. An existing `cert-expiry` rule can no longer be scoped to a service."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.11.2",
+   "date": "2026-10-08",
+   "tagline": "Security release: a failed submodule clone could put the Git source's access token into deploy logs, the audit log and notifications.",
+   "groups": [
+    {
+     "title": "Security",
+     "total": 1,
+     "items": [
+      "A failed clone's git output is now redacted before it is logged or stored. git rebuilds a submodule's URL from the tokenized origin and prints it on failure; that text was passed through unchanged (F1013)."
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 4,
+     "items": [
+      "A failed deploy clone names its reason in the deploy log and the failure message: authentication failed, HTTP 403, not found or no access, could not resolve/connect, TLS/host-key failure, or missing branch. It adds advice for GitHub…",
+      "The Deploy Wizard shows why a repository list is short: the classic token lacks `repo`, the list was capped, a later page failed, or the provider returned an error. The SDK gains `sources.reposWithDiagnostics` (F1010).",
+      "Dashboards served from a separate origin can read that diagnostic, because CORS now exposes `x-nd-source-error` (F1016).",
+      "`ninedeploy sources test` prints the token type, scopes and warnings. Provider-supplied text is stripped of terminal control sequences (F1011)."
+     ]
+    },
+    {
+     "title": "Deprecated",
+     "total": 1,
+     "items": [
+      "OIDC provider `defaultRole`. OIDC users always own their personal workspace; add them to team workspaces with invitations or SCIM. The SSO settings form no longer shows the field (F1014)."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.11.1",
+   "date": "2026-10-08",
+   "tagline": "Private repositories: complete repository lists, clone errors that say why, and a token check.",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 2,
+     "items": [
+      "Git source repository lists stopped at the provider's first page (100 repositories, most recently updated first), so older private repositories never appeared. Lists now follow GitHub `Link`, GitLab `X-Next-Page` and Bitbucket `next`…",
+      "Analysing a repository the selected credential cannot clone answered \"Internal Server Error\". The answer now names a reason: authentication failed, HTTP 403 (permission denied), not found or no access, could not resolve/connect, or…"
+     ]
+    },
+    {
+     "title": "Added",
+     "total": 2,
+     "items": [
+      "Sources: a \"Test token\" button shows the login, the GitHub token type, a classic token's scopes, and warnings when private repositories cannot be listed or cloned.",
+      "The Deploy Wizard explains, next to the repository picker, why a repository may be missing from a GitHub source."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.11.0",
+   "date": "2026-10-07",
+   "tagline": "The evidence audit release: over 300 defects, each reproduced on the previous code before it was fixed, then verified and, where it mattered, pinned by a regression test.",
+   "groups": [
+    {
+     "title": "Security",
+     "total": 7,
+     "items": [
+      "Enabling the host firewall could lock the operator out. ufw rejected most generated rules, including the SSH/HTTP/HTTPS safety rules. A failed safety rule was ignored, and the panel port was never allowed.",
+      "Tenant-supplied header and basic-auth values were evaluated as Traefik Go templates, which could leak environment secrets. A covering wildcard router could outrank an exact host and skip basic auth or IP allow-lists.",
+      "Templates could deploy onto another tenant's attached volume. A member could claim another tenant's future PR-preview hostnames, or the www/apex half of an active redirect. A pending domain transfer outlived its initiator's admin seat.",
+      "An HTTPS token stayed in `.git/config` of relative submodules and was copied into images. Repository framework detection had a ReDoS on member-controlled files.",
+      "`logs search` printed tenant container output raw, so terminal escape sequences (clipboard writes, title changes) reached the operator's terminal."
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 10,
+     "items": [
+      "Data safety:",
+      "DNS:",
+      "Deploys:",
+      "Runtime:",
+      "Build cache:"
+     ]
+    },
+    {
+     "title": "Tests",
+     "total": 1,
+     "items": [
+      "Permanent regressions cover the race, ownership, High and Critical fixes: reconcile and stop races, concurrent passkey migration, domain transfer accept, seat hand-over, audit entity formats, deploy-log close codes and the boot repairs."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.45",
+   "date": "2026-10-05",
+   "tagline": "Deployment reliability and shared-contract fixes from the evidence-led audit.",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 11,
+     "items": [
+      "Deployment queues, filesystem locks and lifecycle cleanup handle failure paths consistently. Stale auto-update probes no longer update a service whose deployment settings changed while the probe was running.",
+      "Community template creation uses exclusive writes, preserving an existing template when concurrent installs select the same name. Explicit replacement remains available.",
+      "Agent connection caching follows the current node host and port. Node proxy sync errors identify the failed operation stage even when a transport error omits its name.",
+      "Log timestamps preserve fractional nanoseconds. Log search, runtime log selection, deployment history and scheduled-job fixtures include the preceding audit repairs.",
+      "Manifest import/export preserves explicit `redirectWww: false`; service creation retains `healthPath`. SDK manifests and errors, CLI configuration and terminal formatting include the audited contract fixes."
+     ]
+    },
+    {
+     "title": "Tests",
+     "total": 2,
+     "items": [
+      "Permanent regressions cover concurrent template creation, stale auto-update completion, session rotation, deploy-log selection and successive panel-update timers.",
+      "Shell-based installer and update fixtures use the native Git Bash installation on Windows rather than a WSL launcher."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.44",
+   "date": "2026-10-03",
+   "tagline": "Ownership follow-up to 0.10.43 (r710–r711): team services whose creator was",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 1,
+     "items": [
+      "Team services lost their project's shared env after a SCIM removal (r710). The deploy pipeline injects a project's shared env only when the service owner is seated in the project's workspace; a creator removed by SCIM before 0.10.43…"
+     ]
+    },
+    {
+     "title": "Security",
+     "total": 1,
+     "items": [
+      "Repository analysis was open to any signed-in account (r711). A seatless or viewer-only account could have the panel clone arbitrary public repositories (bounded and rate-limited, but outside the role model every other write follows)."
+     ]
+    },
+    {
+     "title": "Docs",
+     "total": 1,
+     "items": [
+      "README → Verifying a release: image signatures need cosign v3, or v2.6+ with `--new-bundle-format`; older cosign reports \"no signatures found\"."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.43",
+   "date": "2026-10-02",
+   "tagline": "The verified-release release (r690–r703): releases are signed and their",
+   "groups": [
+    {
+     "title": "Security",
+     "total": 3,
+     "items": [
+      "Seatless creators kept owner access (r694, high). Whoever created a team service or database kept full access after losing their seat — secret env export, database credentials, backup downloads, deploy and delete (82 routes).",
+      "Cross-tenant ids on service create left half-created services (r692); the backup-drill route revealed whether another tenant's backup id exists (r693); owner-scoped deletes answered 200 for ids outside the caller's scope (r691).",
+      "Authorization matrix (r690). A test boots the real API on a real database, enumerates every route (361), and checks each against two tenants and every role: no cross-tenant access, no write or outside call on refusal, the role floor…"
+     ]
+    },
+    {
+     "title": "Release integrity",
+     "total": 3,
+     "items": [
+      "Signed images (r700). Every published image is signed with Sigstore keyless signing (GitHub OIDC, no stored key) and carries build provenance. The exact `cosign verify`, `cosign verify-blob` and `gh attestation verify` commands are in…",
+      "Checksummed, signed release assets (r701). Each release carries `ninedeploy-vX.Y.Z.tar.gz`, `install.sh`, `SHA256SUMS` and its signature bundle. The release is created as a draft, its assets are verified the way installers check them,…",
+      "What this guarantees: the archive, installer and image are byte-for-byte what this repository's release workflow produced. What it does not: the trust root is still GitHub and Sigstore."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.42",
+   "date": "2026-10-02",
+   "tagline": "The second-pass audit release (r630–r680): ingress, managed data, PR previews",
+   "groups": [
+    {
+     "title": "Security",
+     "total": 8,
+     "items": [
+      "Hostname check vs render mismatch (r630). A member could store a hostname the checks treated as one host and the proxy rendered as a catch-all — routing every tenant's automatic domain to their own container.",
+      "PR previews inherited production credentials (r651) through project secrets, vault references and manifest database attachments — reachable by anyone who can push a branch and open a PR.",
+      "Manifest attached databases the owner could only view (r650), handing their password to the container.",
+      "Volume routes queued redeploys without the deploy privilege check (r640) — a member could get a privileged operator-owned stack redeployed from a repository they push to. One enqueue helper now serves every user-triggered deploy, pinned…",
+      "Template databases could adopt a deleted tenant's retained volume (r641); dependency slugs could be squatted (r642)."
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 5,
+     "items": [
+      "Routing froze for the whole instance when any service enabled sticky sessions (Traefik has no `sticky` middleware) (r631) or ran more than one replica (mis-indented `healthCheck`) (r638). A golden test now validates every middleware the…",
+      "Managed Redis/Valkey never started (r644): `--requirepass` was passed before the image. The user-journey smoke now creates a managed Postgres and Redis on every release (r680).",
+      "Deleting a database left its off-site dumps (r646); concurrent restores of one remote backup clobbered each other (r647); volume names could collide with another service's primary volume (r648); the volume list ran a helper container…",
+      "Bundle import is transactional and claim-checked (r656); repository analysis clones are shallow and bounded (r657); webhook-out no longer follows redirects and `/ai/config` hides the base URL from non-operators (r658); Doctor flags a…",
+      "Node checkouts are removed on delete/move (r662); fan-out targets are torn down on service delete (r662); IPv6-safe host normalisation (r663); ssh errors no longer echo the remote command (r664); terminal and container routes refuse…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.41",
+   "date": "2026-10-02",
+   "tagline": "Security release — update now. A second-pass audit found that a signed-in",
+   "groups": [
+    {
+     "title": "Security",
+     "total": 3,
+     "items": [
+      "Symlinked repository files were followed on the panel host (r620). Repository analysis and the `.ninedeploy` loader now read only regular files inside the checkout (no symlinks, FIFOs or devices; `O_NOFOLLOW`; bounded reads). A detected…",
+      "Workspace email overrides could send arbitrary mail through the instance (r621) — a regression in 0.10.40, where they were first wired into sending. Overrides now apply only to workspaces an instance operator owns and must keep…",
+      "Git never runs hooks from a checkout (r622) — `core.hooksPath=/dev/null` on every clone, fetch and submodule update."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.40",
+   "date": "2026-10-02",
+   "tagline": "The first published build of the 0.10.38 changes — read the 0.10.38",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 1,
+     "items": [
+      "Railpack on arm64 (r584). Railpack names its arm64 Linux binary `arm64-unknown-linux-musl`, not `aarch64-…` (Nixpacks' spelling). The arm64 image build 404'd, and `install.sh` on arm64 bare-metal hosts has silently never installed…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.39",
+   "date": "2026-10-02",
+   "tagline": "The first published build of the 0.10.38 changes. The 0.10.38 tag never",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 1,
+     "items": [
+      "The r605 pinned-dispatcher test built its Agent from the Node 22/24 undici slot and failed on Node 26 (CI's Node). It now uses the same `bundledAgentClass()` lookup `guardedFetch` uses. The production code was already correct, verified…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.38",
+   "date": "2026-10-02",
+   "tagline": "The proven-upgrade release (r580–r610): releases are now only offered to",
+   "groups": [
+    {
+     "title": "Release process",
+     "total": 2,
+     "items": [
+      "Publication is gated on end-to-end smokes (r581). The release workflow pushes `:vX.Y.Z` only, then runs `smoke:upgrade` (previous published release → this tag, on one data volume) and `smoke:user-journey` against the pushed image;…",
+      "`pnpm smoke:upgrade` (r580): boots the previous release on a data volume, seeds an operator, a deployed service with a domain, an orphaned project secret, and a deploy hard-killed mid-build; boots the new release on the same volume and…"
+     ]
+    },
+    {
+     "title": "Security",
+     "total": 7,
+     "items": [
+      "DNS-rebinding window closed (r605). `guardedFetch` connects only to the addresses it vetted (pinned lookup on Node's bundled undici Agent — verified on Node 22.13, 24 and 26), keeping SNI and the Host header.",
+      "Email enumeration through member-add and invitations (r604) — registered and unregistered emails now get the same response.",
+      "Sandbox network on Node < 25 (r600) — new installs refused unless knowingly allowed; plugin list shows `networkRestricted`.",
+      "Vault references at write time (r601) on template deploys and bundle import.",
+      "Preview patterns from `.ninedeploy` manifests are validated (r602) — and the manifest's documented `{n}` placeholder is finally understood (it was never substituted)."
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 8,
+     "items": [
+      "Workspace email templates were never sent (r610) — invitations from both invite paths now render the workspace's override; a wiring guard pins every template to a sender.",
+      "Compose deploys took the stack down before building (r590).",
+      "Node-pinned compose services are health-patrolled (r591).",
+      "Fan-out source builds pull private base images with the bound registry credential (r592).",
+      "A container started by a deploy interrupted by a panel restart is removed at boot (r593) — containers now carry `ninedeploy.deployment` / `ninedeploy.service` labels."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.37",
+   "date": "2026-10-02",
+   "tagline": "The tenancy release (r500–r576): a whole-repo deep audit found that several",
+   "groups": [
+    {
+     "title": "Security",
+     "total": 12,
+     "items": [
+      "Instance vault readable by any member (r510). `${{infisical|doppler:KEY}}` resolved with the operator's vault token for every service. Now only operator-owned services and allowlisted workspaces resolve references; non-operators writing…",
+      "Preview-domain takeover (r511). A member-editable preview pattern could render another tenant's host and steal its traffic. Patterns must contain `{{pr}}` and `{{slug}}`, and the rendered host goes through the own-zone claim check.",
+      "Registry credential exfiltration (r512). Changing `image` pointed `docker login` and the auto-update probe at any host. Credentials are now bound to registry hosts, and members cannot repoint such a service to another registry.",
+      "Auto-update skipped the owner-privilege check (r513); its registry probe was a blind SSRF for member-owned services (r514).",
+      "Login lockout never tripped (r500). Per-IP locks zeroed the counters the account tier sums. Rewritten with a per-account window; IPv6 bucketed by /64."
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 13,
+     "items": [
+      "Railpack double build (r520); railpack refused on container installs, which ship no railpack CLI.",
+      "Node deploys reported success while the node's proxy kept pointing at the removed container (r521).",
+      "Deploy hooks and exec jobs on node-pinned services ran on the panel host (r522, r523).",
+      "A restart mid-deploy blocked local deploys for up to 45 minutes (r524); interrupted deploys are failed at boot.",
+      "Node-pinned services were never health-patrolled (r525); an unreachable node raises `alert.node_unreachable` instead of \"service down\"."
+     ]
+    },
+    {
+     "title": "Installer, release and docs",
+     "total": 5,
+     "items": [
+      "`latest_tag` prefers the published release over a freshly pushed tag, and its warnings no longer leak into the captured tag (r571). Docker installs pin the image tag, keep the previous compose/`.env` for a real rollback, and wait up to…",
+      "Self-update answers 409 `deploys_in_flight` while a deploy is building, unless `force: true` (r572).",
+      "`bump-version.js` validates before writing; `:latest` only moves forward; per-tag release concurrency (r573).",
+      "apache2/nginx are only stopped on fresh installs that need :80/:443; Nixpacks checksums keyed by version; provenance comment no longer overclaims (r574).",
+      "Doctor finding `panel_plaintext_exposure`; README/ARCHITECTURE counts corrected (r575). CI exercises the real `install.sh` helpers and runs a non-blocking `pnpm audit` (r576)."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.36",
+   "date": "2026-10-02",
+   "tagline": "The bounded-backstop release (r480): the audit of the rejection backstop",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 2,
+     "items": [
+      "The rejection map grew without bound (P2). Every distinct source IP that ever produced one 400/401/403 left a permanent entry — freed only when that exact IP returned after its window drained. Ordinary background internet scanning adds…",
+      "The backstop 429 used the Fastify-default body shape (P3). The web client parses the app error envelope (`{ error: { code, message } }`) — with the default shape it rendered the generic \"Request failed with status 429\" at exactly the…"
+     ]
+    },
+    {
+     "title": "Hardened",
+     "total": 2,
+     "items": [
+      "The user-journey smoke fails fast when it cannot derive the current version from `version.ts` (it previously fell back to `v0.0.0`, burned the whole DinD bring-up, and died at image pull with a misleading error).",
+      "Changelog wording corrected: the backstop counts all pre-limiter and in-handler 400/401/403 deaths, not only guard rejections — same ceiling, same never-legitimate threshold, now stated as the code behaves."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.35",
+   "date": "2026-10-02",
+   "tagline": "The backstop release (r479): the fresh-eyes audit of the owner-throttle fix",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 3,
+     "items": [
+      "Guard-rejections were unmetered (P2, regression from r478 found by audit). The principal limiter is appended to route-level preHandlers, but the module guards (`requireAdmin`/`requireOperator`, ~25 modules) are instance-level…",
+      "`/v1/about` pooled the operator into the anonymous bucket (P3). Its optional auth resolved in the handler — after the limiter had already keyed by IP. Optional auth now runs at onRequest (invalid tokens still swallowed: the public…",
+      "The r478 WebSocket trade-off note was factually wrong (P3). `@fastify/websocket` hijacks the socket in the route handler, not at onRequest — upgrades DO traverse the preHandler limiter (IP-keyed). The behavior was safer than documented;…"
+     ]
+    },
+    {
+     "title": "Hardened",
+     "total": 1,
+     "items": [
+      "The user-journey smoke now derives its default image from the repo version instead of a hardcoded tag — a bare run could prove the journey green on a two-releases-old artifact, exactly the drift class the script exists to catch."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.34",
+   "date": "2026-10-01",
+   "tagline": "The owner-throttle release (r478): reported live by the owner — the panel",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 1,
+     "items": [
+      "An authenticated operator could be throttled by their own panel (P1, reported live). The global limiter bucketed by IP only — behind a proxy or NAT, every client (browser tabs, the CLI, uptime monitors, anonymous probing) shared one…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.33",
+   "date": "2026-10-01",
+   "tagline": "The journey release (r477): the product now proves its own core loop on the",
+   "groups": [
+    {
+     "title": "Added",
+     "total": 1,
+     "items": [
+      "`pnpm smoke:user-journey` — the user-journey smoke. Spins the validated DinD topology (privileged docker:28-dind sidecar; the panel image under test gets plain `DOCKER_HOST=tcp://…`) and drives the product's core loop against the…"
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 1,
+     "items": [
+      "A bodyless `application/json` request answered 500 (found by the journey's first run). The rawBody plugin — which overrides Fastify's JSON parser to capture exact bytes for webhook HMAC verification — called `JSON.parse` on the raw…"
+     ]
+    },
+    {
+     "title": "Security",
+     "total": 1,
+     "items": [
+      "basic-ftp pinned to 6.2.1 (scoped override): <=6.2.0 has a quadratic-time CPU DoS in `Client.list()`'s Unix LIST parser (2026-10-01 advisory); it rides `apps/server > pm2 > proxy-agent > pac-proxy-agent > get-uri`. Prod audit clean again."
+     ]
+    },
+    {
+     "title": "Chain & docs polish (the r475–r476 delta audit: 0 P1 / 0 P2 / 4 P3)",
+     "total": 4,
+     "items": [
+      "`ninedeploy backups restore` documented with BOTH required args (`<databaseId> <backupId>`).",
+      "The repo-wide createClient `token:` guard now also sweeps `apps/web/src` — the in-product help surface this project rewrites most often was the one surface unchecked.",
+      "The release scripts share one package list (`scripts/lib/package-list.mjs`, imported by bump-version and tag-release) with a test pinning it against the real workspace globs — the two hardcoded 10-entry copies could drift, and an 11th…",
+      "Webhook help no longer promises a branch picker the panel UI does not have (the Environment tab matches the service branch; override via CLI), and the Sources help topic points at the real flow instead of a Sources-page wizard that does…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.32",
+   "date": "2026-10-01",
+   "tagline": "The truth-in-docs release (r476): the documentation sweep that had never",
+   "groups": [
+    {
+     "title": "Fixed — documentation that lied",
+     "total": 4,
+     "items": [
+      "Two more copies of the unauthenticated-SDK bug (P1). r472 found `docs/AI_MCP_CLI.md` teaching `createClient({ token: … })` — an option that does not exist (the SDK takes `getToken`), silently ignored, so a copied example 401s on every…",
+      "The README taught a nonexistent CLI command (P1) — `ninedeploy watch 12 480`; the real command is `deploys watch`. And the website's CLI cheatsheet was written for an imaginary CLI (P1): six of ten lines broken — `services deploy…",
+      "The in-product help taught the pre-hardening privilege model (P2) — \"anyone who is owner or admin in at least one workspace is an operator\": precisely the self-promotion path migration 0038 eliminated. The help now states the operator…",
+      "Docs accuracy wave (P2/P3): the microkernel doc no longer teaches the r473-removed `rollback` option or the nonexistent `ctx.events.on` member; the website plugin example uses the real `ctx.tapHook` and the real install sources…"
+     ]
+    },
+    {
+     "title": "Fixed — release chain (the r474/r475 diff audit: 0 P1, 1 P2, 3 P3)",
+     "total": 3,
+     "items": [
+      "`release:tag` certified the wrong tree when given a commit (P2). Its compile/test gates run against the working tree, but provenance reads the commitish — tagging an older SHA ran the gates on HEAD while proving the old commit (false…",
+      "Provenance checks all ten package.jsons, not just the root (the workspace packages are what `packages:publish` ships). An unresolvable commitish now dies with a `✗` diagnostic instead of a Node stack trace.",
+      "bump-version.js treats install-command files as critical: a silent pattern miss on the `--version` occurrences in About/QUICKSTART/README used to pin every copier to the previous release while the script claimed success."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.31",
+   "date": "2026-10-01",
+   "tagline": "The chain-guard release (r475): the release chain audited itself. The last",
+   "groups": [
+    {
+     "title": "Security / Release integrity",
+     "total": 1,
+     "items": [
+      "Version provenance is verified before anything is built or pushed (P1). Tags are created by hand (`git tag vX <commit>`), and nothing in the chain compared the tag's VALUE to what the checkout contains — a typo or a stale SHA would pass…"
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 2,
+     "items": [
+      "The local gate now means what CI's gate means (P2). `pnpm release:check` was a single `turbo run typecheck lint build test` — turbo has no dependency edges between those task names, so the phases could interleave (and a warm tree could…",
+      "bump-version.js refuses to lie (P2). A pattern miss on the load-bearing `VERSION` literal printed a warning and exited 0 — ten package.jsons saying 0.10.31 while the panel kept reporting 0.10.30, every gate green. That miss is now…"
+     ]
+    },
+    {
+     "title": "Added",
+     "total": 1,
+     "items": [
+      "`pnpm release:tag` — the local tag gate. Wraps `git tag` with the checks the drill previously held as discipline: clean working tree; the tag does not already exist (re-tagging stays an explicit delete-and-recreate); tag == package.json…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.30",
+   "date": "2026-10-01",
+   "tagline": "The clean-sweep release (r474): the fresh-eyes audit of 0.10.29 came back",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 3,
+     "items": [
+      "The SDK type for the masked notification config (P3). `listChannels` still promised `configJson: string | null` without the new `hasConfig` field — so a consumer read `null` on a webhook/FCM channel and had no way to distinguish \"no…",
+      "Empty webhook branches fall back again (P3). r473's charset rule turned `{\"branch\": \"\"}` (or whitespace-only) into a 400; the route's historical behaviour was to treat it as absent and use the service's own branch. The schema now…",
+      "A malformed plugin definition no longer disguises itself as an init timeout (P3). r473 forwards the object a plugin's code returns verbatim — unlike the install manifest, that object passed no schema. A `configSchema: 5` or a menu item…"
+     ]
+    },
+    {
+     "title": "Hygiene",
+     "total": 2,
+     "items": [
+      "`dockerVolumeName`'s uppercase acceptance is documented as deliberate: docker itself accepts uppercase volume names, and rejecting them would break attach flows against pre-existing out-of-band volumes (the managed `nd-svc-`/`nd-db-`…",
+      "The `webhooks.events` column is marked dead in the schema (defaulted `[\"push\"]`, never written otherwise, never branched on): kept physically — dropping needs a table-rebuild migration for zero value — but flagged so nobody builds on it."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.29",
+   "date": "2026-10-01",
+   "tagline": "The contract-honest SDK + secrets-at-rest release (r473): the auditors-audit",
+   "groups": [
+    {
+     "title": "Security",
+     "total": 1,
+     "items": [
+      "Notification channel configs are encrypted at rest (P2). `notification_channels.config_json` carries real credentials — the webhook channel's HMAC signing `secret` and the FCM service-account private key — and sat in a plaintext column…"
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 3,
+     "items": [
+      "The plugin SDK's declared contract is now the runtime's actual contract (P1). `configSchema`, `menuItems` and `dependencies` declared on the object a plugin's code RETURNS — the thing `definePlugin` validates — were silently dropped:…",
+      "The last member-reachable 403 holes in wizards and modals (P2). The Deploy wizard (member-reachable from Services and Hub) fired the operator-only `sources` + `servers` listings on every open — doubled by the app-wide retry — and…",
+      "Schema boundary honesty (P3). `webhookCreate.branch` now carries the same git charset rule as the service's own branch field (whitespace-tolerant — trimmed before validation, exactly as the route always did) instead of accepting any…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.28",
+   "date": "2026-10-01",
+   "tagline": "The member posture release (r472): first deep audits of the two surfaces",
+   "groups": [
+    {
+     "title": "Web — members stop hitting walls that were never theirs",
+     "total": 4,
+     "items": [
+      "Six operator-only routes left member-visible (P2). The sidebar (and command palette) offered `/volumes`, `/activity`, `/docker`, `/sources`, `/servers` and `/users` to members although every one is operator-only server-side. Each…",
+      "Eleven operator-only Settings sections showed member error states (P2). `/v1/settings` and its satellites (firewall, log drains, notifications, resources, storage, migration, OIDC) are operator-only; members saw the sections render with…",
+      "The Volumes tab fabricated storage numbers for members (P2). The tab queried the instance-wide (operator-only) volume inventory, swallowed the 403, and rendered \"Total Storage Footprint 0 B\" plus \"0 B\" primary/DB cards for any service…",
+      "Silent member-side 403s removed (P3). Monitoring no longer fetches the operator-only servers listing for members (the node-stats query already gated); Topology no longer fetches the volume inventory (the graph renders without volume…"
+     ]
+    },
+    {
+     "title": "MCP — posture, not breakage",
+     "total": 3,
+     "items": [
+      "`list_configs` no longer offers `reveal` (P2). The SDK supports `reveal=true` (plaintext secret values for operator tokens), and the tool forwarded that choice to the model. An MCP tool result is persisted in agent transcripts and…",
+      "The doc example taught an unauthenticated client (P2). `docs/AI_MCP_CLI.md`'s quick-start used a nonexistent `token` option (the SDK takes `getToken`), then read `services.items.length` and `deploy.id`/`deploy.status` — none of which…",
+      "Package hygiene (P3). `@ninedeploy/mcp` now declares `engines: { node: \">=22.13.0\" }` (it installs standalone via `npx -y`, far from the monorepo root's engines) and ships a README covering the env vars, the readonly flag,…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.27",
+   "date": "2026-10-01",
+   "tagline": "The override-escape patch (r471): the fresh-eyes audit of the 0.10.26",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 4,
+     "items": [
+      "The `$`-escape landed on one of three compose renderers (P2). 0.10.26 added `composeScalar` to `renderRuntimeCompose` — but the volume-override files (the LOCAL builder's inline renderer and the remote builder's `renderVolumeOverride`)…",
+      "The fan-out patrol does what its docstring promised. `patrolTargets`' comment has said \"targets whose container is GONE get their row marked error\" since the beginning — but since r466's agentOp contract, `docker inspect` on a missing…",
+      "A refused remote network delete carries docker's reason. `DELETE /v1/networks/:name?serverId=` discarded the op's output lines (`noop` sink), so an in-use network answered a bare `400 \"agent docker.networkRm exited with 1\"` the operator…",
+      "Sandbox crash reports survive their last line; test cleanup stops racing the dead channel. The child's stderr line-splitter never flushed, so a crash report killed mid-write (no trailing newline) was swallowed exactly where the code…"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.10.26",
+   "date": "2026-09-30",
+   "tagline": "The contract-honesty patch (r470): a fresh-eyes audit of the previous two",
+   "groups": [
+    {
+     "title": "Fixed",
+     "total": 6,
+     "items": [
+      "agentOp's exit-code contract vs its r466 callers (P1). `agentOp` throws on any non-zero exit — but `docker.volumeInspect`, used as an existence probe, exits 1 for exactly the answer being probed (\"volume missing\"). Result: every…",
+      "`df` dispatched to `git` (P1). `spawnValidated`'s executable dispatch was a two-way ternary from the docker+git era; adding `df` to the type silently made every node disk probe run `git df -k .` (exit 129) — node disk telemetry never…",
+      "Sandbox SIGKILL escalation was dead code (P1). `terminate()` armed the SIGKILL behind `!child.killed` — but `killed` only records that a signal was SENT, and the SIGTERM above had already set it, so a wedged sandbox child outlived its…",
+      "Sandbox child pipes were never drained (P2). `silent: true` pipes stdout/stderr into the parent; an unread pipe eventually fills its kernel buffer and the child blocks on its next write. stdout is now drained (plugin output travels the…",
+      "Compose bridge parity and interpolation (P2). `renderRuntimeCompose` now emits `memswap_limit` alongside `mem_limit` (the `docker run` line pins `--memory-swap` to the memory limit; the compose twin could balloon into swap on the same…"
+     ]
+    },
+    {
+     "title": "Added",
+     "total": 1,
+     "items": [
+      "The processBootstrap honesty tests. The compiled sandbox bootstrap is forked under the REAL permission-model flags (`SandboxPlugin.sandboxExecArgv`): INIT→READY handshake, hook round-trip, clean SHUTDOWN (exit 0, not a kill), and an…"
+     ]
+    },
+    {
+     "title": "Dependencies",
+     "total": 1,
+     "items": [
+      "zod 4.6.5, dotenv 18.0.4, simple-git 4.0.2 (security fix; our named imports were already 4.x-compatible), @simplewebauthn/server 14.0.3 + @simplewebauthn/browser 14.0.0 (Node 22+; the v14 `AuthenticatorTransport` rename applied),…"
+     ]
+    }
+   ]
+  }
+ ]
+}

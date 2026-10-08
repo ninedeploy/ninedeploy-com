@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Palette: two lanes of a blue-green deploy, on the slate of the logo's shell.
+ * Light is a cool "paper" stock; dark is the shell's navy, never pure black.
+ */
+:root {
+  --bg: #f2f4f7;
+  --bg-2: #e9edf2;
+  --panel: #ffffff;
+  --rail: #d3dbe6;
+  --rail-strong: #b5c1d1;
+  --ink: #142033;
+  --muted: #536279;
+  --blue: #3557e0;
+  --green: #0e8f86;
+  --amber: #c7781a;
+  --pink: #d93a66;
+  --glow-blue: rgb(53 87 224 / 0.16);
+  --glow-green: rgb(14 143 134 / 0.16);
+  --grid: rgb(20 32 51 / 0.06);
+  --code-bg: #142033;
+  --code-ink: #dfe7f2;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0d1522;
+  --bg-2: #101a29;
+  --panel: #141f2f;
+  --rail: #24344b;
+  --rail-strong: #34496a;
+  --ink: #e8eef6;
+  --muted: #9fb0c6;
+  --blue: #7d96ff;
+  --green: #4ecdc4;
+  --amber: #ffb454;
+  --pink: #ff5c87;
+  --glow-blue: rgb(125 150 255 / 0.2);
+  --glow-green: rgb(78 205 196 / 0.2);
+  --grid: rgb(232 238 246 / 0.045);
+  --code-bg: #0a111c;
+  --code-ink: #dfe7f2;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-panel: var(--panel);
+  --color-rail: var(--rail);
+  --color-rail-strong: var(--rail-strong);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-blue: var(--blue);
+  --color-green: var(--green);
+  --color-amber: var(--amber);
+  --color-pink: var(--pink);
+  --color-code: var(--code-bg);
+  --color-code-ink: var(--code-ink);
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.1, 1);
+}
+
+html {
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--green);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Display type: Bricolage at its narrowest width and largest optical size. */
+.display {
+  font-stretch: 78%;
+  font-variation-settings: "opsz" 96;
+  font-weight: 680;
+  letter-spacing: -0.03em;
+  line-height: 0.86;
+}
+
+.heading {
+  font-stretch: 82%;
+  font-variation-settings: "opsz" 72;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+}
+
+.blueprint {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.lane-rule {
+  background: linear-gradient(90deg, var(--blue) 0 50%, var(--green) 50% 100%);
+}
+
+/* Marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 60s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: blink 1.05s steps(1) infinite;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.page-in {
+  animation: page-in 0.5s var(--ease-snap) both;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Theme switch: the new theme is revealed by a clip-path wipe (see ThemeToggle). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* The page-load sequence: headline lines rise out of their masks, then the rest settles. */
+@keyframes rise-line {
+  from {
+    transform: translateY(105%);
+  }
+}
+.rise-line {
+  animation: rise-line 0.9s var(--ease-snap) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+.rise {
+  animation: rise 0.8s var(--ease-snap) both;
+}
+
+/* Code tokens (always on the dark code surface) */
+.c-com { color: #6b7d96; font-style: italic; }
+.c-str { color: #a5e8c8; }
+.c-key { color: #8fa6ff; }
+.c-kw { color: #4ecdc4; }
+.c-num { color: #ffb454; }
