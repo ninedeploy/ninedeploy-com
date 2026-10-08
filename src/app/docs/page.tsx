@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function DocsIndex() {
   return (
     <div className="page-in">
-      <h1 className="display text-[clamp(3rem,8vw,6rem)]">Documentation.</h1>
+      <h1 className="display text-[clamp(2.6rem,6.5vw,5rem)]">Documentation.</h1>
       <p className="mt-5 max-w-2xl text-lg text-muted">
         Start with the installer, then read how a deploy actually runs. Everything else is reference for when you need it.
       </p>

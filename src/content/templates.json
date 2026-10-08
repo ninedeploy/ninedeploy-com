@@ -7,13 +7,15 @@
    "tagline": "Fair-code workflow automation",
    "description": "n8n is an extendable workflow automation tool. Connect anything to everything via a node-based editor and run self-hosted workflows, integrations and automations with full control over your data.",
    "category": "Automation",
-   "emoji": "🔗",
+   "icon": "n8n",
    "image": "n8nio/n8n",
    "port": 5678,
    "website": "https://n8n.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/home/node/.n8n",
+   "env": []
   },
   {
    "id": "activepieces",
@@ -21,13 +23,24 @@
    "tagline": "Open-source Zapier alternative with its own Redis & Postgres",
    "description": "No-code business automation tool designed to be extensible through a flexible piece ecosystem and TypeScript SDK. Deployed as a full compose stack: recent Activepieces releases refuse to boot without Redis and PostgreSQL, so the stack carries both.",
    "category": "Automation",
-   "emoji": "🧩",
+   "icon": null,
    "image": "activepieces/activepieces:latest",
    "port": 80,
    "website": "https://www.activepieces.com",
    "featured": true,
    "verified": true,
-   "compose": true
+   "compose": true,
+   "volume": "/root/.activepieces",
+   "env": [
+    {
+     "key": "AP_ENCRYPTION_KEY",
+     "secret": true
+    },
+    {
+     "key": "AP_JWT_SECRET",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "directus",
@@ -35,13 +48,32 @@
    "tagline": "Instant REST & GraphQL API for SQL databases",
    "description": "An open-source data engine that wraps your SQL database with dynamic GraphQL and REST APIs and a sleek admin app.",
    "category": "Automation",
-   "emoji": "🐰",
+   "icon": "directus",
    "image": "directus/directus:latest",
    "port": 8055,
    "website": "https://directus.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/directus/uploads",
+   "env": [
+    {
+     "key": "ADMIN_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "ADMIN_PASSWORD",
+     "secret": true
+    },
+    {
+     "key": "SECRET",
+     "secret": true
+    },
+    {
+     "key": "DB_CLIENT",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "pocketbase",
@@ -49,13 +81,15 @@
    "tagline": "Open source backend in 1 file",
    "description": "PocketBase is an open source backend consisting of embedded SQLite database with real-time subscriptions, built-in auth management, file storage and a modern admin dashboard.",
    "category": "Automation",
-   "emoji": "📦",
+   "icon": "pocketbase",
    "image": "ghcr.io/muchobien/pocketbase:latest",
    "port": 8090,
    "website": "https://pocketbase.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/pb_data",
+   "env": []
   },
   {
    "id": "nocodb",
@@ -63,13 +97,15 @@
    "tagline": "Open-source Airtable alternative",
    "description": "Transform any MySQL, PostgreSQL, SQL Server, SQLite into a smart spreadsheet with collaboration, webhooks and REST APIs.",
    "category": "Automation",
-   "emoji": "📊",
+   "icon": null,
    "image": "nocodb/nocodb:latest",
    "port": 8080,
    "website": "https://nocodb.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/usr/app/data",
+   "env": []
   },
   {
    "id": "hasura",
@@ -77,13 +113,24 @@
    "tagline": "Instant GraphQL APIs on databases",
    "description": "Blazing-fast GraphQL execution engine with fine-grained role-based access control over PostgreSQL and MySQL databases.",
    "category": "Automation",
-   "emoji": "⚡",
+   "icon": "hasura",
    "image": "hasura/graphql-engine:latest",
    "port": 8080,
    "website": "https://hasura.io",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": [
+    {
+     "key": "HASURA_GRAPHQL_ENABLE_CONSOLE",
+     "secret": false
+    },
+    {
+     "key": "HASURA_GRAPHQL_ADMIN_SECRET",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "ollama",
@@ -91,13 +138,15 @@
    "tagline": "Get up and running with large language models",
    "description": "Run Llama 3, Mistral, Gemma, Phi and other large language models locally and self-hosted with OpenAI-compatible API endpoints.",
    "category": "AI",
-   "emoji": "🦙",
+   "icon": "ollama",
    "image": "ollama/ollama:latest",
    "port": 11434,
    "website": "https://ollama.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/root/.ollama",
+   "env": []
   },
   {
    "id": "flowise",
@@ -105,13 +154,24 @@
    "tagline": "Drag & drop UI to build customized LLM apps",
    "description": "Open source UI visual tool for LangChain and LlamaIndex to build customized LLM applications, autonomous agents and RAG pipelines.",
    "category": "AI",
-   "emoji": "🌊",
+   "icon": null,
    "image": "flowiseai/flowise:2.2.8",
    "port": 3000,
    "website": "https://flowiseai.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/root/.flowise",
+   "env": [
+    {
+     "key": "FLOWISE_USERNAME",
+     "secret": false
+    },
+    {
+     "key": "FLOWISE_PASSWORD",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "localai",
@@ -119,13 +179,15 @@
    "tagline": "Self-hosted OpenAI alternative drop-in",
    "description": "Free, open-source OpenAI alternative. Drop-in replacement REST API compatible with OpenAI specs for text generation, audio transcription, embeddings and images.",
    "category": "AI",
-   "emoji": "🤖",
+   "icon": null,
    "image": "localai/localai:latest",
    "port": 8080,
    "website": "https://localai.io",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/build/models",
+   "env": []
   },
   {
    "id": "searxng",
@@ -133,13 +195,20 @@
    "tagline": "Privacy-respecting, hackable metasearch engine",
    "description": "A privacy-respecting, open source internet metasearch engine aggregating results from over 70 search services with zero tracking.",
    "category": "AI",
-   "emoji": "🔎",
+   "icon": "searxng",
    "image": "searxng/searxng:latest",
    "port": 8080,
    "website": "https://searxng.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/etc/searxng",
+   "env": [
+    {
+     "key": "SEARXNG_SECRET",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "qdrant",
@@ -147,13 +216,15 @@
    "tagline": "Vector similarity search engine & database",
    "description": "High-performance vector database with extended filtering support, payload storage and production clustering for AI embeddings.",
    "category": "AI",
-   "emoji": "🎯",
+   "icon": "qdrant",
    "image": "qdrant/qdrant:latest",
    "port": 6333,
    "website": "https://qdrant.tech",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/qdrant/storage",
+   "env": []
   },
   {
    "id": "chromadb",
@@ -161,13 +232,15 @@
    "tagline": "AI-native open-source embedding database",
    "description": "The AI-native open-source embedding database designed to make it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs.",
    "category": "AI",
-   "emoji": "🔮",
+   "icon": null,
    "image": "chromadb/chroma:latest",
    "port": 8000,
    "website": "https://www.trychroma.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/chroma/chroma",
+   "env": []
   },
   {
    "id": "weaviate",
@@ -175,13 +248,24 @@
    "tagline": "Cloud-native vector search database",
    "description": "Open source vector search engine that stores both objects and vectors, allowing for combining vector search with structured filtering with the fault-tolerance of a cloud-native database.",
    "category": "AI",
-   "emoji": "📐",
+   "icon": null,
    "image": "semitechnologies/weaviate:latest",
    "port": 8080,
    "website": "https://weaviate.io",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/lib/weaviate",
+   "env": [
+    {
+     "key": "AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "PERSISTENCE_DATA_PATH",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "libretranslate",
@@ -189,13 +273,15 @@
    "tagline": "Free and Open Source Machine Translation API",
    "description": "Self-hosted, offline-capable machine translation engine powered by Argos Translate. 100% private with no proprietary API dependencies.",
    "category": "AI",
-   "emoji": "🌐",
+   "icon": "libretranslate",
    "image": "libretranslate/libretranslate",
    "port": 5000,
    "website": "https://libretranslate.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/home/libretranslate",
+   "env": []
   },
   {
    "id": "umami",
@@ -203,13 +289,20 @@
    "tagline": "Simple, privacy-friendly web analytics",
    "description": "Umami is an open source, privacy-focused alternative to Google Analytics. It collects only the metrics you care about and everything fits on a single page.",
    "category": "Analytics",
-   "emoji": "📈",
+   "icon": "umami",
    "image": "ghcr.io/umami-software/umami:postgresql-latest",
    "port": 3000,
    "website": "https://umami.is",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": [
+    {
+     "key": "APP_SECRET",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "matomo",
@@ -217,13 +310,20 @@
    "tagline": "Ethical Google Analytics alternative",
    "description": "Comprehensive analytics platform with full data ownership, heatmaps, conversion funnels, SEO rankings and tag management.",
    "category": "Analytics",
-   "emoji": "📉",
+   "icon": "matomo",
    "image": "matomo:latest",
    "port": 80,
    "website": "https://matomo.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/html",
+   "env": [
+    {
+     "key": "MATOMO_DATABASE_ADAPTER",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "metabase",
@@ -231,13 +331,15 @@
    "tagline": "Business intelligence and dashboards",
    "description": "The easy, open source way for everyone in your company to ask questions and learn from data without writing SQL.",
    "category": "Analytics",
-   "emoji": "📊",
+   "icon": "metabase",
    "image": "metabase/metabase:latest",
    "port": 3000,
    "website": "https://metabase.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/metabase-data",
+   "env": []
   },
   {
    "id": "yourls",
@@ -245,13 +347,28 @@
    "tagline": "Your Own URL Shortener",
    "description": "Small set of PHP scripts that allow you to run your own URL shortening service with statistics, bookmarklets and plugin support.",
    "category": "Analytics",
-   "emoji": "✂️",
+   "icon": null,
    "image": "yourls:latest",
    "port": 8080,
    "website": "https://yourls.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": [
+    {
+     "key": "YOURLS_SITE",
+     "secret": false
+    },
+    {
+     "key": "YOURLS_USER",
+     "secret": false
+    },
+    {
+     "key": "YOURLS_PASS",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "uptime-kuma",
@@ -259,13 +376,15 @@
    "tagline": "A fancy self-hosted monitoring tool",
    "description": "Monitor HTTP(s), TCP, DNS, Docker and more with status pages, notifications and beautiful uptime charts.",
    "category": "Monitoring",
-   "emoji": "📊",
+   "icon": "uptimekuma",
    "image": "louislam/uptime-kuma:2",
    "port": 3001,
    "website": "https://github.com/louislam/uptime-kuma",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/data",
+   "env": []
   },
   {
    "id": "grafana",
@@ -273,13 +392,20 @@
    "tagline": "Dashboards & observability",
    "description": "Query, visualize and alert on metrics, logs and traces from any data source.",
    "category": "Monitoring",
-   "emoji": "📈",
+   "icon": "grafana",
    "image": "grafana/grafana",
    "port": 3000,
    "website": "https://grafana.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/lib/grafana",
+   "env": [
+    {
+     "key": "GF_SECURITY_ADMIN_PASSWORD",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "prometheus",
@@ -287,13 +413,15 @@
    "tagline": "Monitoring system & time series database",
    "description": "Power your metrics and alerting with a multi-dimensional data model, PromQL and real-time alerting.",
    "category": "Monitoring",
-   "emoji": "🔥",
+   "icon": "prometheus",
    "image": "prom/prometheus:latest",
    "port": 9090,
    "website": "https://prometheus.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/prometheus",
+   "env": []
   },
   {
    "id": "loki",
@@ -301,13 +429,15 @@
    "tagline": "Like Prometheus, but for logs",
    "description": "Horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.",
    "category": "Monitoring",
-   "emoji": "🪵",
+   "icon": null,
    "image": "grafana/loki:latest",
    "port": 3100,
    "website": "https://grafana.com/oss/loki",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/loki",
+   "env": []
   },
   {
    "id": "beszel",
@@ -315,13 +445,15 @@
    "tagline": "Lightweight server resource monitoring hub",
    "description": "A lightweight server monitoring hub with historical metrics, docker stats, alert notifications and minimal resource overhead.",
    "category": "Monitoring",
-   "emoji": "📡",
+   "icon": null,
    "image": "henrygd/beszel:latest",
    "port": 8090,
    "website": "https://beszel.dev",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/beszel_data",
+   "env": []
   },
   {
    "id": "jaeger",
@@ -329,13 +461,15 @@
    "tagline": "Open source distributed tracing platform",
    "description": "Monitor and troubleshoot complex microservice architectures with distributed context propagation and root cause analysis.",
    "category": "Monitoring",
-   "emoji": "🕵️",
+   "icon": "jaeger",
    "image": "jaegertracing/all-in-one:latest",
    "port": 16686,
    "website": "https://www.jaegertracing.io",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "victoriametrics",
@@ -343,13 +477,15 @@
    "tagline": "Fast, cost-effective time series database",
    "description": "High-performance, resource-efficient time series database and monitoring solution compatible with Prometheus and Grafana.",
    "category": "Monitoring",
-   "emoji": "⏱️",
+   "icon": "victoriametrics",
    "image": "victoriametrics/victoria-metrics:latest",
    "port": 8428,
    "website": "https://victoriametrics.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/victoria-metrics-data",
+   "env": []
   },
   {
    "id": "nextcloud",
@@ -357,13 +493,15 @@
    "tagline": "Productivity platform for private clouds",
    "description": "A safe home for all your data. Access and share your files, calendars, contacts, mail and more from any device, on your terms.",
    "category": "Productivity",
-   "emoji": "☁️",
+   "icon": "nextcloud",
    "image": "nextcloud:stable",
    "port": 80,
    "website": "https://nextcloud.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/html",
+   "env": []
   },
   {
    "id": "memos",
@@ -371,13 +509,15 @@
    "tagline": "A privacy-first, lightweight note-taking service",
    "description": "Capture thoughts and ideas effortlessly with markdown support, tags, sharing and REST APIs. Zero telemetry, 100% self-hosted.",
    "category": "Productivity",
-   "emoji": "📝",
+   "icon": null,
    "image": "neosmemo/memos:stable",
    "port": 5230,
    "website": "https://usememos.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/opt/memos",
+   "env": []
   },
   {
    "id": "trilium",
@@ -385,13 +525,15 @@
    "tagline": "Hierarchical personal knowledge base",
    "description": "Build large personal knowledge bases with rich text, markdown, source code editing, diagrams, mind maps and AES-256 encrypted notes.",
    "category": "Productivity",
-   "emoji": "🌲",
+   "icon": "trilium",
    "image": "zadam/trilium:latest",
    "port": 8080,
    "website": "https://github.com/zadam/trilium",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/home/node/trilium-data",
+   "env": []
   },
   {
    "id": "silverbullet",
@@ -399,13 +541,15 @@
    "tagline": "Extensible markdown personal knowledge base",
    "description": "An open-source, extensible, markdown-based personal knowledge management system with live queries and full offline PWA support.",
    "category": "Productivity",
-   "emoji": "🥈",
+   "icon": null,
    "image": "zefhemel/silverbullet:latest",
    "port": 3000,
    "website": "https://silverbullet.md",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/space",
+   "env": []
   },
   {
    "id": "vikunja",
@@ -413,13 +557,32 @@
    "tagline": "To-do list and task management application",
    "description": "Organize tasks with Kanban boards, Gantt charts, lists and table views. Cross-platform with reminders, tags and team sharing.",
    "category": "Productivity",
-   "emoji": "✅",
+   "icon": "vikunja",
    "image": "vikunja/vikunja:0.24.6",
    "port": 8080,
    "website": "https://vikunja.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/vikunja/files",
+   "env": [
+    {
+     "key": "VIKUNJA_DATABASE_TYPE",
+     "secret": false
+    },
+    {
+     "key": "VIKUNJA_CORS_ENABLE",
+     "secret": false
+    },
+    {
+     "key": "VIKUNJA_SERVICE_JWTSECRET",
+     "secret": true
+    },
+    {
+     "key": "VIKUNJA_SERVICE_INTERFACE",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "focalboard",
@@ -427,13 +590,15 @@
    "tagline": "Open source alternative to Trello and Asana",
    "description": "Multilingual project management tool to organize, track and manage work across teams with boards, tables and calendar views.",
    "category": "Productivity",
-   "emoji": "📋",
+   "icon": null,
    "image": "mattermost/focalboard:latest",
    "port": 8000,
    "website": "https://www.focalboard.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "stirling-pdf",
@@ -441,13 +606,15 @@
    "tagline": "Robust, locally hosted PDF manipulation tool",
    "description": "Perform all kinds of operations on PDF files: split, merge, convert, reorder, compress, sign, add watermarks, OCR and more — entirely in your browser.",
    "category": "Productivity",
-   "emoji": "📑",
+   "icon": null,
    "image": "frooodle/s-pdf:latest",
    "port": 8080,
    "website": "https://github.com/Stirling-Tools/Stirling-PDF",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "excalidraw",
@@ -455,13 +622,15 @@
    "tagline": "Virtual collaborative whiteboard",
    "description": "Sketch diagrams that have a hand-drawn feel. Collaborative, real-time, zero setup, and exports to PNG, SVG and clipboard.",
    "category": "Productivity",
-   "emoji": "✏️",
+   "icon": "excalidraw",
    "image": "excalidraw/excalidraw:latest",
    "port": 80,
    "website": "https://excalidraw.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "it-tools",
@@ -469,13 +638,15 @@
    "tagline": "Handy online tools for developers",
    "description": "A collection of handy tools for developers and IT professionals: token generators, hashers, converters, formatters, network tools and cheatsheets.",
    "category": "Productivity",
-   "emoji": "🧰",
+   "icon": null,
    "image": "corentinth/it-tools:latest",
    "port": 80,
    "website": "https://it-tools.tech",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "actual-budget",
@@ -483,13 +654,15 @@
    "tagline": "Privacy-first personal finance system",
    "description": "Zero-based budgeting tool with 100% privacy, multi-device synchronization, bank syncing and end-to-end encryption.",
    "category": "Productivity",
-   "emoji": "💰",
+   "icon": "actualbudget",
    "image": "actualbudget/actual-server:latest",
    "port": 5006,
    "website": "https://actualbudget.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "mealie",
@@ -497,13 +670,15 @@
    "tagline": "Recipe manager and meal planner",
    "description": "Mealie is a self-hosted recipe manager and meal planner with a RestAPI backend and a rich frontend application. Import recipes from any URL.",
    "category": "Productivity",
-   "emoji": "🍳",
+   "icon": "mealie",
    "image": "ghcr.io/mealie-recipes/mealie:latest",
    "port": 9000,
    "website": "https://mealie.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/data",
+   "env": []
   },
   {
    "id": "grocy",
@@ -511,13 +686,15 @@
    "tagline": "ERP for your home pantry & groceries",
    "description": "Self-hosted groceries & household management solution for tracking pantry inventory, recipes, chores, batteries and equipment maintenance.",
    "category": "Productivity",
-   "emoji": "🛒",
+   "icon": "grocy",
    "image": "lscr.io/linuxserver/grocy:latest",
    "port": 80,
    "website": "https://grocy.info",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "linkding",
@@ -525,13 +702,15 @@
    "tagline": "Self-hosted bookmark manager",
    "description": "Minimal, fast, easy to set up bookmark manager. Supports tags, search, bulk editing, browser extensions and automatic page snapshots.",
    "category": "Productivity",
-   "emoji": "🔖",
+   "icon": null,
    "image": "sissbruecker/linkding:latest",
    "port": 9090,
    "website": "https://github.com/sissbruecker/linkding",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/etc/linkding/data",
+   "env": []
   },
   {
    "id": "gotify",
@@ -539,13 +718,15 @@
    "tagline": "Simple WebSocket push notification server",
    "description": "Send and receive push notifications via WebSocket in real-time. Includes Android client, CLI utility and web dashboard.",
    "category": "Communication",
-   "emoji": "🔔",
+   "icon": null,
    "image": "gotify/server:latest",
    "port": 80,
    "website": "https://gotify.net",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/data",
+   "env": []
   },
   {
    "id": "gitea",
@@ -553,13 +734,15 @@
    "tagline": "Git with a cup of tea",
    "description": "A painless self-hosted Git service. Lightweight and fast, written in Go, with issues, pull requests, wikis, packages and CI/CD Actions.",
    "category": "Developer",
-   "emoji": "🍵",
+   "icon": "gitea",
    "image": "gitea/gitea:latest",
    "port": 3000,
    "website": "https://about.gitea.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "forgejo",
@@ -567,13 +750,15 @@
    "tagline": "Beyond coding: collaborative software development",
    "description": "A self-hosted, community-driven lightweight software forge with git repos, package registry, issues and CI actions.",
    "category": "Developer",
-   "emoji": "🔨",
+   "icon": "forgejo",
    "image": "codeberg.org/forgejo/forgejo:16",
    "port": 3000,
    "website": "https://forgejo.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "gitlab-ce",
@@ -581,13 +766,15 @@
    "tagline": "Complete DevOps lifecycle platform",
    "description": "Git repository management, code review, issue tracking, continuous integration and deployment in a single application.",
    "category": "Developer",
-   "emoji": "🦊",
+   "icon": "gitlab",
    "image": "gitlab/gitlab-ce:latest",
    "port": 80,
    "website": "https://about.gitlab.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/opt/gitlab",
+   "env": []
   },
   {
    "id": "code-server",
@@ -595,13 +782,20 @@
    "tagline": "VS Code in the browser",
    "description": "Run VS Code on any machine and access it in the browser. Code from your Chromebook, tablet or laptop with a consistent development environment.",
    "category": "Developer",
-   "emoji": "💻",
+   "icon": "coder",
    "image": "codercom/code-server:latest",
    "port": 8080,
    "website": "https://github.com/coder/code-server",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/home/coder/project",
+   "env": [
+    {
+     "key": "PASSWORD",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "dozzle",
@@ -609,13 +803,15 @@
    "tagline": "Real-time log viewer for Docker",
    "description": "A lightweight web based log viewer for Docker containers with split views, regex search, memory/CPU statistics and container inspection.",
    "category": "Developer",
-   "emoji": "🪵",
+   "icon": null,
    "image": "amir20/dozzle:latest",
    "port": 8080,
    "website": "https://dozzle.dev",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "dockge",
@@ -623,13 +819,15 @@
    "tagline": "Self-hosted Docker Compose manager",
    "description": "Easy-to-use and reactive Docker Compose management UI. Edit compose files, manage containers and run stacks interactively.",
    "category": "Developer",
-   "emoji": "🐳",
+   "icon": null,
    "image": "louislam/dockge:latest",
    "port": 5001,
    "website": "https://dockge.kuma.pet",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/data",
+   "env": []
   },
   {
    "id": "portainer-ce",
@@ -637,13 +835,15 @@
    "tagline": "Universal container management platform",
    "description": "Manage Docker, Swarm and Kubernetes environments with visual dashboards, image registries, networks, volumes and stacks.",
    "category": "Developer",
-   "emoji": "🚢",
+   "icon": "portainer",
    "image": "portainer/portainer-ce:latest",
    "port": 9000,
    "website": "https://www.portainer.io",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "caddy",
@@ -651,13 +851,15 @@
    "tagline": "Enterprise-ready web server with automatic HTTPS",
    "description": "Powerful, modern web server and reverse proxy written in Go with automatic TLS certificate issuance and renewal via Let's Encrypt.",
    "category": "Developer",
-   "emoji": "🔒",
+   "icon": "caddy",
    "image": "caddy:latest",
    "port": 80,
    "website": "https://caddyserver.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "nginx-proxy-manager",
@@ -665,13 +867,15 @@
    "tagline": "Expose your services easily and securely",
    "description": "Manage Nginx reverse proxy hosts with a clean web UI. Free SSL via Let's Encrypt, HTTP/2, access lists and custom configurations.",
    "category": "Developer",
-   "emoji": "🛡️",
+   "icon": "nginxproxymanager",
    "image": "jc21/nginx-proxy-manager:latest",
    "port": 81,
    "website": "https://nginxproxymanager.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/etc/letsencrypt",
+   "env": []
   },
   {
    "id": "vaultwarden",
@@ -679,13 +883,24 @@
    "tagline": "Unofficial Bitwarden compatible server in Rust",
    "description": "A lightweight Bitwarden-compatible password manager backend written in Rust. Secure password, passkey, note and credit card storage.",
    "category": "Developer",
-   "emoji": "🛡️",
+   "icon": "vaultwarden",
    "image": "vaultwarden/server:latest",
    "port": 80,
    "website": "https://github.com/dani-garcia/vaultwarden",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": [
+    {
+     "key": "ROCKET_PORT",
+     "secret": false
+    },
+    {
+     "key": "SIGNUPS_ALLOWED",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "keycloak",
@@ -693,13 +908,24 @@
    "tagline": "Open source Identity and Access Management",
    "description": "Add authentication and single sign-on to applications and services with OpenID Connect, OAuth 2.0 and SAML 2.0 protocols.",
    "category": "Developer",
-   "emoji": "🔐",
+   "icon": "keycloak",
    "image": "quay.io/keycloak/keycloak:latest",
    "port": 8080,
    "website": "https://www.keycloak.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": [
+    {
+     "key": "KEYCLOAK_ADMIN",
+     "secret": false
+    },
+    {
+     "key": "KEYCLOAK_ADMIN_PASSWORD",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "verdaccio",
@@ -707,13 +933,15 @@
    "tagline": "Lightweight private npm proxy registry",
    "description": "Host private Node.js packages and cache public npm modules with zero configuration and built-in web management UI.",
    "category": "Developer",
-   "emoji": "📦",
+   "icon": "verdaccio",
    "image": "verdaccio/verdaccio:latest",
    "port": 4873,
    "website": "https://verdaccio.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/verdaccio/storage",
+   "env": []
   },
   {
    "id": "nexus",
@@ -721,13 +949,15 @@
    "tagline": "Universal artifact repository manager",
    "description": "Manage binaries and build artifacts for Maven, Docker, npm, PyPI, Helm, NuGet, RubyGems and Go modules in a single repo.",
    "category": "Developer",
-   "emoji": "🏛️",
+   "icon": null,
    "image": "sonatype/nexus3:latest",
    "port": 8081,
    "website": "https://www.sonatype.com/products/sonatype-nexus-repository",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/nexus-data",
+   "env": []
   },
   {
    "id": "mailpit",
@@ -735,13 +965,20 @@
    "tagline": "Email testing and mock SMTP server",
    "description": "A fast email testing tool and mock SMTP server with a modern web UI to view and inspect test emails.",
    "category": "Developer",
-   "emoji": "📬",
+   "icon": null,
    "image": "axllent/mailpit:latest",
    "port": 8025,
    "website": "https://github.com/axllent/mailpit",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": [
+    {
+     "key": "MP_DATA_FILE",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "cyberchef",
@@ -749,13 +986,15 @@
    "tagline": "The Cyber Swiss Army Knife",
    "description": "Web app for encryption, encoding, compression, data analysis, regex testing, JSON formatting and cryptographic hashing.",
    "category": "Developer",
-   "emoji": "🍳",
+   "icon": null,
    "image": "mpepping/cyberchef:latest",
    "port": 8000,
    "website": "https://gchq.github.io/CyberChef",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "adminer",
@@ -763,13 +1002,15 @@
    "tagline": "Database management in a single PHP file",
    "description": "Full-featured database management tool for MySQL, PostgreSQL, SQLite, MS SQL, Oracle, MongoDB and Elasticsearch.",
    "category": "Database",
-   "emoji": "🗄️",
+   "icon": "adminer",
    "image": "adminer:latest",
    "port": 8080,
    "website": "https://www.adminer.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "redis-insight",
@@ -777,13 +1018,15 @@
    "tagline": "The official GUI for Redis and Valkey",
    "description": "Visualize and optimize Redis data. Browse keys, run CLI commands, inspect memory and debug slow queries.",
    "category": "Database",
-   "emoji": "🔴",
+   "icon": null,
    "image": "redis/redisinsight:latest",
    "port": 5540,
    "website": "https://redis.io/insight",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "pgweb",
@@ -791,13 +1034,15 @@
    "tagline": "Web-based PostgreSQL database browser",
    "description": "Cross-platform web-based PostgreSQL client written in Go with query runner, table browser, export to CSV/JSON and SSL support.",
    "category": "Database",
-   "emoji": "🐘",
+   "icon": null,
    "image": "sosedoff/pgweb:latest",
    "port": 8081,
    "website": "https://github.com/sosedoff/pgweb",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "meilisearch",
@@ -805,13 +1050,24 @@
    "tagline": "Lightning-fast, typo-tolerant search engine",
    "description": "An open-source, lightning-fast, and hyper-relevant search engine designed to provide an out-of-the-box search experience in under 50ms.",
    "category": "Database",
-   "emoji": "🔍",
+   "icon": "meilisearch",
    "image": "getmeili/meilisearch:v1.53",
    "port": 7700,
    "website": "https://www.meilisearch.com",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/meili_data",
+   "env": [
+    {
+     "key": "MEILI_MASTER_KEY",
+     "secret": true
+    },
+    {
+     "key": "MEILI_ENV",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "typesense",
@@ -819,13 +1075,24 @@
    "tagline": "Fast, typo-tolerant search engine",
    "description": "An open-source, in-memory search engine built from the ground up for lightning-fast search-as-you-type experiences.",
    "category": "Database",
-   "emoji": "⚡",
+   "icon": null,
    "image": "typesense/typesense:30.2",
    "port": 8108,
    "website": "https://typesense.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": [
+    {
+     "key": "TYPESENSE_DATA_DIR",
+     "secret": false
+    },
+    {
+     "key": "TYPESENSE_API_KEY",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "minio",
@@ -833,13 +1100,24 @@
    "tagline": "High performance, S3 compatible object storage",
    "description": "MinIO is a high performance, Kubernetes-friendly object storage suite compatible with the Amazon S3 cloud storage service.",
    "category": "Database",
-   "emoji": "🪣",
+   "icon": "minio",
    "image": "minio/minio:latest",
    "port": 9001,
    "website": "https://min.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": [
+    {
+     "key": "MINIO_ROOT_USER",
+     "secret": false
+    },
+    {
+     "key": "MINIO_ROOT_PASSWORD",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "cloudcmd",
@@ -847,13 +1125,15 @@
    "tagline": "Dual-pane web file manager with console",
    "description": "Orthodox dual-pane web file manager with built-in text editor, image viewer, zip extractor and integrated web terminal console.",
    "category": "Database",
-   "emoji": "📁",
+   "icon": null,
    "image": "coderaiser/cloudcmd:latest",
    "port": 8000,
    "website": "https://cloudcmd.io",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/root",
+   "env": []
   },
   {
    "id": "filebrowser",
@@ -861,13 +1141,15 @@
    "tagline": "Web file manager for any folder",
    "description": "Create, edit, delete, preview and share files through a clean web UI with multi-user permissions and custom link sharing.",
    "category": "Database",
-   "emoji": "📂",
+   "icon": null,
    "image": "filebrowser/filebrowser:latest",
    "port": 80,
    "website": "https://filebrowser.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/srv",
+   "env": []
   },
   {
    "id": "restic-rest-server",
@@ -875,13 +1157,15 @@
    "tagline": "High-performance backup HTTP server",
    "description": "Secure, fast HTTP server for the restic backup program with append-only mode protection against ransomware deletion.",
    "category": "Database",
-   "emoji": "🛡️",
+   "icon": null,
    "image": "restic/rest-server:latest",
    "port": 8000,
    "website": "https://github.com/restic/rest-server",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "jellyfin",
@@ -889,13 +1173,15 @@
    "tagline": "The Free Software Media System",
    "description": "Control and manage your media: movies, TV shows, music and live TV. No tracking, no premium tiers, 100% free and open source.",
    "category": "Media",
-   "emoji": "🍿",
+   "icon": "jellyfin",
    "image": "jellyfin/jellyfin:latest",
    "port": 8096,
    "website": "https://jellyfin.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "plex",
@@ -903,13 +1189,15 @@
    "tagline": "Stream your personal media anywhere",
    "description": "Organize and stream all your personal video, music and photo collections to any device with automatic metadata and transcoding.",
    "category": "Media",
-   "emoji": "🎬",
+   "icon": "plex",
    "image": "lscr.io/linuxserver/plex:latest",
    "port": 32400,
    "website": "https://www.plex.tv",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "emby",
@@ -917,13 +1205,15 @@
    "tagline": "Personal media server with live TV",
    "description": "Brings together your home videos, photos, music and live TV on smart TVs, mobile phones and streaming media players.",
    "category": "Media",
-   "emoji": "📺",
+   "icon": "emby",
    "image": "emby/embyserver:latest",
    "port": 8096,
    "website": "https://emby.media",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "audiobookshelf",
@@ -931,13 +1221,15 @@
    "tagline": "Self-hosted audiobook and podcast server",
    "description": "Stream audiobooks and podcasts with progress syncing across devices, chapter markers, multiple audio formats and offline playback apps.",
    "category": "Media",
-   "emoji": "🎧",
+   "icon": "audiobookshelf",
    "image": "ghcr.io/advplyr/audiobookshelf:latest",
    "port": 80,
    "website": "https://www.audiobookshelf.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "navidrome",
@@ -945,13 +1237,15 @@
    "tagline": "Modern music server and streamer",
    "description": "Open source Subsonic-compatible music server. Lightweight, responsive web UI with playlist creation and multi-user support.",
    "category": "Media",
-   "emoji": "🎵",
+   "icon": null,
    "image": "deluan/navidrome:latest",
    "port": 4533,
    "website": "https://www.navidrome.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "photoprism",
@@ -959,13 +1253,20 @@
    "tagline": "AI-powered photo management",
    "description": "AI-powered photo app with facial recognition, object categorization, geolocation maps, duplicate detection and RAW image support.",
    "category": "Media",
-   "emoji": "📷",
+   "icon": null,
    "image": "photoprism/photoprism:latest",
    "port": 2342,
    "website": "https://photoprism.app",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/photoprism/storage",
+   "env": [
+    {
+     "key": "PHOTOPRISM_ADMIN_PASSWORD",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "calibre-web",
@@ -973,13 +1274,15 @@
    "tagline": "Clean web interface for Calibre e-book libraries",
    "description": "Read books online in browser, download e-books in EPUB/MOBI/PDF and send books directly to Kindle devices.",
    "category": "Media",
-   "emoji": "📖",
+   "icon": "calibreweb",
    "image": "lscr.io/linuxserver/calibre-web:latest",
    "port": 8083,
    "website": "https://github.com/janeczku/calibre-web",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "kavita",
@@ -987,13 +1290,15 @@
    "tagline": "Self-hosted digital manga, comic & book reader",
    "description": "Fast, responsive web reader for Manga, Comics, Light Novels and Books with reading lists, OPDS feed and bookmark sync.",
    "category": "Media",
-   "emoji": "📚",
+   "icon": null,
    "image": "jvmilazz0/kavita:latest",
    "port": 5000,
    "website": "https://www.kavitareader.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/kavita/config",
+   "env": []
   },
   {
    "id": "qbittorrent",
@@ -1001,13 +1306,15 @@
    "tagline": "BitTorrent client with Web UI",
    "description": "An open-source software alternative to µTorrent with a clean web UI, sequential downloading, torrent creation and search engine.",
    "category": "Media",
-   "emoji": "📥",
+   "icon": "qbittorrent",
    "image": "lscr.io/linuxserver/qbittorrent:latest",
    "port": 8080,
    "website": "https://www.qbittorrent.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "transmission",
@@ -1015,13 +1322,15 @@
    "tagline": "Fast, easy, free BitTorrent client",
    "description": "Lightweight, privacy-respecting BitTorrent client with low resource consumption, encryption, DHT and web management.",
    "category": "Media",
-   "emoji": "⚡",
+   "icon": "transmission",
    "image": "lscr.io/linuxserver/transmission:latest",
    "port": 9091,
    "website": "https://transmissionbt.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "sonarr",
@@ -1029,13 +1338,15 @@
    "tagline": "Smart PVR for TV shows",
    "description": "Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and grab, sort and rename them.",
    "category": "Media",
-   "emoji": "📺",
+   "icon": "sonarr",
    "image": "lscr.io/linuxserver/sonarr:latest",
    "port": 8989,
    "website": "https://sonarr.tv",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "radarr",
@@ -1043,13 +1354,15 @@
    "tagline": "Movie collection manager for Usenet and BitTorrent",
    "description": "Radarr is a movie collection manager for Usenet and BitTorrent users. It monitors RSS feeds for new movies and grabs, sorts, and renames them.",
    "category": "Media",
-   "emoji": "🎬",
+   "icon": "radarr",
    "image": "lscr.io/linuxserver/radarr:latest",
    "port": 7878,
    "website": "https://radarr.video",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "prowlarr",
@@ -1057,13 +1370,15 @@
    "tagline": "Indexer manager / proxy for Torrent and Usenet",
    "description": "Prowlarr is an indexer manager/proxy built to seamlessly integrate with Sonarr, Radarr, Lidarr, and Readarr.",
    "category": "Media",
-   "emoji": "📡",
+   "icon": null,
    "image": "lscr.io/linuxserver/prowlarr:latest",
    "port": 9696,
    "website": "https://prowlarr.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "bazarr",
@@ -1071,13 +1386,15 @@
    "tagline": "Companion application to Sonarr and Radarr for subtitles",
    "description": "Bazarr manages and downloads subtitles based on your requirements. You define your preferences by TV show or movie and Bazarr takes care of everything.",
    "category": "Media",
-   "emoji": "💬",
+   "icon": null,
    "image": "lscr.io/linuxserver/bazarr:latest",
    "port": 6767,
    "website": "https://www.bazarr.media",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "overseerr",
@@ -1085,13 +1402,15 @@
    "tagline": "Request management and media discovery for Plex",
    "description": "Overseerr is a free and open source software application for managing requests for your media library. It integrates seamlessly with Plex and the *arr stack.",
    "category": "Media",
-   "emoji": "👀",
+   "icon": null,
    "image": "sctx/overseerr:latest",
    "port": 5055,
    "website": "https://overseerr.dev",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/config",
+   "env": []
   },
   {
    "id": "jellyseerr",
@@ -1099,13 +1418,15 @@
    "tagline": "Request management for Jellyfin, Emby and Plex",
    "description": "Free and open-source software application for managing requests for your media library with Jellyfin, Emby and Plex support.",
    "category": "Media",
-   "emoji": "🍿",
+   "icon": null,
    "image": "fallenbagel/jellyseerr:latest",
    "port": 5055,
    "website": "https://github.com/Fallenbagel/jellyseerr",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/config",
+   "env": []
   },
   {
    "id": "flaresolverr",
@@ -1113,13 +1434,15 @@
    "tagline": "Proxy server to bypass Cloudflare protection",
    "description": "FlareSolverr starts a headless Chromium browser to solve Cloudflare challenge cookies and bypass anti-bot protections for indexers.",
    "category": "Media",
-   "emoji": "🛡️",
+   "icon": null,
    "image": "flaresolverr/flaresolverr:latest",
    "port": 8191,
    "website": "https://github.com/FlareSolverr/FlareSolverr",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "homarr",
@@ -1127,13 +1450,15 @@
    "tagline": "Customizable homepage and dashboard",
    "description": "Homarr is a sleek, modern dashboard that puts all of your apps and services at your fingertips. Integrate with Sonarr, Radarr, Pi-hole, and more.",
    "category": "Media",
-   "emoji": "🏠",
+   "icon": "homarr",
    "image": "ghcr.io/homarr-labs/homarr:latest",
    "port": 7575,
    "website": "https://homarr.dev",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/appdata",
+   "env": []
   },
   {
    "id": "heimdall",
@@ -1141,13 +1466,15 @@
    "tagline": "Application dashboard and launcher",
    "description": "An elegant way to organise all of your web applications. Simple, beautiful launcher with live statistics and integration support.",
    "category": "Media",
-   "emoji": "🚪",
+   "icon": null,
    "image": "lscr.io/linuxserver/heimdall:latest",
    "port": 80,
    "website": "https://heimdall.site",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "homepage",
@@ -1155,13 +1482,15 @@
    "tagline": "Fast, beautiful, highly customizable dashboard",
    "description": "Modern app dashboard integrating with Docker, system metrics, weather and 100+ services with instant response and no database.",
    "category": "Media",
-   "emoji": "🏡",
+   "icon": "homepage",
    "image": "ghcr.io/gethomepage/homepage:latest",
    "port": 3000,
    "website": "https://gethomepage.dev",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/config",
+   "env": []
   },
   {
    "id": "dashy",
@@ -1169,13 +1498,15 @@
    "tagline": "Ultimate privacy-focused dashboard",
    "description": "Feature-packed homepage with widgets, themes, status checks, multi-page layout, keybindings and backup sync.",
    "category": "Media",
-   "emoji": "⚡",
+   "icon": null,
    "image": "lissy93/dashy:latest",
    "port": 8080,
    "website": "https://dashy.to",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/app/user-data",
+   "env": []
   },
   {
    "id": "adguard-home",
@@ -1183,13 +1514,15 @@
    "tagline": "Network-wide ads & tracking blocking DNS server",
    "description": "AdGuard Home acts as a DNS server that redirects tracking domains to a 'black hole', preventing your devices from connecting to those servers.",
    "category": "Media",
-   "emoji": "🛡️",
+   "icon": "adguard",
    "image": "adguard/adguardhome:latest",
    "port": 3000,
    "website": "https://adguard.com/adguard-home.html",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/opt/adguardhome/work",
+   "env": []
   },
   {
    "id": "home-assistant",
@@ -1197,13 +1530,15 @@
    "tagline": "Open-source home automation",
    "description": "A powerful, open-source home automation platform that puts local control and privacy first.",
    "category": "Media",
-   "emoji": "🏠",
+   "icon": "homeassistant",
    "image": "ghcr.io/home-assistant/home-assistant:stable",
    "port": 8123,
    "website": "https://www.home-assistant.io",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "ghost",
@@ -1211,13 +1546,24 @@
    "tagline": "Modern publishing & newsletter platform",
    "description": "Ghost is a powerful app for creators to publish, share and grow a business around their content. Modern editor, native memberships and subscriptions.",
    "category": "CMS",
-   "emoji": "👻",
+   "icon": "ghost",
    "image": "ghost:5-alpine",
    "port": 2368,
    "website": "https://ghost.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/lib/ghost/content",
+   "env": [
+    {
+     "key": "url",
+     "secret": false
+    },
+    {
+     "key": "database__client",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "wordpress",
@@ -1225,13 +1571,15 @@
    "tagline": "Web publishing and content management",
    "description": "WordPress powers more than 40% of the web. Build any website — blogs, business sites, portfolios or eCommerce stores — with the world's most popular CMS.",
    "category": "CMS",
-   "emoji": "🌐",
+   "icon": "wordpress",
    "image": "wordpress:latest",
    "port": 80,
    "website": "https://wordpress.org",
    "featured": true,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/html",
+   "env": []
   },
   {
    "id": "umami-stack",
@@ -1239,13 +1587,15 @@
    "tagline": "Privacy-first web analytics with its own PostgreSQL",
    "description": "Umami analytics deployed as a full compose stack with a self-contained PostgreSQL database. Demonstrates multi-container one-click deploys: app + database share a private network, gated by container healthchecks.",
    "category": "Analytics",
-   "emoji": "📊",
+   "icon": "umami",
    "image": "ghcr.io/umami-software/umami:3.0.3",
    "port": 3000,
    "website": "https://umami.is",
    "featured": false,
    "verified": true,
-   "compose": true
+   "compose": true,
+   "volume": null,
+   "env": []
   },
   {
    "id": "changedetection-io",
@@ -1253,13 +1603,15 @@
    "tagline": "Website change monitoring",
    "description": "Self-hosted watch tower for the web: monitors website changes with visual diffing, per-element selection and proxy/JS support, then notifies you via any channel. The open Duplicate Trooper alternative.",
    "category": "Monitoring",
-   "emoji": "🔍",
+   "icon": "changedetection",
    "image": "dgtlmoon/changedetection.io:latest",
    "port": 5000,
    "website": "https://changedetection.io",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "ntfy-server",
@@ -1267,13 +1619,15 @@
    "tagline": "Self-hosted push notifications",
    "description": "Send push notifications to your phone or desktop using simple HTTP PUT/POST — the self-hosted counterpart of the ntfy.sh service. Pairs with NineDeploy's own ntfy notification channel.",
    "category": "Notifications",
-   "emoji": "📡",
+   "icon": null,
    "image": "binwiederhier/ntfy:latest",
    "port": 80,
    "website": "https://ntfy.sh/docs",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/cache/ntfy",
+   "env": []
   },
   {
    "id": "freshrss",
@@ -1281,13 +1635,15 @@
    "tagline": "Self-hosted RSS reader",
    "description": "A free, self-hostable RSS aggregator with full-text extraction, mobile API support (EasyRSS), annotations and multi-user accounts. Runs on SQLite out of the box.",
    "category": "Reading",
-   "emoji": "📰",
+   "icon": "freshrss",
    "image": "freshrss/freshrss:latest",
    "port": 80,
    "website": "https://freshrss.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/FreshRSS/data",
+   "env": []
   },
   {
    "id": "shiori",
@@ -1295,13 +1651,15 @@
    "tagline": "Simple bookmark manager",
    "description": "A minimal bookmark manager built in Go: clean UI, full-text search, offline page archives and import from browser exports. SQLite-backed — zero external dependencies.",
    "category": "Reading",
-   "emoji": "🔖",
+   "icon": null,
    "image": "ghcr.io/go-shiori/shiori:latest",
    "port": 8080,
    "website": "https://github.com/go-shiori/shiori",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/shiori",
+   "env": []
   },
   {
    "id": "wallos",
@@ -1309,13 +1667,15 @@
    "tagline": "Subscription tracker",
    "description": "Track recurring subscriptions and bills: categories, currency conversion, payment statistics and dashboard widgets — so the Netflix bill never surprises you again.",
    "category": "Finance",
-   "emoji": "💳",
+   "icon": null,
    "image": "bellamy/wallos:latest",
    "port": 80,
    "website": "https://github.com/ellite/Wallos",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/html/db",
+   "env": []
   },
   {
    "id": "speedtest-tracker",
@@ -1323,13 +1683,24 @@
    "tagline": "Continuous internet speed monitoring",
    "description": "Runs Ookla speedtests on a schedule and graphs the history: download/upload, latency, packet loss and jitter — with pass/fail thresholds.",
    "category": "Monitoring",
-   "emoji": "🚀",
+   "icon": null,
    "image": "ghcr.io/alexjustesen/speedtest-tracker:latest",
    "port": 80,
    "website": "https://speedtest-tracker.dev",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": [
+    {
+     "key": "DB_CONNECTION",
+     "secret": false
+    },
+    {
+     "key": "APP_KEY",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "homebox",
@@ -1337,13 +1708,20 @@
    "tagline": "Home inventory & organization",
    "description": "Inventory everything you own: items with photos, warranties, receipts, maintenance schedules and QR-label printing — designed for the whole household.",
    "category": "Home",
-   "emoji": "🏠",
+   "icon": null,
    "image": "ghcr.io/sysadminsmedia/homebox:latest",
    "port": 7745,
    "website": "https://homebox.software",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": [
+    {
+     "key": "HBOX_AUTH_API_KEY_PEPPER",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "firefly-iii",
@@ -1351,13 +1729,15 @@
    "tagline": "Personal finance manager",
    "description": "A feature-rich double-entry bookkeeping manager: budgets, bills, piggy banks, rules and beautiful reports. Starts on SQLite for single users; attach a managed database for heavier use.",
    "category": "Finance",
-   "emoji": "💰",
+   "icon": "fireflyiii",
    "image": "fireflyiii/core:latest",
    "port": 8080,
    "website": "https://firefly-iii.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/html/storage/upload",
+   "env": []
   },
   {
    "id": "syncthing",
@@ -1365,13 +1745,15 @@
    "tagline": "Peer-to-peer file sync",
    "description": "Continuous file synchronization between your devices — open, trustworthy and decentralized. No cloud server sees your data; this instance becomes one of your sync peers.",
    "category": "Files",
-   "emoji": "🔄",
+   "icon": "syncthing",
    "image": "syncthing/syncthing:latest",
    "port": 8384,
    "website": "https://syncthing.net",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/var/syncthing",
+   "env": []
   },
   {
    "id": "lidarr",
@@ -1379,13 +1761,15 @@
    "tagline": "Music collection manager",
    "description": "The *arr family's music member: monitors artists, grabs releases from indexers, renames and organizes into your library — a companion to the Prowlarr/Sonarr/Radarr stack.",
    "category": "Media",
-   "emoji": "🎵",
+   "icon": null,
    "image": "lscr.io/linuxserver/lidarr:latest",
    "port": 8686,
    "website": "https://lidarr.audio",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "sabnzbd",
@@ -1393,13 +1777,15 @@
    "tagline": "Usenet NZB downloader",
    "description": "A free binary newsreader: NZB automation, repair and unpack with par2, categories, scripting hooks and an API the *arr apps drive natively.",
    "category": "Media",
-   "emoji": "📥",
+   "icon": null,
    "image": "lscr.io/linuxserver/sabnzbd:latest",
    "port": 8080,
    "website": "https://sabnzbd.org",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "drawio",
@@ -1407,13 +1793,15 @@
    "tagline": "Diagram editor, stateless",
    "description": "The full diagrams.net editor in the browser: flowcharts, UML, network and architecture diagrams with cloud-storagless local saving. Completely stateless — scale replicas freely.",
    "category": "Productivity",
-   "emoji": "✏️",
+   "icon": "diagramsdotnet",
    "image": "jgraph/drawio:latest",
    "port": 8080,
    "website": "https://drawio.com",
    "featured": false,
    "verified": true,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "node-red",
@@ -1421,13 +1809,15 @@
    "tagline": "Flow-based visual programming",
    "description": "Wire together hardware devices, APIs and online services through a browser-based flow editor — the classic glue for home automation dashboards, IoT gateways and integration jobs.",
    "category": "Automation",
-   "emoji": "🔗",
+   "icon": "nodered",
    "image": "nodered/node-red:latest",
    "port": 1880,
    "website": "https://nodered.org",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "open-webui",
@@ -1435,13 +1825,15 @@
    "tagline": "Chat UI for local LLMs",
    "description": "A polished ChatGPT-style interface for Ollama and OpenAI-compatible APIs: multi-model switching, RAG documents, voice, image generation and per-user history. Pairs perfectly with the bundled Ollama template.",
    "category": "AI",
-   "emoji": "🦙",
+   "icon": null,
    "image": "ghcr.io/open-webui/open-webui:main",
    "port": 8080,
    "website": "https://openwebui.com",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/app/backend/data",
+   "env": []
   },
   {
    "id": "appsmith",
@@ -1449,13 +1841,15 @@
    "tagline": "Internal tool builder",
    "description": "Build admin panels, dashboards and internal CRUD apps by dragging widgets and wiring them to databases and APIs — the bundled stack keeps its own datastore, so a single container is enough to start.",
    "category": "Productivity",
-   "emoji": "🧩",
+   "icon": "appsmith",
    "image": "appsmith/appsmith-ce:latest",
    "port": 80,
    "website": "https://appsmith.com",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/appsmith-stacks",
+   "env": []
   },
   {
    "id": "baserow",
@@ -1463,13 +1857,15 @@
    "tagline": "Open-source Airtable alternative",
    "description": "A no-code database with a spreadsheet interface, API-first design, formulas and views. The all-in-one image bundles its datastore — deploy it and create your first table in minutes.",
    "category": "Productivity",
-   "emoji": "🗂️",
+   "icon": "baserow",
    "image": "baserow/baserow:latest",
    "port": 80,
    "website": "https://baserow.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/baserow/data",
+   "env": []
   },
   {
    "id": "whoogle",
@@ -1477,13 +1873,15 @@
    "tagline": "Private Google search proxy",
    "description": "A self-hosted metasearch frontend that returns Google results without ads, trackers, AMP links or cookies — stateless, so replicas scale freely.",
    "category": "Search",
-   "emoji": "🔎",
+   "icon": null,
    "image": "benbusby/whoogle-search:latest",
    "port": 5000,
    "website": "https://github.com/benbusby/whoogle-search",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "archivebox",
@@ -1491,13 +1889,15 @@
    "tagline": "Internet archiving suite",
    "description": "Preserve entire websites: HTML, screenshots, PDFs, WARC archives and extracted media — indexed and browsable, with CLI, web UI and scheduled imports from bookmarks or feeds.",
    "category": "Archiving",
-   "emoji": "🗄️",
+   "icon": null,
    "image": "archivebox/archivebox:latest",
    "port": 8000,
    "website": "https://archivebox.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "wallabag",
@@ -1505,13 +1905,15 @@
    "tagline": "Save articles, read later",
    "description": "A read-it-later application that saves article content stripped of ads and clutter, with tagging, highlighting, EPUB/PDF export and mobile clients. SQLite-backed out of the box.",
    "category": "Reading",
-   "emoji": "📖",
+   "icon": "wallabag",
    "image": "wallabag/wallabag:latest",
    "port": 80,
    "website": "https://wallabag.it",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/wallabag/data",
+   "env": []
   },
   {
    "id": "lobe-chat",
@@ -1519,13 +1921,15 @@
    "tagline": "Multi-model AI chat framework",
    "description": "A modern chat framework supporting dozens of providers, plugins, local browser storage or server-side database sync, and a knowledge-base mode — stateless by default.",
    "category": "AI",
-   "emoji": "💬",
+   "icon": null,
    "image": "lobehub/lobe-chat:latest",
    "port": 3210,
    "website": "https://lobehub.com",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "limesurvey",
@@ -1533,13 +1937,32 @@
    "tagline": "Self-hosted survey platform",
    "description": "Design questionnaires with logic branching, quotas and 28 question types, then collect anonymous or tracked responses — the privacy-friendly SurveyMonkey replacement. SQLite-capable.",
    "category": "Productivity",
-   "emoji": "📋",
+   "icon": "limesurvey",
    "image": "martialblog/limesurvey:latest",
    "port": 8080,
    "website": "https://limesurvey.org",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/var/www/html/upload",
+   "env": [
+    {
+     "key": "DB_TYPE",
+     "secret": false
+    },
+    {
+     "key": "ADMIN_PASSWORD",
+     "secret": true
+    },
+    {
+     "key": "ADMIN_NAME",
+     "secret": false
+    },
+    {
+     "key": "ADMIN_LOGIN",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "redmine",
@@ -1547,13 +1970,15 @@
    "tagline": "Project management classic",
    "description": "Issue tracking, Gantt charts, wikis, forums and time tracking per project — the long-established Ruby on Rails workhorse. Runs on SQLite for small teams.",
    "category": "Productivity",
-   "emoji": "📌",
+   "icon": "redmine",
    "image": "redmine:latest",
    "port": 3000,
    "website": "https://redmine.org",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/usr/src/redmine/files",
+   "env": []
   },
   {
    "id": "jenkins",
@@ -1561,13 +1986,15 @@
    "tagline": "The automation server standard",
    "description": "Thousands of plugins, Pipeline-as-code, distributed build agents — the most widely deployed CI/CD server in the world. Persistent home volume keeps jobs and plugins across restarts.",
    "category": "CI/CD",
-   "emoji": "🤵",
+   "icon": "jenkins",
    "image": "jenkins/jenkins:lts",
    "port": 8080,
    "website": "https://jenkins.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/var/jenkins_home",
+   "env": []
   },
   {
    "id": "woodpecker-ci",
@@ -1575,13 +2002,20 @@
    "tagline": "Lightweight container-native CI",
    "description": "A Drone fork with a simpler license story: pipelines as YAML, every step in its own container, native Gitea/Forgejo/GitHub/GitLab integration. SQLite-backed server — one container to start.",
    "category": "CI/CD",
-   "emoji": "🐦",
+   "icon": null,
    "image": "woodpeckerci/woodpecker-server:v3",
    "port": 8000,
    "website": "https://woodpecker-ci.org",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/var/lib/woodpecker",
+   "env": [
+    {
+     "key": "WOODPECKER_HOST",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "drone-ci",
@@ -1589,13 +2023,15 @@
    "tagline": "Container-native continuous delivery",
    "description": "The original container-first CI: every build step runs in an ephemeral container, configuration lives in the repo, and the single-binary server runs on SQLite for small teams.",
    "category": "CI/CD",
-   "emoji": "🚁",
+   "icon": null,
    "image": "drone/drone:latest",
    "port": 80,
    "website": "https://drone.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "fathom",
@@ -1603,13 +2039,15 @@
    "tagline": "Simple, privacy-first web analytics",
    "description": "GDPR-friendly site analytics without cookie banners: pageviews, referrers, top pages and goals in one clean dashboard. SQLite-backed single binary.",
    "category": "Analytics",
-   "emoji": "📊",
+   "icon": "fathom",
    "image": "usefathom/fathom:latest",
    "port": 8080,
    "website": "https://usefathom.com",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "shlink",
@@ -1617,13 +2055,15 @@
    "tagline": "Self-hosted URL shortener",
    "description": "Shorten URLs with REST and CLI APIs, visit statistics, Geo-locating, QR codes and tags — a modern companion to YOURLS with first-party mobile apps.",
    "category": "Productivity",
-   "emoji": "✂️",
+   "icon": null,
    "image": "shlinkio/shlink:latest",
    "port": 8080,
    "website": "https://shlink.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": []
   },
   {
    "id": "piwigo",
@@ -1631,13 +2071,15 @@
    "tagline": "Photo gallery for the web",
    "description": "A mature photo gallery: albums, tags, access control per group, 30+ years of plugin history and mobile apps — SQLite-capable for personal libraries.",
    "category": "Media",
-   "emoji": "🖼️",
+   "icon": "piwigo",
    "image": "piwigo/piwigo:latest",
    "port": 80,
    "website": "https://piwigo.org",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "docker-registry",
@@ -1645,13 +2087,15 @@
    "tagline": "Private image registry",
    "description": "The official CNCF distribution: a private pull-through home for your images. Pairs with NineDeploy's multi-server fan-out — pin builds here and let every node pull from it.",
    "category": "DevOps",
-   "emoji": "📦",
+   "icon": null,
    "image": "registry:2",
    "port": 5000,
    "website": "https://distribution.github.io/distribution/",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/var/lib/registry",
+   "env": []
   },
   {
    "id": "bookstack",
@@ -1659,13 +2103,20 @@
    "tagline": "Structured wiki & documentation",
    "description": "Books, chapters and pages: a opinionated, easy-to-keep-organized documentation wiki with role-based access, revisions and image management. Attaches its managed MySQL automatically.",
    "category": "Productivity",
-   "emoji": "📚",
+   "icon": "bookstack",
    "image": "lscr.io/linuxserver/bookstack:latest",
    "port": 80,
    "website": "https://bookstackapp.com",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": [
+    {
+     "key": "APP_KEY",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "fider",
@@ -1673,13 +2124,40 @@
    "tagline": "Feature requests & customer feedback",
    "description": "A portal where users suggest and vote on ideas — public or private boards, status workflow (open/planned/done) and comments. Attaches its managed PostgreSQL automatically.",
    "category": "Productivity",
-   "emoji": "🗳️",
+   "icon": null,
    "image": "getfider/fider:main",
    "port": 3000,
    "website": "https://fider.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": [
+    {
+     "key": "JWT_SECRET",
+     "secret": true
+    },
+    {
+     "key": "BASE_URL",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_NOREPLY",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_SMTP_HOST",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_SMTP_PORT",
+     "secret": false
+    },
+    {
+     "key": "PGSSLMODE",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "privatebin",
@@ -1687,13 +2165,15 @@
    "tagline": "Minimal, encrypted pastebin",
    "description": "Pastebin where the server has zero knowledge: pastes are encrypted in the browser, expire on schedule, support discussions and file attachments, and self-destruct after reading.",
    "category": "Productivity",
-   "emoji": "🔒",
+   "icon": null,
    "image": "privatebin/nginx-fpm-alpine:latest",
    "port": 8080,
    "website": "https://privatebin.info",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/srv/data",
+   "env": []
   },
   {
    "id": "wud",
@@ -1701,13 +2181,24 @@
    "tagline": "Container update tracker",
    "description": "Watches your Docker containers, detects newer image versions from any registry and notifies through the same channel matrix NineDeploy ships — the missing watchtower UI, without the auto-pull footgun.",
    "category": "DevOps",
-   "emoji": "👀",
+   "icon": null,
    "image": "getwud/wud:latest",
    "port": 3000,
    "website": "https://getwud.github.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": [
+    {
+     "key": "WUD_AUTH_ADMIN_USER",
+     "secret": false
+    },
+    {
+     "key": "WUD_AUTH_ADMIN_PASSWORD",
+     "secret": true
+    }
+   ]
   },
   {
    "id": "organizr",
@@ -1715,13 +2206,15 @@
    "tagline": "Unified service dashboard",
    "description": "One homepage for everything you self-host: iframes with SSO-ish login, tabs per service, user management and theme support — a veteran companion for the Homarr/Dashy crowd.",
    "category": "Dashboards",
-   "emoji": "🗂️",
+   "icon": null,
    "image": "organizr/organizr:latest",
    "port": 80,
    "website": "https://organizr.app",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "owncast",
@@ -1729,13 +2222,15 @@
    "tagline": "Self-hosted live streaming",
    "description": "Your own Twitch: live video with an integrated chat, viewer counts and a customizable landing page. HLS playback works out of the box; point your RTMP ingest (OBS) at the node and note that port 1935 needs a direct published port in Settings.",
    "category": "Media",
-   "emoji": "📺",
+   "icon": null,
    "image": "owncast/owncast:latest",
    "port": 8080,
    "website": "https://owncast.online",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/app/data",
+   "env": []
   },
   {
    "id": "duplicati",
@@ -1743,13 +2238,15 @@
    "tagline": "Encrypted backup UI",
    "description": "Backup files and folders to cloud storage (S3, B2, OneDrive, SFTP…) with AES-256 encryption, deduplication, scheduling and restore — the browser UI for the whole backup lifecycle.",
    "category": "DevOps",
-   "emoji": "💾",
+   "icon": "duplicati",
    "image": "duplicati/duplicati:latest",
    "port": 8200,
    "website": "https://duplicati.com",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/data",
+   "env": []
   },
   {
    "id": "komga",
@@ -1757,13 +2254,15 @@
    "tagline": "Comics & manga server",
    "description": "A media server for your comics, manga, BD and magazines: OPDS support, read progress tracking per user, duplicate detection and embedded metadata — in a clean, fast web UI.",
    "category": "Media",
-   "emoji": "📕",
+   "icon": null,
    "image": "gotson/komga:latest",
    "port": 8080,
    "website": "https://komga.org",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   },
   {
    "id": "metube",
@@ -1771,13 +2270,15 @@
    "tagline": "Web UI for yt-dlp",
    "description": "Download videos and audio from thousands of sites through a friendly browser interface — paste a URL, pick a format, watch the queue. Downloads land in the persistent volume.",
    "category": "Media",
-   "emoji": "⬇️",
+   "icon": null,
    "image": "alexta69/metube:latest",
    "port": 8081,
    "website": "https://github.com/alexta69/metube",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/downloads",
+   "env": []
   },
   {
    "id": "wekan",
@@ -1785,13 +2286,20 @@
    "tagline": "Open-source Kanban",
    "description": "The mature open Trello alternative: boards, swimlanes, checklists, card members and rules — with per-user accounts. Attaches its managed MongoDB automatically.",
    "category": "Productivity",
-   "emoji": "📌",
+   "icon": null,
    "image": "wekanteam/wekan:latest",
    "port": 8080,
    "website": "https://wekan.github.io",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": null,
+   "env": [
+    {
+     "key": "ROOT_URL",
+     "secret": false
+    }
+   ]
   },
   {
    "id": "filestash",
@@ -1799,13 +2307,15 @@
    "tagline": "Web file manager for any backend",
    "description": "A Dropbox-like web interface over FTP, SFTP, S3, WebDAV, Git and more — manage all your storage backends from one modern UI, with sharing and office-file previews.",
    "category": "Files",
-   "emoji": "📁",
+   "icon": null,
    "image": "machines/filestash:latest",
    "port": 8334,
    "website": "https://filestash.app",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/app/data",
+   "env": []
   },
   {
    "id": "deluge",
@@ -1813,13 +2323,15 @@
    "tagline": "Lightweight BitTorrent client",
    "description": "A full-featured torrent client with a thin web UI, plugins (labels, scheduler, auto-move) and daemon/WebUI separation — completing the qBittorrent/Transmission pair.",
    "category": "Media",
-   "emoji": "🌊",
+   "icon": "deluge",
    "image": "lscr.io/linuxserver/deluge:latest",
    "port": 8112,
    "website": "https://deluge-torrent.org",
    "featured": false,
    "verified": false,
-   "compose": false
+   "compose": false,
+   "volume": "/config",
+   "env": []
   }
  ]
 }

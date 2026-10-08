@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { FeaturedSlider } from "@/components/templates/featured-slider";
 import { TemplateBrowser } from "@/components/templates/template-browser";
-import { featuredTemplates, templateCategories, templates } from "@/lib/content";
+import { featuredTemplates, templateCategories, templates, toSummary } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Template hub",
@@ -18,10 +18,10 @@ export default function TemplatesPage() {
         lede={`${templates.length} apps that install in one click, ${certified} of them certified by actually booting them. Each one becomes an ordinary service: its own domain, env, backups and rollbacks.`}
       />
       <div className="py-14">
-        <FeaturedSlider items={featuredTemplates.slice(0, 16)} />
+        <FeaturedSlider items={featuredTemplates.slice(0, 16).map(toSummary)} />
       </div>
       <div className="pb-10">
-        <TemplateBrowser items={templates} categories={templateCategories} />
+        <TemplateBrowser items={templates.map(toSummary)} categories={templateCategories} />
       </div>
     </div>
   );

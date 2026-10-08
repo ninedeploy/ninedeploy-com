@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { ArrowLeft, ArrowUpRight, BadgeCheck, Layers } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, BadgeCheck, KeyRound, Layers } from "lucide-react";
 import { TemplateCard } from "@/components/templates/template-card";
+import { TemplateIcon } from "@/components/templates/template-icon";
 import { getTemplate, templates } from "@/lib/content";
+
+// Only the templates in the registry exist; anything else is a real 404.
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return templates.map((t) => ({ id: t.id }));
@@ -17,27 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/templates/[id]">)
   return { title: `${t.name} template`, description: `${t.tagline} Deploy ${t.name} on your own server with NineDeploy.` };
 }
 
-export default function TemplatePage({ params }: PageProps<"/templates/[id]">) {
-  return (
-    <Suspense fallback={<DetailSkeleton />}>
-      <TemplateDetail params={params} />
-    </Suspense>
-  );
-}
-
-function DetailSkeleton() {
-  return (
-    <div className="mx-auto max-w-7xl animate-pulse px-4 py-16 sm:px-6 lg:px-8" aria-busy="true">
-      <div className="h-4 w-28 rounded bg-rail" />
-      <div className="mt-10 flex items-end gap-6">
-        <div className="size-28 rounded-[32px] bg-rail" />
-        <div className="h-20 w-2/3 max-w-lg rounded-2xl bg-rail" />
-      </div>
-    </div>
-  );
-}
-
-async function TemplateDetail({ params }: { params: PageProps<"/templates/[id]">["params"] }) {
+export default async function TemplatePage({ params }: PageProps<"/templates/[id]">) {
   const { id } = await params;
   const t = getTemplate(id);
   if (!t) notFound();
@@ -48,6 +31,13 @@ async function TemplateDetail({ params }: { params: PageProps<"/templates/[id]">
     ["Container port", String(t.port)],
     ["Category", t.category],
     ["Runtime", t.compose ? "Compose stack" : "Docker container"],
+    ["Persistence", t.volume ? `Volume at ${t.volume}` : "Ephemeral"],
+  ];
+  // Mirrors the panel: Hub → template detail → Deploy wizard (Source, Runtime, Environment, Resources, Review).
+  const steps = [
+    `Open the Hub in your panel and pick ${t.name}. Its detail view shows the image, port, volume and environment it ships with.`,
+    "Click Deploy. The wizard arrives with Source and Runtime filled in; review the environment and set CPU and memory limits if you want them.",
+    "Review and deploy. Traefik routes it on an automatic URL under your wildcard domain, and it becomes an ordinary service with its own logs, backups and rollbacks.",
   ];
 
   return (
@@ -60,8 +50,8 @@ async function TemplateDetail({ params }: { params: PageProps<"/templates/[id]">
           </Link>
           <div className="mt-10 grid grid-cols-[minmax(0,1fr)] items-end gap-10 lg:grid-cols-[1fr_380px]">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end">
-              <span className="rise grid size-28 shrink-0 place-items-center rounded-[32px] border border-rail bg-panel text-6xl" aria-hidden>
-                {t.emoji}
+              <span className="rise grid size-28 shrink-0 place-items-center rounded-[32px] border border-rail bg-panel text-ink">
+                <TemplateIcon t={t} className="size-14" />
               </span>
               <div>
                 <div className="flex flex-wrap gap-2 text-xs">
@@ -76,7 +66,7 @@ async function TemplateDetail({ params }: { params: PageProps<"/templates/[id]">
                     </span>
                   )}
                 </div>
-                <h1 className="display mt-3 text-[clamp(3rem,8vw,6.5rem)]">{t.name}</h1>
+                <h1 className="display mt-3 text-[clamp(2.6rem,6.5vw,5.25rem)]">{t.name}</h1>
                 <p className="mt-3 max-w-xl text-lg text-muted">{t.tagline}</p>
               </div>
             </div>
@@ -103,18 +93,33 @@ async function TemplateDetail({ params }: { params: PageProps<"/templates/[id]">
               rel="noreferrer"
               className="mt-6 inline-flex items-center gap-1.5 font-semibold underline decoration-rail-strong underline-offset-4 hover:decoration-green"
             >
-              {t.name} website <ArrowUpRight className="size-4" />
+              {t.name.replace(/\s*\(.*\)$/, "")} website <ArrowUpRight className="size-4" />
             </a>
+          )}
+          {t.env.length > 0 && (
+            <div className="mt-10">
+              <h3 className="font-semibold">Environment it expects</h3>
+              <p className="mt-1 text-sm text-muted">
+                Defaults are filled in by the wizard. Secret values are generated and stored encrypted in your vault.
+              </p>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {t.env.map((e) => (
+                  <li
+                    key={e.key}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-rail bg-panel px-2.5 py-1 font-mono text-xs"
+                  >
+                    {e.secret && <KeyRound className="size-3 text-amber" aria-label="Secret" />}
+                    {e.key}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
         <div>
           <h2 className="heading text-2xl">Deploying it</h2>
           <ol className="mt-5 space-y-4">
-            {[
-              "Open Templates in your panel and pick it, or search by name.",
-              "Choose a domain; NineDeploy assigns one from your wildcard if you don't.",
-              "Install. It becomes an ordinary service with its own env, logs, backups and rollbacks.",
-            ].map((s, i) => (
+            {steps.map((s, i) => (
               <li key={s} className="flex gap-4">
                 <span className="grid size-8 shrink-0 place-items-center rounded-full border border-rail font-mono text-xs">
                   {i + 1}

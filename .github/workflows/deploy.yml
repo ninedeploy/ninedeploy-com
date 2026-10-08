@@ -1,0 +1,64 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Refresh the copy of install.sh daily, and on demand from the product repo:
+  # gh api repos/ninedeploy/ninedeploy-com/dispatches -f event_type=installer-updated
+  schedule:
+    - cron: "17 4 * * *"
+  repository_dispatch:
+    types: [installer-updated]
+
+# Nothing by default; each job asks for what it needs.
+permissions: {}
+
+# One deployment at a time; a newer push replaces a queued one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # Keep this on Linux: Next 16.4's export names the client-router prefetch
+    # files with the OS path separator, and a Windows build writes them where
+    # the client never looks.
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+
+      # Third-party action pinned to a commit. Version comes from "packageManager" in package.json.
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      # Serves the product repo's installer as https://ninedeploy.com/install.sh
+      - run: pnpm installer
+      - run: pnpm build
+
+      # out/ already holds CNAME (ninedeploy.com) and .nojekyll from public/.
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # Only this job can publish to Pages.
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

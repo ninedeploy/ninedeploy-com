@@ -7,14 +7,32 @@ export interface Template {
   tagline: string;
   description: string;
   category: string;
-  emoji: string;
+  /** Simple Icons slug in /template-icons.svg, or null for the fixed package mark. */
+  icon: string | null;
   image: string;
   port: number;
   website: string | null;
   featured: boolean;
   verified: boolean;
   compose: boolean;
+  volume: string | null;
+  env: { key: string; secret: boolean }[];
 }
+
+/** The fields a template card renders; what the client-side hub receives. */
+export type TemplateSummary = Pick<Template, "id" | "name" | "tagline" | "category" | "icon" | "image" | "verified" | "compose" | "featured">;
+
+export const toSummary = ({ id, name, tagline, category, icon, image, verified, compose, featured }: Template): TemplateSummary => ({
+  id,
+  name,
+  tagline,
+  category,
+  icon,
+  image,
+  verified,
+  compose,
+  featured,
+});
 
 export interface Release {
   version: string;

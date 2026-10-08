@@ -5,11 +5,12 @@ export const site = {
   tagline: "Ship like you mean it.",
   description:
     "NineDeploy is a self-hosted PaaS for servers you own: zero-downtime blue-green deploys, managed databases, wildcard HTTPS, multi-server agents and an MCP server for AI agents — all in one SQLite file.",
-  github: "https://github.com/NineDeploy/NineDeploy",
-  changelogFull: "https://github.com/NineDeploy/NineDeploy/blob/main/CHANGELOG.md",
-  install: "curl -fsSL https://raw.githubusercontent.com/NineDeploy/NineDeploy/main/install.sh | bash",
-  installDocker:
-    "curl -fsSL https://raw.githubusercontent.com/NineDeploy/NineDeploy/main/install.sh | bash -s -- --docker",
+  github: "https://github.com/ninedeploy/ninedeploy",
+  changelogFull: "https://github.com/ninedeploy/ninedeploy/blob/main/CHANGELOG.md",
+  // Served from this site, copied from the product repo on every deploy (scripts/fetch-installer.mjs).
+  install: "curl -fsSL https://ninedeploy.com/install.sh | bash",
+  installDocker: "curl -fsSL https://ninedeploy.com/install.sh | bash -s -- --docker",
+  installerSource: "https://github.com/ninedeploy/ninedeploy/blob/main/install.sh",
   stats: {
     templates: 130,
     certified: 101,

@@ -5,7 +5,7 @@ import { useInView } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { oxog, site } from "@/lib/site";
-import { NineMark, OxogMark, OxogWordmark } from "./brand";
+import { OxogMark, OxogWordmark, Wordmark } from "./brand";
 
 const columns = [
   {
@@ -47,9 +47,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_2fr]">
           <div className="max-w-sm">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <NineMark className="size-11" />
-              <span className="heading text-2xl">NineDeploy</span>
+            <Link href="/" className="inline-flex">
+              <Wordmark size="lg" />
             </Link>
             <p className="mt-4 text-muted">
               A self-hosted PaaS for servers you actually own. One Node process, one SQLite file, and the Docker socket.

@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BadgeCheck } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Template } from "@/lib/content";
+import type { TemplateSummary } from "@/lib/content";
+import { TemplateIcon } from "./template-icon";
 
 /** A swipeable, snap-scrolling rail of large featured cards with arrow controls. */
-export function FeaturedSlider({ items }: { items: Template[] }) {
+export function FeaturedSlider({ items }: { items: TemplateSummary[] }) {
   const rail = useRef<HTMLDivElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false });
   const [progress, setProgress] = useState(0);
@@ -77,9 +78,9 @@ export function FeaturedSlider({ items }: { items: Template[] }) {
             />
             <span
               aria-hidden
-              className="absolute right-5 top-4 text-[6.5rem] leading-none opacity-90 transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-6"
+              className="absolute right-6 top-6 text-ink/80 transition-[color,transform] duration-500 group-hover:-translate-y-1 group-hover:text-green"
             >
-              {t.emoji}
+              <TemplateIcon t={t} className="size-16" />
             </span>
             <span className="relative font-mono text-xs text-muted">{t.category}</span>
             <span className="relative">

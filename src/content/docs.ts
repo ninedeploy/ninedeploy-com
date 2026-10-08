@@ -42,7 +42,7 @@ export const docs: Doc[] = [
           "No host ports exposed on apps — healthchecks probe internal container IPs, Traefik routes traffic by hostname.",
           "Every subprocess has a hard timeout with tree-kill; a hung build or script can never stall the deployment queue.",
           "Secrets are AES-256-GCM encrypted in versioned envelopes with a rotatable key ring.",
-          "Coverage floors enforced in CI across every package: 100% on the data, schema, SDK, CLI, MCP and plugin-sdk packages; 99% on the web dashboard and 95% on the server.",
+          "Coverage floors are enforced in CI for every package: 100% on the schemas, SDK, database and plugin-sdk packages, 97.5% line coverage on the dashboard and 95% on the server, with the CLI and MCP floors (and the reasoning for each) recorded in their vitest configs.",
         ],
       },
       {
@@ -62,7 +62,13 @@ export const docs: Doc[] = [
       { kind: "h2", text: "One-click (bare-metal, recommended)" },
       {
         kind: "code",
-        body: "curl -fsSL https://raw.githubusercontent.com/NineDeploy/NineDeploy/main/install.sh | bash",
+        body: "curl -fsSL https://ninedeploy.com/install.sh | bash",
+      },
+      {
+        kind: "callout",
+        tone: "info",
+        title: "Where this script comes from",
+        text: "ninedeploy.com/install.sh is a byte-for-byte copy of install.sh in github.com/ninedeploy/ninedeploy, refreshed on every site deploy and daily. To run it straight from the repository instead: `curl -fsSL https://raw.githubusercontent.com/NineDeploy/NineDeploy/main/install.sh | bash`",
       },
       {
         kind: "p",
@@ -71,12 +77,18 @@ export const docs: Doc[] = [
       { kind: "h2", text: "Docker" },
       {
         kind: "code",
+        // Matches the README of github.com/ninedeploy/ninedeploy: the panel
+        // listens on loopback only, behind Traefik or a tunnel.
         body: `docker run -d --name ninedeploy \\
   -v /var/run/docker.sock:/var/run/docker.sock \\
+  --group-add "$(getent group docker | cut -d: -f3)" \\
   -v ninedeploy-data:/data \\
-  -p 3000:3000 \\
-  -e NINEDEPLOY_JWT_SECRET=$(openssl rand -hex 32) \\
-  ghcr.io/ninedeploy/ninedeploy`,
+  -p 127.0.0.1:3000:3000 \\
+  -e NINEDEPLOY_DATA_DIR=/data \\
+  -e NINEDEPLOY_DB_PATH=/data/ninedeploy.db \\
+  -e NINEDEPLOY_JWT_SECRET="$(openssl rand -hex 32)" \\
+  -e NINEDEPLOY_PUBLIC_URL=https://panel.example.com \\
+  ghcr.io/ninedeploy/ninedeploy:latest`,
       },
       {
         kind: "p",
@@ -872,7 +884,7 @@ sudo ufw allow from <controller-ip> to any port 3001 proto tcp`,
       {
         kind: "code",
         body: `# Upgrade in place; this migrates and verifies the systemd policy:
-curl -fsSL https://raw.githubusercontent.com/NineDeploy/NineDeploy/main/install.sh | bash
+curl -fsSL https://ninedeploy.com/install.sh | bash
 
 # Expected: Type=simple and WatchdogUSec=0
 systemctl show ninedeploy -p Type -p WatchdogUSec`,

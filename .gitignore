@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tooling
+/.playwright-mcp/
+
+# fetched from the product repo at build time (pnpm installer)
+/public/install.sh

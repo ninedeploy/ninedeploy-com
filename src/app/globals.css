@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+/* Where the scroll-pinned pipeline fits: wide, tall enough, and motion allowed. */
+@custom-variant pinned {
+  @media (min-width: 1024px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
+    @slot;
+  }
+}
 
 /*
  * Palette: two lanes of a blue-green deploy, on the slate of the logo's shell.
@@ -14,36 +20,48 @@
   --rail-strong: #b5c1d1;
   --ink: #142033;
   --muted: #536279;
-  --blue: #3557e0;
-  --green: #0e8f86;
+  --blue: #4f46e5;
+  --green: #0f7a72;
   --amber: #c7781a;
   --pink: #d93a66;
-  --glow-blue: rgb(53 87 224 / 0.16);
-  --glow-green: rgb(14 143 134 / 0.16);
+  --glow-blue: rgb(79 70 229 / 0.14);
+  --glow-green: rgb(15 122 114 / 0.16);
   --grid: rgb(20 32 51 / 0.06);
   --code-bg: #142033;
   --code-ink: #dfe7f2;
   color-scheme: light;
 }
 
+/* Dark mirrors the dashboard: page #0a101b, panel #101a2b, indigo sparklines. */
 .dark {
-  --bg: #0d1522;
-  --bg-2: #101a29;
-  --panel: #141f2f;
-  --rail: #24344b;
-  --rail-strong: #34496a;
+  --bg: #0a101b;
+  --bg-2: #0d1523;
+  --panel: #101a2b;
+  --rail: #1e2a3e;
+  --rail-strong: #2d3d58;
   --ink: #e8eef6;
   --muted: #9fb0c6;
-  --blue: #7d96ff;
+  --blue: #818cf8;
   --green: #4ecdc4;
   --amber: #ffb454;
   --pink: #ff5c87;
-  --glow-blue: rgb(125 150 255 / 0.2);
+  --glow-blue: rgb(129 140 248 / 0.2);
   --glow-green: rgb(78 205 196 / 0.2);
   --grid: rgb(232 238 246 / 0.045);
-  --code-bg: #0a111c;
+  --code-bg: #070c15;
   --code-ink: #dfe7f2;
   color-scheme: dark;
+}
+
+/*
+ * Fonts live in a plain @theme block: under `@theme inline` Tailwind only
+ * inlines values into utilities and never emits --font-sans, so anything
+ * reading var(--font-sans) (body, preflight) silently fell back to system-ui.
+ */
+@theme {
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-logo: var(--font-quicksand), ui-rounded, system-ui, sans-serif;
 }
 
 @theme inline {
@@ -60,8 +78,6 @@
   --color-pink: var(--pink);
   --color-code: var(--code-bg);
   --color-code-ink: var(--code-ink);
-  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --ease-snap: cubic-bezier(0.2, 0.9, 0.1, 1);
 }
 
@@ -73,7 +89,6 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -83,28 +98,27 @@ body {
   color: var(--bg);
 }
 
-:focus-visible {
-  outline: 2px solid var(--green);
-  outline-offset: 3px;
-  border-radius: 4px;
+/* In the base layer so utilities (rounded-*, focus-visible:outline-none) still win. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+  }
 }
 
-/* Display type: Bricolage at its narrowest width and largest optical size. */
+/* Display type: Space Grotesk, bold and tight, as on the original site. */
 .display {
-  font-stretch: 78%;
-  font-variation-settings: "opsz" 96;
-  font-weight: 680;
-  letter-spacing: -0.03em;
-  line-height: 0.86;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
 }
 
 .heading {
-  font-stretch: 82%;
-  font-variation-settings: "opsz" 72;
-  font-weight: 750;
-  letter-spacing: -0.025em;
-  line-height: 0.98;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
 }
+
 
 .blueprint {
   background-image:
@@ -126,7 +140,8 @@ body {
 .marquee-track {
   animation: marquee var(--marquee-duration, 60s) linear infinite;
 }
-.marquee:hover .marquee-track {
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
   animation-play-state: paused;
 }
 
@@ -181,9 +196,11 @@ body {
 }
 
 /* The page-load sequence: headline lines rise out of their masks, then the rest settles. */
+/* Starts partly visible so the headline is painted (and counted as LCP) on the first frame. */
 @keyframes rise-line {
   from {
-    transform: translateY(105%);
+    transform: translateY(45%);
+    opacity: 0.2;
   }
 }
 .rise-line {

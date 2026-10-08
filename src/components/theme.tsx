@@ -3,14 +3,25 @@
 import { MotionConfig } from "motion/react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
-import { useSyncExternalStore, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useSyncExternalStore, type MouseEvent, type ReactNode } from "react";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} storageKey="nd-theme" disableTransitionOnChange>
+      <ThemeColor />
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </ThemeProvider>
   );
+}
+
+/** Keeps the browser UI colour on the site's theme rather than the OS one. */
+function ThemeColor() {
+  const { resolvedTheme } = useTheme();
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (meta) meta.content = resolvedTheme === "light" ? "#f2f4f7" : "#0a101b";
+  }, [resolvedTheme]);
+  return null;
 }
 
 const noop = () => () => {};
@@ -41,12 +52,15 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     const y = e.clientY || 40;
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     const t = document.startViewTransition(() => setTheme(next));
-    t.ready.then(() => {
-      document.documentElement.animate(
-        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
-        { duration: 650, easing: "cubic-bezier(.6,.1,.2,1)", pseudoElement: "::view-transition-new(root)" },
-      );
-    });
+    t.ready
+      .then(() => {
+        document.documentElement.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+          { duration: 650, easing: "cubic-bezier(.6,.1,.2,1)", pseudoElement: "::view-transition-new(root)" },
+        );
+      })
+      // a second click before the first transition is ready aborts it; that's fine
+      .catch(() => {});
   };
 
   return (

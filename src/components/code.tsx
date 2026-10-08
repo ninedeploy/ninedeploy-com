@@ -15,7 +15,10 @@ export function highlight(code: string, lang: string): ReactNode[] {
         ? /(#.*$)|("[^"]*"|'[^']*')|(^\s*-?\s*[\w.-]+(?=:))|(\b\d+\b)/g
         : lang === "json"
           ? /("(?:[^"\\]|\\.)*"(?=\s*:))|("(?:[^"\\]|\\.)*")|(\b\d+\b|true|false)/g
-          : /(#.*$|\/\/.*$)|("[^"]*"|'[^']*'|`[^`]*`)|(\b[a-zA-Z_][\w-]*\b)/g;
+          : lang === "ts"
+            ? /((?:^|(?<=\s))\/\/.*$)|("[^"]*"|'[^']*'|`[^`]*`)|(\b[a-zA-Z_][\w-]*\b)/g
+            : // shell: `#` starts a comment only at line start or after a space, so URLs survive
+              /((?:^|(?<=\s))#.*$)|("[^"]*"|'[^']*')|(\b[a-zA-Z_][\w-]*\b)/g;
     let last = 0;
     let m: RegExpExecArray | null;
     while ((m = re.exec(line))) {

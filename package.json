@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "installer": "node scripts/fetch-installer.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.52.0",
@@ -23,8 +24,14 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
+    "simple-icons": "^16.34.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@11.25.0"
+  "packageManager": "pnpm@11.25.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ninedeploy/ninedeploy-com.git"
+  },
+  "homepage": "https://ninedeploy.com"
 }

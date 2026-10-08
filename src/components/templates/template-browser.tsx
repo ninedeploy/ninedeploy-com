@@ -3,14 +3,14 @@
 import { AnimatePresence, motion } from "motion/react";
 import { BadgeCheck, Search, X } from "lucide-react";
 import { useDeferredValue, useMemo, useState } from "react";
-import type { Template } from "@/lib/content";
+import type { TemplateSummary } from "@/lib/content";
 import { TemplateCard } from "./template-card";
 
 export function TemplateBrowser({
   items,
   categories,
 }: {
-  items: Template[];
+  items: TemplateSummary[];
   categories: { name: string; count: number }[];
 }) {
   const [query, setQuery] = useState("");
@@ -41,7 +41,7 @@ export function TemplateBrowser({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search n8n, postgres, analytics…"
-              className="w-full rounded-full border border-rail bg-panel py-3 pl-11 pr-10 text-sm outline-none placeholder:text-muted focus:border-green"
+              className="w-full rounded-full border border-rail bg-panel py-3 pl-11 pr-10 text-sm outline-none placeholder:text-muted focus:border-green focus-visible:outline-none"
             />
             {query && (
               <button
@@ -80,7 +80,7 @@ export function TemplateBrowser({
                 on ? "border-ink bg-ink text-bg" : "border-rail text-muted hover:border-rail-strong hover:text-ink"
               }`}
             >
-              {c.name} <span className="ml-1 font-mono text-xs opacity-60">{c.count}</span>
+              {c.name} <span className="ml-1 font-mono text-xs">{c.count}</span>
             </button>
           );
         })}

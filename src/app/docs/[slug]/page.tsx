@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { AlertTriangle, ArrowLeft, ArrowRight, Info } from "lucide-react";
 import { CodeBlock } from "@/components/code";
 import { Prose } from "@/components/page-hero";
 import { docs, getDoc, guessLang, orderedDocs, slugify } from "@/lib/docs";
 import { site } from "@/lib/site";
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return docs.map((d) => ({ slug: d.slug }));
@@ -18,29 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/docs/[slug]">): P
   return doc ? { title: doc.title, description: doc.description } : { title: "Not found" };
 }
 
-export default function DocPage({ params }: PageProps<"/docs/[slug]">) {
-  return (
-    <Suspense fallback={<DocSkeleton />}>
-      <DocContent params={params} />
-    </Suspense>
-  );
-}
-
-function DocSkeleton() {
-  return (
-    <div className="max-w-3xl animate-pulse" aria-busy="true">
-      <div className="h-4 w-16 rounded bg-rail" />
-      <div className="mt-4 h-16 w-2/3 rounded-2xl bg-rail" />
-      <div className="mt-6 space-y-3">
-        <div className="h-4 rounded bg-rail" />
-        <div className="h-4 w-5/6 rounded bg-rail" />
-        <div className="h-4 w-4/6 rounded bg-rail" />
-      </div>
-    </div>
-  );
-}
-
-async function DocContent({ params }: { params: PageProps<"/docs/[slug]">["params"] }) {
+export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
   const { slug } = await params;
   const doc = getDoc(slug);
   if (!doc) notFound();
@@ -52,12 +31,9 @@ async function DocContent({ params }: { params: PageProps<"/docs/[slug]">["param
 
   return (
     <div className="page-in grid grid-cols-[minmax(0,1fr)] gap-12 xl:grid-cols-[1fr_200px]">
-      <article className="min-w-0 max-w-3xl">
-        <Link href="/docs" className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink lg:hidden">
-          <ArrowLeft className="size-4" /> All docs
-        </Link>
-        <p className="mt-4 text-sm text-green lg:mt-0">{doc.group}</p>
-        <h1 className="display mt-2 text-[clamp(2.8rem,6vw,4.75rem)]">{doc.title}</h1>
+      <article className="min-w-0 max-w-3xl [overflow-wrap:anywhere]">
+        <p className="text-sm text-green">{doc.group}</p>
+        <h1 className="display mt-2 text-[clamp(2.25rem,5vw,4rem)]">{doc.title}</h1>
         <p className="mt-4 text-xl text-muted">{doc.description}</p>
 
         <div className="mt-10 space-y-6">
@@ -140,7 +116,7 @@ async function DocContent({ params }: { params: PageProps<"/docs/[slug]">["param
         </nav>
         <p className="mt-8 text-sm text-muted">
           The canonical guides live in the repository&apos;s{" "}
-          <a href={`${site.github}/tree/main/docs`} className="underline underline-offset-4 hover:text-ink">
+          <a href={`${site.github}/tree/main/docs`} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-ink">
             docs folder
           </a>
           .

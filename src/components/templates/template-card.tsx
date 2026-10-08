@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { BadgeCheck, Layers } from "lucide-react";
-import type { Template } from "@/lib/content";
+import type { TemplateSummary } from "@/lib/content";
+import { TemplateIcon } from "./template-icon";
 
-export function TemplateCard({ t }: { t: Template }) {
+export function TemplateCard({ t }: { t: TemplateSummary }) {
   return (
     <Link
       href={`/templates/${t.id}`}
       className="group flex h-full flex-col rounded-3xl border border-rail bg-panel p-5 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-rail-strong"
     >
       <div className="flex items-start justify-between gap-3">
-        <span className="grid size-12 place-items-center rounded-2xl bg-bg-2 text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" aria-hidden>
-          {t.emoji}
+        <span className="grid size-12 place-items-center rounded-2xl border border-rail bg-bg-2 text-ink transition-colors duration-300 group-hover:border-green/40 group-hover:text-green">
+          <TemplateIcon t={t} className="size-6" />
         </span>
         <div className="flex gap-1.5">
           {t.compose && (

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { templates, type Template } from "@/lib/content";
 import { site } from "@/lib/site";
+import { TemplateIcon } from "@/components/templates/template-icon";
 
 function Row({ items, reverse, duration }: { items: Template[]; reverse?: boolean; duration: string }) {
   return (
@@ -19,9 +20,7 @@ function Row({ items, reverse, duration }: { items: Template[]; reverse?: boolea
               tabIndex={i >= items.length ? -1 : undefined}
               className="flex items-center gap-2.5 whitespace-nowrap rounded-full border border-rail bg-panel px-4 py-2 text-sm transition-colors hover:border-green hover:text-green"
             >
-              <span className="text-base" aria-hidden>
-                {t.emoji}
-              </span>
+              <TemplateIcon t={t} className="size-4 shrink-0 opacity-80" />
               {t.name}
             </Link>
           </li>

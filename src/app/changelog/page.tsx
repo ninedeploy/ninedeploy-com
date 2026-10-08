@@ -37,7 +37,7 @@ export default function ChangelogPage() {
         </a>
       </PageHero>
 
-      <ol className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+      <ol className="relative mx-auto max-w-5xl px-4 py-14 [overflow-wrap:anywhere] sm:px-6 lg:px-8">
         {releases.map((r, i) => (
           <li key={r.version} className="relative grid gap-4 pb-10 pl-10 md:grid-cols-[160px_1fr] md:gap-10 md:pl-0">
             <span

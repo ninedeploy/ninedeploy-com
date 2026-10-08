@@ -1,58 +1,33 @@
 import type { SVGProps } from "react";
 
-/** The NineDeploy mark: a hex shell holding a terminal with four blue-green tiles. */
+/*
+ * The NineDeploy mark: a "9" drawn as one open loop with a pin-like tail, a
+ * teal core, and two teal base lines. The loop takes the text colour so it
+ * works on both themes; the teal stays fixed.
+ */
+export const LOGO_TEAL = "#7fbcb3";
+export const LOGO_INK = "#333d4d";
+
+const LOOP = "M19.3 31 A13 13 0 1 1 29.2 27.2 L18.4 37.6";
+
 export function NineMark({ title = "NineDeploy", ...props }: SVGProps<SVGSVGElement> & { title?: string }) {
   return (
-    <svg viewBox="0 0 48 48" role="img" aria-label={title} {...props}>
-      <defs>
-        <linearGradient id="nd-shell" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#2A3B52" />
-          <stop offset="1" stopColor="#16202E" />
-        </linearGradient>
-        <linearGradient id="nd-gloss" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#7CE4DC" />
-          <stop offset="1" stopColor="#4ECDC4" />
-        </linearGradient>
-        <linearGradient id="nd-dim" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#4ECDC4" />
-          <stop offset="1" stopColor="#17948A" />
-        </linearGradient>
-      </defs>
-      <polygon
-        points="24,3 43,14 43,34 24,45 5,34 5,14"
-        fill="url(#nd-shell)"
-        stroke="#16202E"
-        strokeWidth="3.5"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M24 4.4 41.8 14.6 M24 4.4 6.2 14.6"
-        fill="none"
-        stroke="#4ECDC4"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        opacity="0.55"
-      />
-      <rect x="11" y="12" width="26" height="22" rx="3.5" fill="#FFFFFF" />
-      <path d="M11 15.5 A3.5 3.5 0 0 1 14.5 12 H33.5 A3.5 3.5 0 0 1 37 15.5 V17.5 H11 Z" fill="#1E2A3A" />
-      <circle cx="14.6" cy="14.8" r="1.15" fill="#FF5C87" />
-      <circle cx="18.1" cy="14.8" r="1.15" fill="#FFB454" />
-      <circle cx="21.6" cy="14.8" r="1.15" fill="#4ECDC4" />
-      <rect x="13.5" y="20" width="2.2" height="11" rx="1.1" fill="#22324E" opacity="0.85" />
-      <rect x="17.8" y="20" width="8.1" height="4.9" rx="1.3" fill="url(#nd-gloss)" />
-      <rect x="27.6" y="20" width="8.1" height="4.9" rx="1.3" fill="url(#nd-dim)" />
-      <rect x="17.8" y="26.2" width="8.1" height="4.9" rx="1.3" fill="url(#nd-dim)" />
-      <rect x="27.6" y="26.2" width="8.1" height="4.9" rx="1.3" fill="url(#nd-gloss)" />
+    <svg viewBox="0 0 40 52" fill="none" role={title ? "img" : undefined} aria-label={title || undefined} aria-hidden={title ? undefined : true} {...props}>
+      <path d={LOOP} stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="20" cy="18" r="2.6" fill={LOGO_TEAL} />
+      <path d="M12.5 43.5h15M12.5 48.5h15" stroke={LOGO_TEAL} strokeWidth="2.8" strokeLinecap="round" />
     </svg>
   );
 }
 
-export function Wordmark({ className = "" }: { className?: string }) {
+/** Mark plus the lowercase rounded "nine deploy" wordmark. */
+export function Wordmark({ className = "", size = "md" }: { className?: string; size?: "md" | "lg" }) {
+  const lg = size === "lg";
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`}>
-      <NineMark className="size-8 shrink-0" title="" aria-hidden />
-      <span className="heading text-[1.35rem] leading-none tracking-tight">
-        Nine<span className="text-green">Deploy</span>
+    <span className={`inline-flex items-center ${lg ? "gap-3" : "gap-2"} ${className}`}>
+      <NineMark className={`${lg ? "h-14" : "h-8 sm:h-10"} w-auto shrink-0 text-ink`} title="" />
+      <span className={`font-logo font-medium leading-none tracking-[0.01em] text-ink ${lg ? "text-[1.9rem]" : "text-[1.2rem] sm:text-[1.45rem]"}`}>
+        nine deploy
       </span>
     </span>
   );

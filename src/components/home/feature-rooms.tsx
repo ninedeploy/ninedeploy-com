@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { rooms } from "@/lib/features";
+import { tabListKeys } from "@/lib/tabs";
 
 export function FeatureRooms() {
   const [active, setActive] = useState(rooms[0].id);
@@ -25,7 +26,11 @@ export function FeatureRooms() {
       </p>
 
       <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[280px_1fr]">
-        <div role="tablist" aria-label="Feature areas" className="no-scrollbar flex gap-2 overflow-x-auto lg:flex-col">
+        <div
+          role="tablist"
+          aria-label="Feature areas"
+          onKeyDown={tabListKeys(rooms.length, rooms.findIndex((r) => r.id === active), (i) => setActive(rooms[i].id))}
+          className="no-scrollbar flex gap-2 overflow-x-auto lg:flex-col">
           {rooms.map((r) => {
             const on = r.id === active;
             const Icon = r.icon;
@@ -35,6 +40,7 @@ export function FeatureRooms() {
                 role="tab"
                 id={`tab-${r.id}`}
                 aria-selected={on}
+                tabIndex={on ? 0 : -1}
                 aria-controls={`panel-${r.id}`}
                 onClick={() => setActive(r.id)}
                 className={`relative flex shrink-0 items-center gap-3 rounded-2xl px-4 py-3 text-left transition-colors lg:py-4 ${

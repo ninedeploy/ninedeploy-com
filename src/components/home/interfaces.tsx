@@ -1,9 +1,10 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Bot, Braces, FileCode2, SquareTerminal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { highlight } from "@/components/code";
+import { tabListKeys } from "@/lib/tabs";
 
 const slides = [
   {
@@ -95,13 +96,14 @@ const DURATION = 8000;
 export function Interfaces() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const reduce = useReducedMotion();
   const slide = slides[index];
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || reduce) return;
     const t = setTimeout(() => setIndex((i) => (i + 1) % slides.length), DURATION);
     return () => clearTimeout(t);
-  }, [index, paused]);
+  }, [index, paused, reduce]);
 
   return (
     <section
@@ -110,14 +112,21 @@ export function Interfaces() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false);
+      }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 id="interfaces-heading" className="heading max-w-3xl text-4xl sm:text-5xl">
           Click it, type it, script it, or ask an agent.
         </h2>
 
-        <div className="mt-10 flex flex-wrap gap-2" role="tablist" aria-label="Interfaces">
+        <div
+          className="mt-10 flex flex-wrap gap-2"
+          role="tablist"
+          aria-label="Interfaces"
+          onKeyDown={tabListKeys(slides.length, index, setIndex)}
+        >
           {slides.map((s, i) => {
             const Icon = s.icon;
             const on = i === index;
@@ -126,6 +135,9 @@ export function Interfaces() {
                 key={s.id}
                 role="tab"
                 aria-selected={on}
+                aria-controls="interfaces-panel"
+                id={`interfaces-tab-${s.id}`}
+                tabIndex={on ? 0 : -1}
                 onClick={() => setIndex(i)}
                 className={`relative overflow-hidden rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
                   on ? "border-ink bg-ink text-bg" : "border-rail text-muted hover:text-ink"
@@ -135,7 +147,7 @@ export function Interfaces() {
                   <Icon className="size-4" />
                   {s.name}
                 </span>
-                {on && !paused && (
+                {on && !paused && !reduce && (
                   <motion.span
                     key={`p-${index}`}
                     className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-green"
@@ -149,7 +161,12 @@ export function Interfaces() {
           })}
         </div>
 
-        <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <div
+          id="interfaces-panel"
+          role="tabpanel"
+          aria-labelledby={`interfaces-tab-${slide.id}`}
+          className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-[0.8fr_1.2fr]"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id}

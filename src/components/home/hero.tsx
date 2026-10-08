@@ -25,8 +25,8 @@ export function Hero() {
           Per-database backup policies and PR preview environments
         </Link>
 
-        <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-end gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
-          <h1 className="display text-[clamp(4rem,13vw,11.5rem)]" aria-label="Ship like you mean it.">
+        <div className="mt-8">
+          <h1 className="display text-[clamp(3.25rem,11.5vw,10rem)]" aria-label="Ship like you mean it.">
             <span className="block overflow-hidden pb-[0.14em] -mb-[0.08em]">
               <span className="rise-line block" style={{ animationDelay: "60ms" }}>
                 Ship like
@@ -38,18 +38,23 @@ export function Hero() {
               </span>
             </span>
           </h1>
-          <div className="rise max-w-md pb-3" style={{ animationDelay: "320ms" }}>
-            <p className="text-lg leading-relaxed text-muted">
+          <div
+            className="rise mt-10 grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16"
+            style={{ animationDelay: "420ms" }}
+          >
+            <p className="max-w-xl text-lg leading-relaxed text-muted">
               Push a branch, get a healthy container behind TLS. NineDeploy builds it on a server you own, keeps the old
               version serving until the new one passes its healthcheck, and runs the databases, certificates and backups
               around it.
             </p>
-            <CopyCommand command={site.install} className="mt-6" />
-            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-              <Link href="/docs/introduction" className="font-semibold underline decoration-rail-strong underline-offset-4 hover:decoration-green">
-                Read the docs
-              </Link>
-              <span className="text-muted">MIT licensed. No external database. No vendor.</span>
+            <div>
+              <CopyCommand command={site.install} />
+              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                <Link href="/docs/introduction" className="font-semibold underline decoration-rail-strong underline-offset-4 hover:decoration-green">
+                  Read the docs
+                </Link>
+                <span className="text-muted">MIT licensed. No external database. No vendor.</span>
+              </div>
             </div>
           </div>
         </div>

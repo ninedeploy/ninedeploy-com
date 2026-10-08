@@ -69,7 +69,8 @@ export function CutoverStage() {
     green: { state: "idle", commit: "—", checks: emptyChecks() },
   });
   const [busy, setBusy] = useState(false);
-  const [served, setServed] = useState({ blue: 0, green: 0 });
+  // Written by the canvas loop; read by <ServedCount> so the stage itself
+  // never re-renders for a counter tick.
   const servedRef = useRef({ blue: 0, green: 0 });
   const [logs, setLogs] = useState<LogLine[]>([
     { id: 0, at: "12:00:58", text: "api-blue serving 4b1e07c · healthy", tone: "dim" },
@@ -210,7 +211,8 @@ export function CutoverStage() {
     const ro = r(routerRef.current);
     const bl = r(blueRef.current);
     const gr = r(greenRef.current);
-    const vertical = box.width < 720;
+    // Same test as the grid's min-[720px] breakpoint, so wires match the layout.
+    const vertical = !window.matchMedia("(min-width: 720px)").matches;
     anchors.current = vertical
       ? {
           vertical,
@@ -247,9 +249,9 @@ export function CutoverStage() {
     let raf = 0;
     let last = performance.now();
     let spawn = 0;
-    let colors = { blue: "#7d96ff", green: "#4ecdc4", rail: "#24344b", ink: "#e8eef6" };
+    let colors = { blue: "#818cf8", green: "#4ecdc4", rail: "#2d3d58", ink: "#e8eef6" };
     let colorAge = 1e9;
-    let flush = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
 
     const readColors = () => {
       const cs = getComputedStyle(document.documentElement);
@@ -362,15 +364,15 @@ export function CutoverStage() {
         ctx.shadowBlur = 0;
       }
 
-      flush += dt;
-      if (flush > 0.4) {
-        flush = 0;
-        setServed({ ...servedRef.current });
-      }
-      raf = requestAnimationFrame(frame);
+      // With reduced motion nothing moves, so a slow tick is enough to follow cut-overs.
+      if (reduce) timer = setTimeout(() => (raf = requestAnimationFrame(frame)), 300);
+      else raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+    };
   }, [inView]);
 
   return (
@@ -426,7 +428,7 @@ export function CutoverStage() {
                 key={lane}
                 lane={lane}
                 slot={slots[lane]}
-                served={served[lane]}
+                counts={servedRef}
                 ref={lane === "blue" ? blueRef : greenRef}
               />
             ))}
@@ -476,7 +478,7 @@ export function CutoverStage() {
                 animate={{ opacity: 1, x: 0 }}
                 className="flex gap-3 whitespace-pre-wrap"
               >
-                <span className="shrink-0 text-white/30">{l.at}</span>
+                <span className="shrink-0 text-white/50">{l.at}</span>
                 <span
                   className={
                     l.tone === "ok"
@@ -496,7 +498,7 @@ export function CutoverStage() {
               </motion.li>
             ))}
             <li className="flex gap-3">
-              <span className="shrink-0 text-white/30">{"        "}</span>
+              <span className="shrink-0 text-white/50">{"        "}</span>
               <span className="caret inline-block h-4 w-2 translate-y-1 bg-[#4ecdc4]" />
             </li>
           </ol>
@@ -509,12 +511,12 @@ export function CutoverStage() {
 function Container({
   lane,
   slot,
-  served,
+  counts,
   ref,
 }: {
   lane: Lane;
   slot: Slot;
-  served: number;
+  counts: React.RefObject<Record<Lane, number>>;
   ref: React.Ref<HTMLDivElement>;
 }) {
   const color = lane === "blue" ? "var(--blue)" : "var(--green)";
@@ -556,7 +558,7 @@ function Container({
       </div>
       <div className="mt-2 flex items-center justify-between gap-2 font-mono text-[11px] text-muted">
         <span className="truncate">commit {slot.commit}</span>
-        <span className="hidden tabular-nums sm:inline">{isLive || served ? `${served.toLocaleString("en")} req` : ""}</span>
+        <ServedCount counts={counts} lane={lane} show={isLive} />
       </div>
       <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-bg-2">
         <motion.div
@@ -575,7 +577,7 @@ function Container({
           transition={{ duration: slot.state === "building" ? 2.6 : 0.5, ease: [0.2, 0.9, 0.1, 1] }}
         />
       </div>
-      <div className="mt-2 flex gap-1.5" aria-label="Healthchecks">
+      <div className="mt-2 flex gap-1.5" role="group" aria-label="Healthchecks">
         {slot.checks.map((c, i) => (
           <motion.span
             key={i}
@@ -590,4 +592,17 @@ function Container({
       </div>
     </motion.div>
   );
+}
+
+/** Requests served by one lane, polled from the canvas loop's ref. */
+function ServedCount({ counts, lane, show }: { counts: React.RefObject<Record<Lane, number>>; lane: Lane; show: boolean }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => {
+      const v = counts.current[lane];
+      setN((prev) => (prev === v ? prev : v));
+    }, 400);
+    return () => clearInterval(t);
+  }, [counts, lane]);
+  return <span className="hidden tabular-nums sm:inline">{show || n ? `${n.toLocaleString("en")} req` : ""}</span>;
 }

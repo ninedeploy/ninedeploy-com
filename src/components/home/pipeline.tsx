@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
-import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 const steps = [
   {
@@ -56,18 +56,6 @@ const steps = [
   },
 ];
 
-const query = "(min-width: 1024px)";
-const subscribe = (cb: () => void) => {
-  const m = window.matchMedia(query);
-  m.addEventListener("change", cb);
-  return () => m.removeEventListener("change", cb);
-};
-const useWide = () =>
-  useSyncExternalStore(
-    subscribe,
-    () => window.matchMedia(query).matches,
-    () => false,
-  );
 
 function StepCard({ i, step, active }: { i: number; step: (typeof steps)[number]; active?: boolean }) {
   const lane = i < 7 ? "var(--blue)" : "var(--green)";
@@ -78,7 +66,7 @@ function StepCard({ i, step, active }: { i: number; step: (typeof steps)[number]
       }`}
     >
       <div className="flex items-baseline justify-between">
-        <span className="display text-6xl tabular-nums" style={{ color: active ? lane : "var(--rail-strong)" }}>
+        <span className="display text-5xl tabular-nums" style={{ color: active ? lane : "var(--muted)" }}>
           {String(i + 1).padStart(2, "0")}
         </span>
         <span className="font-mono text-xs text-muted">of 10</span>
@@ -93,19 +81,28 @@ function StepCard({ i, step, active }: { i: number; step: (typeof steps)[number]
   );
 }
 
+/*
+ * Both variants are rendered and CSS picks one (the `pinned` variant in
+ * globals.css: wide, at least 760px tall, motion allowed), so there is no
+ * layout jump after hydration and short laptops get the swipe rail.
+ */
 export function Pipeline() {
-  const wide = useWide();
   return (
     <section aria-labelledby="pipeline-heading" className="relative">
-      {wide ? <Pinned /> : <Swipe />}
+      <div className="hidden pinned:block">
+        <Pinned />
+      </div>
+      <div className="pinned:hidden">
+        <Swipe />
+      </div>
     </section>
   );
 }
 
-function Intro() {
+function Intro({ headingId }: { headingId?: string }) {
   return (
     <div className="max-w-xl">
-      <h2 id="pipeline-heading" className="heading text-4xl sm:text-5xl">
+      <h2 id={headingId} className="heading text-4xl sm:text-5xl">
         What a deploy actually does.
       </h2>
       <p className="mt-4 text-lg text-muted">
@@ -143,7 +140,7 @@ function Pinned() {
     <div ref={ref} style={{ height: `calc(100vh + ${distance}px)` }}>
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-20">
         <div className="mx-auto w-full max-w-7xl px-8">
-          <Intro />
+          <Intro headingId="pipeline-heading" />
         </div>
         <motion.div ref={track} style={{ x }} className="mt-12 flex gap-5 pl-[max(2rem,calc((100vw-80rem)/2+2rem))] pr-8">
           {steps.map((s, i) => (
