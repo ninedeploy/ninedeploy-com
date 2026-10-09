@@ -1,3 +1,6 @@
+import { site } from "@/lib/site";
+import { operationsDocs } from "./operations-docs";
+
 export type Block =
   | { kind: "p"; text: string }
   | { kind: "h2"; text: string }
@@ -11,6 +14,7 @@ export type Doc = {
   title: string;
   description: string;
   group: string;
+  source?: string;
   blocks: Block[];
 };
 
@@ -23,7 +27,7 @@ export const docs: Doc[] = [
     blocks: [
       {
         kind: "p",
-        text: "NineDeploy is a self-hosted deployment platform and PaaS. It wraps PM2 and Docker behind a sleek web dashboard, a fast CLI and a 38-tool MCP server, fronts everything with Traefik, and handles webhooks, managed databases, monitoring, alerts, notifications, and backups. All state lives in a single SQLite database on your server — zero external database dependencies.",
+        text: "NineDeploy is a self-hosted PaaS for servers you own. The dashboard, CLI, typed SDK and MCP server share the API. Docker, PM2 and Compose runtimes sit alongside managed databases, encrypted backups, GitHub Apps, audited terminals and opt-in traffic analytics. Panel state lives in one SQLite database.",
       },
       { kind: "h2", text: "The shape of the system" },
       {
@@ -49,7 +53,7 @@ export const docs: Doc[] = [
         kind: "callout",
         tone: "info",
         title: "Requirements",
-        text: "Node ≥ 22.13, Docker, and a Linux host (or macOS for local development). That's the complete list.",
+        text: "Production: Linux, Docker Engine with Compose, and ports 80/443 for Traefik. Bare-metal mode also needs Node ≥ 22.13 and sudo; the installer provisions dependencies on Debian/Ubuntu. Docker mode needs access to the Docker daemon.",
       },
     ],
   },
@@ -62,19 +66,21 @@ export const docs: Doc[] = [
       { kind: "h2", text: "One-click (bare-metal, recommended)" },
       {
         kind: "code",
-        body: "curl -fsSL https://ninedeploy.com/install.sh | bash",
+        body: site.install,
       },
       {
         kind: "callout",
         tone: "info",
         title: "Where this script comes from",
-        text: "ninedeploy.com/install.sh is a byte-for-byte copy of install.sh in github.com/ninedeploy/ninedeploy, refreshed on every site deploy and daily. To run it straight from the repository instead: `curl -fsSL https://raw.githubusercontent.com/NineDeploy/NineDeploy/main/install.sh | bash`",
+        text: "https://ninedeploy.com/install.sh serves the product installer byte for byte. Every site build downloads content and installer from one Git commit; the deployment workflow refreshes daily as well. Inspect the script in the product repository before running it.",
       },
       {
         kind: "p",
-        text: "The installer validates Node ≥ 22.13 and Docker, renders a hardened Type=simple systemd unit, disables service watchdog termination, verifies the effective runtime policy and gates readiness on /health. Open http://localhost:3000 to create the initial admin account.",
+        text: "The installer provisions Node and Docker where supported, generates secrets, builds the panel and starts a hardened systemd service. Readiness is gated on /health. The panel binds to 127.0.0.1:3000 by default; use a local browser, SSH tunnel or HTTPS ingress to create the first account, which becomes the instance operator.",
       },
       { kind: "h2", text: "Docker" },
+      { kind: "code", body: site.installDocker },
+      { kind: "p", text: "The same installer supports container mode with --docker. It preserves secrets and the data volume during upgrades. For a manual image installation:" },
       {
         kind: "code",
         // Matches the README of github.com/ninedeploy/ninedeploy: the panel
@@ -97,14 +103,19 @@ export const docs: Doc[] = [
       { kind: "h2", text: "From source" },
       {
         kind: "code",
-        body: `git clone https://github.com/NineDeploy/NineDeploy.git
-cd ninedeploy && pnpm install && cp .env.example .env
-pnpm build && pnpm dev`,
+        body: `git clone https://github.com/ninedeploy/ninedeploy.git
+cd ninedeploy
+corepack enable
+pnpm install
+cp .env.example .env
+pnpm build
+pnpm dev        # API + built dashboard on :3000
+pnpm dev:web    # optional Vite dashboard in a second shell on :5173`,
       },
       { kind: "h2", text: "Upgrades" },
       {
         kind: "p",
-        text: "Re-running install.sh performs an atomic in-place upgrade: snapshots the database, checks out the release (latest by default, --channel main for edge, --version to pin), rebuilds, runs migrations, and gates the restart on /health.",
+        text: "Re-run the same install command to upgrade. Bare-metal upgrades snapshot the database and master key before rebuilding and gate readiness on /health. Docker installs pin their image tag, so re-run with --docker to move to a new release. Read release-specific upgrade and rollback notes first; update node agents for new capabilities.",
       },
       {
         kind: "callout",
@@ -158,13 +169,14 @@ pnpm build && pnpm dev`,
       {
         kind: "list",
         items: [
-          "Owner: Full system access, workspace deletion, billing/licensing, and transfer of ownership.",
+          "Owner: Workspace administration, deletion and ownership transfer. Host privileges require the separate instance-operator flag.",
           "Admin: Create/edit/delete services, manage secrets, configure alert rules, invite and manage members.",
-          "Member: Deploy existing services, view logs, view container metrics, and restart applications.",
+          "Member: Create services, edit build configuration and environment, manage domains, deploy, roll back and restart.",
           "Viewer: Read-only access to service statuses, build logs, and topology views without mutation rights.",
         ],
       },
       { kind: "h2", text: "Team Invitations" },
+      { kind: "p", text: "Workspace admins can raise a user's role for a project, an environment or their intersection. Guests without a workspace seat can access matching resources but cannot create services or databases. Grants never lower existing access or make someone an instance operator." },
       {
         kind: "p",
         text: "Invite team members via email with role assignment. When SMTP is configured, an invitation link is dispatched automatically; otherwise, admins can copy the single-use token from the dashboard.",
@@ -487,7 +499,7 @@ ninedeploy webhooks add <serviceId> [branch] # returns URL + HMAC secret once`,
         kind: "list",
         items: [
           "Automated engine dumps sealed with AES-256 encryption the moment they hit the filesystem.",
-          "Daily scheduled backups with automated 7-day retention; manual snapshots are preserved permanently.",
+          "Per-database cron policies with local retention (1–365), optional remote retention and a backup destination; without a policy the default is daily with 7 kept. The newest good copy is preserved.",
           "Off-site replication to any S3 endpoint (AWS, MinIO, Cloudflare R2, Backblaze B2) using zero-dependency SigV4 signing.",
           "One-click restore fetches the remote archive if local copy is missing, validated against path-traversal / tar-slip.",
         ],
@@ -513,10 +525,10 @@ ninedeploy webhooks add <serviceId> [branch] # returns URL + HMAC secret once`,
       {
         kind: "list",
         items: [
-          "Strict typed operations (docker pull/build/run, compose up/down, git checkout) — no raw shell execution over the wire.",
+          "Deploy operations use typed requests for Docker, Compose and Git. Interactive terminals use a separate operator-only channel, encrypted and authenticated, requiring agent v0.15.0 or newer.",
           "Operand validation regexes enforced at both controller and agent boundaries.",
           "Node health monitoring with heartbeat pings and CPU/memory metric streaming.",
-          "Per-service migration bundles for exporting and moving services between nodes with zero data loss.",
+          "Remote deploys support Docker and Compose. PM2 and Dockerfile-less build packs are refused on nodes. Remote health checks use container state instead of the local HTTP probe.",
         ],
       },
     ],
@@ -529,7 +541,7 @@ ninedeploy webhooks add <serviceId> [branch] # returns URL + HMAC secret once`,
     blocks: [
       {
         kind: "p",
-        text: "All incoming HTTP and HTTPS traffic is routed through an integrated Traefik reverse proxy. Applications do not expose host ports.",
+        text: "Traefik routes incoming HTTP and HTTPS by hostname. Apps use the shared network unless an operator explicitly publishes a port. Operators can add custom- prefixed proxy configuration, validated before applying with rollback on rejection, and upload PEM certificates whose private keys are encrypted at rest.",
       },
       { kind: "h2", text: "SSL & Wildcard Domains" },
       {
@@ -666,19 +678,19 @@ await nd.deploys.trigger(1);`,
       },
       {
         kind: "p",
-        text: "SDK namespaces: auth, services, deploys, domains, volumes, system, tunnels, activity, alerts, settings, users, projects, workspaces, about, notifications, sources, webhooks, databases, and plugins.",
+        text: "The authenticated GET /v1/openapi.json endpoint describes every API operation in OpenAPI 3.1, with an ETag. New SDK namespaces include terminals, traffic, accessGrants, access, api.get, githubApps and services.github, alongside database imports and secret-provider management.",
       },
     ],
   },
   {
     slug: "mcp",
     title: "MCP server (AI Agents)",
-    description: "38 Model Context Protocol tools for AI assistants.",
+    description: `${site.stats.mcpTools} Model Context Protocol tools for AI assistants.`,
     group: "Interfaces",
     blocks: [
       {
         kind: "p",
-        text: "NineDeploy includes an official Model Context Protocol (MCP) stdio server. AI agents (Claude Desktop, Cursor, Antigravity, Cline) can query metrics, trigger deployments, inspect build logs, configure databases, manage workspaces, and operate extensions using 35 dedicated tools.",
+        text: "The official stdio MCP server includes API search and read-only tools generated from OpenAPI for traffic, grants, terminal history and backups. Existing tools can deploy, roll back and change configuration. Generated tools never write; terminals and access-grant changes stay in the panel, CLI and SDK. Set NINEDEPLOY_MCP_READONLY=1 and pair it with a read-scoped API token for inspection agents.",
       },
       {
         kind: "code",
@@ -686,11 +698,12 @@ await nd.deploys.trigger(1);`,
         body: `{
   "mcpServers": {
     "ninedeploy": {
-      "command": "node",
-      "args": ["/path/to/NineDeploy/packages/mcp/dist/index.js"],
+      "command": "npx",
+      "args": ["-y", "@ninedeploy/mcp"],
       "env": {
         "NINEDEPLOY_URL": "http://127.0.0.1:3000",
-        "NINEDEPLOY_TOKEN": "nd_…"
+        "NINEDEPLOY_TOKEN": "nd_…",
+        "NINEDEPLOY_MCP_READONLY": "1"
       }
     }
   }
@@ -891,6 +904,7 @@ systemctl show ninedeploy -p Type -p WatchdogUSec`,
       },
     ],
   },
+  ...operationsDocs,
 ];
 
 export const docGroups = [

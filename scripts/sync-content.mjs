@@ -1,19 +1,21 @@
-// Regenerates src/content/{templates,changelog}.json from a local clone of
-// github.com/ninedeploy/ninedeploy. Usage: node scripts/sync-content.mjs <path-to-clone>
-import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+// Refresh from GitHub by default; an optional local clone is useful offline.
+import { writeFileSync } from "node:fs";
+import { join } from "node:path";
 import * as simpleIcons from "simple-icons";
+import { openUpstream, publishInstaller, root, validateInstaller } from "./upstream.mjs";
 
-const repo = process.argv[2];
-if (!repo) {
-  console.error("usage: node scripts/sync-content.mjs <path-to-ninedeploy-clone>");
-  process.exit(1);
-}
-// Paths resolve from this file, so the script works from any directory.
-const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const source = await openUpstream(process.argv[2]);
+const files = ["package.json", "apps/server/src/templates/registry.json", "CHANGELOG.md", "install.sh",
+  "packages/mcp/src/tools.ts", "packages/mcp/src/generated/specTools.ts", "packages/db/src/schema.ts"];
+const downloaded = await Promise.all(files.map((file) => source.read(file)));
+const [pkgBytes, registryBytes, changelogBytes, installerBytes, toolsBytes, specToolsBytes, schemaBytes] = downloaded;
+const pkg = JSON.parse(pkgBytes.toString("utf8"));
+const registry = JSON.parse(registryBytes.toString("utf8"));
+const installerSha256 = validateInstaller(installerBytes);
+if (!/^\d+\.\d+\.\d+$/.test(pkg.version) || !registry.templates?.length) throw new Error("Invalid upstream product metadata");
+const outputs = new Map();
 const out = (name, data) =>
-  writeFileSync(join(root, "src/content", name), `${JSON.stringify(data, null, 1)}\n`);
+  outputs.set(join(root, "src/content", name), `${JSON.stringify(data, null, 1)}\n`);
 
 // Template logos come from Simple Icons, and only when the mark is the
 // project's own. Anything without one renders the site's fixed container
@@ -50,7 +52,6 @@ const iconFor = (t) => {
 };
 
 // Templates: keep only what the site renders.
-const registry = JSON.parse(readFileSync(join(repo, "apps/server/src/templates/registry.json"), "utf8"));
 const used = new Map();
 const templates = registry.templates.map((t) => {
   const icon = iconFor(t);
@@ -80,14 +81,14 @@ const symbols = [...used.values()]
   .sort((a, b) => a.slug.localeCompare(b.slug))
   .map((i) => `<symbol id="${i.slug}" viewBox="0 0 24 24"><title>${i.title.replace(/&/g, "&amp;")}</title><path d="${i.path}"/></symbol>`)
   .join("");
-writeFileSync(
+outputs.set(
   join(root, "public/template-icons.svg"),
   `<svg xmlns="http://www.w3.org/2000/svg"><!-- Logos from Simple Icons (CC0); trademarks belong to their owners. -->${symbols}</svg>
 `,
 );
 
 // Changelog: the newest releases, groups and items trimmed for the web.
-const md = readFileSync(join(repo, "CHANGELOG.md"), "utf8");
+const md = changelogBytes.toString("utf8");
 const clean = (s) =>
   s
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
@@ -115,18 +116,18 @@ for (const line of md.split(/\r?\n/)) {
   if (!rel) continue;
   const g = /^### (.+)/.exec(line);
   if (g) { flush(); group = { title: g[1].trim(), items: [] }; rel.groups.push(group); continue; }
-  const q = /^> (.+)/.exec(line);
-  if (q && !rel.tagline && rel.groups.length === 0) { rel.tagline = clean(q[1]); continue; }
+  const q = /^> ?(.*)/.exec(line);
+  if (q && rel.groups.length === 0) { rel.tagline = clean(`${rel.tagline} ${q[1]}`); continue; }
   const b = /^- (.+)/.exec(line);
   if (b && group) { flush(); item = b[1]; continue; }
-  if (item && /^\s{2,}\S/.test(line) && !/^\s+- /.test(line)) { item += ` ${line.trim()}`; continue; }
+  if (item && /^\s{2,}\S/.test(line)) { item += ` ${line.trim().replace(/^- /, "")}`; continue; }
   if (/^\s*$/.test(line)) flush();
 }
 flush();
 const trimmed = releases.slice(0, 24).map((r) => ({
   ...r,
   groups: r.groups
-    .filter((g) => g.items.length && !/upgrade notes/i.test(g.title))
+    .filter((g) => g.items.length)
     .map((g) => ({
       title: g.title,
       total: g.items.length,
@@ -134,4 +135,14 @@ const trimmed = releases.slice(0, 24).map((r) => ({
     })),
 }));
 out("changelog.json", { total: releases.length, releases: trimmed });
+if (!releases.some((release) => release.version === pkg.version)) throw new Error("Product version is missing from CHANGELOG.md");
+const countTools = (bytes) => [...bytes.toString("utf8").matchAll(/^    name: '([^']+)',/gm)].map((match) => match[1]);
+const mcpTools = new Set([...countTools(toolsBytes), ...countTools(specToolsBytes)]).size;
+const tables = [...schemaBytes.toString("utf8").matchAll(/= sqliteTable\(/g)].length;
+if (!mcpTools || !tables) throw new Error("Upstream MCP tools or schema could not be counted");
+out("product.json", { version: pkg.version, commit: source.ref, installerSha256, tables, mcpTools });
+// Validate the whole snapshot before replacing any committed content.
+for (const [target, body] of outputs) writeFileSync(target, body);
+await publishInstaller(installerBytes);
 console.log(`templates: ${templates.length} (${templates.filter((t) => t.icon).length} with logos), releases: ${releases.length} (kept ${trimmed.length})`);
+console.log(`NineDeploy ${pkg.version}: ${mcpTools} MCP tools, ${tables} tables, source ${source.ref ?? "local clone"}`);

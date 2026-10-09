@@ -116,8 +116,8 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
         </nav>
         <p className="mt-8 text-sm text-muted">
           The canonical guides live in the repository&apos;s{" "}
-          <a href={`${site.github}/tree/main/docs`} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-ink">
-            docs folder
+          <a href={doc.source ? `${site.github}/blob/main/docs/${doc.source}` : `${site.github}/tree/main/docs`} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-ink">
+            {doc.source ?? "docs folder"}
           </a>
           .
         </p>

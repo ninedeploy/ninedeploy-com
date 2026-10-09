@@ -32,7 +32,7 @@ const faqs = [
   },
   {
     q: "Is there an API, CLI and AI integration?",
-    a: "Everything is API-first: the /v1 REST API with scoped bearer tokens, a typed TypeScript SDK, the `ninedeploy` CLI, and an MCP server with 38 tools for Claude, Cursor, Cline and other assistants. Set `NINEDEPLOY_MCP_READONLY=1` and use a read-scoped token for a server-enforced read-only agent.",
+    a: `Everything is API-first: a scoped /v1 REST API with an authenticated OpenAPI 3.1 document, a typed SDK, the ninedeploy CLI and ${site.stats.mcpTools} MCP tools. Generated tools inspect traffic, grants, terminal history and more; search_api discovers operations without calling them. Existing tools can mutate. Pair NINEDEPLOY_MCP_READONLY=1 with a read-scoped token for inspection agents.`,
   },
   {
     q: "Which sign-in methods are supported?",
@@ -44,7 +44,23 @@ const faqs = [
   },
   {
     q: "Will heavy templates like n8n or Supabase run on a 1–2 GB VPS?",
-    a: "Yes. The installer detects low-memory hosts and configures a 2 GB swapfile so Docker can extract large multi-layer images without the kernel killing it.",
+    a: "The installer can configure swap on low-memory hosts, but that does not guarantee enough RAM for every template. Size the VPS for the application's own requirements, especially multi-service stacks such as Supabase.",
+  },
+  {
+    q: "Can I use a GitHub App instead of a PAT?",
+    a: "Yes. Register an App under Sources → GitHub Apps and select its installation in the Deploy Wizard. Clones use short-lived, repository-scoped tokens. Commit statuses and PR preview comments are opt-in; existing PAT services can migrate, finalize or revert their App link.",
+  },
+  {
+    q: "Who can open terminals?",
+    a: "Terminals require the instance-operator flag. Container and database shells support real TTYs, resize and session audits. Host shells start disabled and require an interactive session and a password re-check (or recent SSO authentication). Remote terminals require node agent v0.15.0 or newer. Session metadata is stored; commands and output are not.",
+  },
+  {
+    q: "Does traffic analytics collect visitor details?",
+    a: "It is off by default. When enabled, it aggregates requests, status classes and latency per domain and service. Traefik access logs omit client IP, path, query and headers. Minute rollups remain for 48 hours and hourly rollups for 30 days by default.",
+  },
+  {
+    q: "Can guests access only one project or environment?",
+    a: "Workspace admins can grant access to a project, an environment or their intersection. Grants raise access within that workspace, and guests see only matching resources. They never grant workspace administration or instance-operator privileges, and guests cannot create services or databases.",
   },
 ];
 

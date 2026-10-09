@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/sync-content.mjs && next build",
     "start": "next start",
     "lint": "eslint",
-    "installer": "node scripts/fetch-installer.mjs"
+    "installer": "node scripts/fetch-installer.mjs",
+    "sync:content": "node scripts/sync-content.mjs",
+    "verify:export": "node scripts/verify-export.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.52.0",

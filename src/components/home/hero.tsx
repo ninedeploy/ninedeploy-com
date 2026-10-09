@@ -22,7 +22,7 @@ export function Hero() {
           <span className="rounded-full bg-green/15 px-2 py-0.5 font-mono text-xs font-semibold text-green">
             v{site.version}
           </span>
-          Per-database backup policies and PR preview environments
+          {site.releaseHeadline}
         </Link>
 
         <div className="mt-8">

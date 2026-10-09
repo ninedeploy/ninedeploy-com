@@ -1,5 +1,7 @@
 "use client";
 
+import { site } from "@/lib/site";
+
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import {
   Activity,
@@ -53,7 +55,7 @@ const views: { id: ViewId; label: string; section: string; page: string; caption
     label: "Hub",
     section: "Deploy",
     page: "Hub",
-    caption: "130 one-click apps, each marked by whether it was actually booted and certified.",
+    caption: `${site.stats.templates} one-click apps, each marked by whether it was actually booted and certified.`,
   },
   {
     id: "service",
@@ -235,7 +237,7 @@ const hubApps = [
 ];
 
 function HubView() {
-  const chips = ["All 130", "Verified 101", "Community 29", "Automation", "AI", "Analytics", "Monitoring", "Productivity"];
+  const chips = [`All ${site.stats.templates}`, `Verified ${site.stats.certified}`, `Community ${site.stats.templates - site.stats.certified}`, "Automation", "AI", "Analytics", "Monitoring", "Productivity"];
   return (
     <div className="space-y-3">
       <Heading icon={Rocket} title="Hub" sub="Curated one-click apps with transparent runtime certification." />

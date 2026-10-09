@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Boxes, Database, Network, ShieldCheck } from "lucide-react";
+import { site } from "@/lib/site";
 
 export interface Feature {
   title: string;
@@ -28,7 +29,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Git, registry, or hub",
-        text: "Clone with a PAT or SSH deploy key (scrubbed after checkout), pull from private registries, or start from one of 130 hub templates — 101 runtime-certified.",
+        text: `Use a GitHub App, PAT or SSH deploy key, pull from private registries, or start from ${site.stats.templates} hub templates — ${site.stats.certified} runtime-certified. GitHub Apps use short-lived repository-scoped tokens and can report deploy status and PR preview URLs.`,
       },
       {
         title: "The .ninedeploy manifest",
@@ -44,7 +45,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Live build logs",
-        text: "WebSocket log streaming with backlog replay, a container exec terminal (admin-only, audited), and on-disk log persistence.",
+        text: "WebSocket log streaming with backlog replay and on-disk log persistence. Operators get real TTY terminals for services, databases and managed containers, locally and on nodes, with resize and audited session metadata.",
       },
       {
         title: "HMAC webhooks",
@@ -69,6 +70,10 @@ export const rooms: FeatureRoom[] = [
       {
         title: "Nine managed engines",
         text: "PostgreSQL (with pgvector), MySQL, MariaDB, Redis, Valkey, MongoDB, ClickHouse, Meilisearch and RabbitMQ, with one-click provisioning and a web studio.",
+      },
+      {
+        title: "Public access and dump import",
+        text: "Opt-in TCP access for six database engines through a dedicated sidecar and a required IP allowlist. Import resumable uploads or S3 dumps with a pre-import safety backup.",
       },
       {
         title: "Injected connection strings",
@@ -111,6 +116,14 @@ export const rooms: FeatureRoom[] = [
         text: "ACME DNS-01 through Cloudflare, DigitalOcean, Hetzner, Linode, Gandi or DuckDNS. One *.your-domain certificate; {slug}.your-domain for every service.",
       },
       {
+        title: "Bring your own proxy config and TLS",
+        text: "Upload certificates with encrypted private keys, or add custom- routers, middlewares and services. Traefik validates custom config before applying it and reverts a rejected change.",
+      },
+      {
+        title: "Traffic analytics",
+        text: "Opt-in requests, status classes and latency charts per service and domain. Traefik access logs omit client IP, path, query and headers; rollups keep 48 hours of minute data and 30 days of hourly data by default.",
+      },
+      {
         title: "Cloudflare Tunnels",
         text: "Expose services from a host with no inbound ports, with managed cloudflared tunnels straight from the dashboard.",
       },
@@ -136,7 +149,7 @@ export const rooms: FeatureRoom[] = [
     items: [
       {
         title: "Workspaces and roles",
-        text: "Owner, admin, member and viewer, enforced at the route layer. Invite an address that has no account yet; it's accepted on first login.",
+        text: "Owner, admin, member and viewer, enforced at the route layer. Project and environment grants can raise a user's role or give guests access to selected resources without a workspace seat. Instance operator is a separate privilege.",
       },
       {
         title: "Serious auth",
@@ -144,7 +157,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Secrets vault",
-        text: "AES-256-GCM in versioned envelopes with a rotatable master-key ring, plus Infisical and Doppler references resolved at deploy time.",
+        text: "AES-256-GCM in versioned envelopes with a rotatable master-key ring. Resolve Infisical, Doppler, HashiCorp Vault / OpenBao and AWS Secrets Manager references at deploy time.",
       },
       {
         title: "Alerts and notifications",
@@ -160,7 +173,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Every interface",
-        text: "Web dashboard with a ⌘K palette, the ninedeploy CLI, a typed REST SDK, and an MCP server with 38 tools for AI assistants.",
+        text: `Web dashboard with a ⌘K palette, the ninedeploy CLI, a typed REST SDK, an authenticated OpenAPI 3.1 document, and ${site.stats.mcpTools} MCP tools including generated read-only tools and API search.`,
       },
     ],
   },

@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Refresh the copy of install.sh daily, and on demand from the product repo:
+  # Refresh product content and install.sh daily, and on demand:
   # gh api repos/ninedeploy/ninedeploy-com/dispatches -f event_type=installer-updated
   schedule:
     - cron: "17 4 * * *"
   repository_dispatch:
-    types: [installer-updated]
+    types: [installer-updated, content-updated]
 
 # Nothing by default; each job asks for what it needs.
 permissions: {}
@@ -40,9 +40,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
-      # Serves the product repo's installer as https://ninedeploy.com/install.sh
-      - run: pnpm installer
+      # Build refreshes product content and installer from the same commit.
       - run: pnpm build
+      - run: pnpm verify:export
 
       # out/ already holds CNAME (ninedeploy.com) and .nojekyll from public/.
       - uses: actions/upload-pages-artifact@v4

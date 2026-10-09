@@ -1,19 +1,143 @@
 {
- "total": 125,
+ "total": 128,
  "releases": [
+  {
+   "version": "0.15.0",
+   "date": "2026-10-09",
+   "tagline": "Operations and API: browser and CLI terminals with a real TTY (also on remote nodes), opt-in traffic analytics, an OpenAPI 3.1 document for every route with generated MCP tools, and project- and environment-level access grants. See docs/TERMINALS.md, docs/TRAEFIK_INGRESS.md, docs/WORKSPACES_RBAC.md and docs/AI_MCP_CLI.md.",
+   "groups": [
+    {
+     "title": "Upgrade notes",
+     "total": 9,
+     "items": [
+      "One additive migration, `0071_operations_api`: three new tables (`terminal_sessions`, `traffic_rollups`, `access_grants`). No existing row is changed.",
+      "Traefik is not touched by the upgrade. Traffic analytics is off by default, and with it off Traefik's configuration is byte-identical to 0.14. Turning analytics on recreates Traefik once. On the json-file/local Docker log drivers,…",
+      "Permissions are unchanged. With no access grants, every access decision is identical to 0.14 (checked over 4839 caller × resource × action cases). Grants only ever raise access.",
+      "Terminals: container shells are available to operators. Host shells (a root shell on the panel host or a node) are off until an operator enables them under Settings → Security, and each one needs a browser session and a password…",
+      "Node terminals need node agent v0.15.0 (re-run the node's bootstrap from the Servers page). Older agents get a clear \"update the agent\" refusal; nothing else about them changes."
+     ]
+    },
+    {
+     "title": "Added",
+     "total": 6,
+     "items": [
+      "Terminals. Shells into services, databases and managed containers, on the panel host and on remote nodes. A real TTY with resize, short-lived single-use tickets, idle and maximum-duration limits, and per-panel and per-user caps. Every…",
+      "Traffic analytics (opt-in). Requests, status classes and latency per domain and service, read from a Traefik access log that keeps no client IP, path, query or headers. Rolled up per minute (48 h) and per hour (30 days by default). Turn…",
+      "OpenAPI 3.1. `GET /v1/openapi.json` (sign-in required) describes every route (435 operations), built from the same zod contracts the server validates with. A test fails if a route has no description or its access level disagrees with…",
+      "MCP. The server gains `search_api` and 16 read-only tools generated from the spec, including traffic summaries, access grants and terminal sessions. There are still no write tools.",
+      "Access grants. A workspace admin can raise a user's role on one project, one environment, or a project+environment pair. A grant can also give a user without a workspace seat (a guest) access to just those resources. Guests never get…"
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 5,
+     "items": [
+      "The web terminal in Docker installs ran without a TTY (no python3 in the runtime image).",
+      "The old service shell socket recorded only a start audit entry. It now records the session's end, duration and client too, and operators can terminate it.",
+      "Terminal resize was never sent to the server.",
+      "WebSocket frames up to 100 MiB were buffered before authentication. They are now capped at 1 MiB, and a plain subprotocol is preferred over echoing the bearer token.",
+      "Eight places read a workspace seat directly instead of going through the access check. They now share one access path."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.14.0",
+   "date": "2026-10-08",
+   "tagline": "Network and data access: public database access, editable Traefik configuration with your own certificates, database dump import, and HashiCorp Vault / OpenBao and AWS Secrets Manager. See docs/TRAEFIK_INGRESS.md, docs/DATABASES_BACKUPS.md and docs/SECRET_MANAGERS.md.",
+   "groups": [
+    {
+     "title": "Upgrade notes",
+     "total": 8,
+     "items": [
+      "One additive migration, `0070_network_data_access`: four new tables (`database_public_access`, `tls_certificates`, `database_imports`, `secret_providers`). No existing row is changed.",
+      "Traefik is recreated once on the first 0.14 boot. Traefik now reads its dynamic configuration from a directory (`/etc/traefik/dynamic`). The current routes are copied there before the recreate, so sites keep serving. If the recreate…",
+      "Remote nodes start serving their routes. Since remote servers were introduced, a node's Traefik read a file the agent never wrote, so it loaded no routes. Nodes recreate their proxy once after the upgrade and then serve the routes the…",
+      "Certificate-expiry alerts start working. Expiry dates of Let's Encrypt certificates were never read (Traefik stores them base64-encoded), so the `cert-expiry` alert could not fire. After the upgrade it fires for certificates that are…",
+      "Everything else is opt-in. No database is exposed, no custom config or certificate exists, and no secret provider is configured until an operator sets one up."
+     ]
+    },
+    {
+     "title": "Added",
+     "total": 6,
+     "items": [
+      "Public database access. An operator can publish a managed postgres, mysql, mariadb, redis, valkey or mongo database on one host port. It runs through its own Traefik TCP sidecar (`nd-dbpub-<slug>`); the main Traefik is never touched. An…",
+      "Custom Traefik dynamic config. Operators can add their own routers, middlewares and services. Every name must start with `custom-`, so it can't collide with the panel's own routes. Each save is validated, then tried in a throwaway…",
+      "Uploaded TLS certificates. Operators can upload PEM certificates and keys; the key is stored encrypted. A domain fully covered by an uploaded certificate stops requesting a Let's Encrypt certificate. Uploaded certificates feed the…",
+      "Database dump import. Sources: resumable 8 MiB chunked uploads (database admin), or an object from a backup destination (operator). Formats: postgres (custom or plain SQL), mysql/mariadb (SQL), mongo (archive) and redis/valkey (RDB),…",
+      "Secret managers. Env values can reference HashiCorp Vault / OpenBao KV v2 (`${{vault:path#field}}`) and AWS Secrets Manager (`${{aws:id}}` or `${{aws:id#key}}`). Configure them under Settings → Integrations. Infisical and Doppler keep…"
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 2,
+     "items": [
+      "Remote-node proxies loaded no routes: the static config pointed at `dynamic.yml`, while the agent writes `dynamic/ninedeploy.yml`.",
+      "Let's Encrypt certificate expiry was never read, so the `cert-expiry` alert never fired, and the certificate inventory always showed the issuer \"Let's Encrypt\" and the source `acme.json`."
+     ]
+    }
+   ]
+  },
+  {
+   "version": "0.13.0",
+   "date": "2026-10-08",
+   "tagline": "GitHub App integration: short-lived installation tokens instead of long-lived PATs, App webhooks, commit statuses and PR comments, private clones on remote nodes, and Gitea repository listing. See docs/GITHUB_APP.md.",
+   "groups": [
+    {
+     "title": "Upgrade notes",
+     "total": 7,
+     "items": [
+      "One additive migration, `0069_github_app`: four new tables (`github_apps`, `github_app_installations`, `service_github_links`, `github_pr_comments`) and a nullable `sources.base_url` column. No existing row is changed.",
+      "Nothing changes until an operator registers a GitHub App. PAT, deploy-key and webhook services deploy exactly as before, and their per-service webhooks keep working.",
+      "Moving an existing service to the App is explicit and reversible: migrate links it while keeping its PAT and webhook, finalize detaches them, and revert goes back.",
+      "Deploying an App repository to a remote node needs the node agent v0.13.0 or newer over the sealed transport, and git 2.31 or newer on the node. An older agent gets a refusal telling you to update it; nothing is minted. The check runs…",
+      "Deleting an App in the panel also removes its installation rows and service links. The generated `github_app` sources stay, and their clones then fail closed until you attach another credential."
+     ]
+    },
+    {
+     "title": "Added",
+     "total": 8,
+     "items": [
+      "GitHub App setup. One-click setup through GitHub's manifest flow, for a personal account or an organization (Sources → GitHub Apps). Manual entry for GitHub Enterprise Server or an existing App. The webhook is registered automatically.…",
+      "Installations as sources. Each installation becomes a `github_app` source. Clones use a repository-scoped, read-only installation token that lives in memory for at most an hour. A token is only ever sent to the App's own GitHub host.",
+      "App webhooks. Pushes and pull requests arrive at `POST /v1/hooks/github-app/<key>`, signature-checked with replay protection, and are routed by repository id, so a renamed or transferred repository keeps deploying and the service's URL…",
+      "Service links. The Deploy Wizard links a new service to the App repository it picked; existing services can migrate, finalize and revert from the service's Settings → GitHub card, the API (`/v1/services/:id/github`), SDK…",
+      "Commit statuses and PR comments. Opt-in per service: a `ninedeploy/<slug>` commit status for each deploy, and one preview comment per pull request, edited in place with the URL and outcome. Feedback never fails a deploy."
+     ]
+    },
+    {
+     "title": "Fixed",
+     "total": 2,
+     "items": [
+      "`/v1/hooks/<non-numeric id>` answers 404 instead of 500.",
+      "After a session expired, the login redirect now keeps the query string, so returning from GitHub's setup pages still completes the setup."
+     ]
+    }
+   ]
+  },
   {
    "version": "0.12.0",
    "date": "2026-10-08",
    "tagline": "Backups, preview environments and disk alerts — the first release of the roadmap.",
    "groups": [
     {
+     "title": "Upgrade notes",
+     "total": 4,
+     "items": [
+      "Two additive migrations: `0067_database_backup_policies` and `0068_preview_env_vars`. Both are new tables only. No existing row is changed, and a rollback to 0.11.x ignores both tables.",
+      "Nothing changes until you configure it: A database without a backup policy keeps the daily backup with 7 kept. Panel self-backup is off. No alert rules are created. PR previews get exactly the environment they got before.",
+      "The panel now pings approved remote nodes every 30 seconds. SSH-bootstrapped nodes therefore stay \"online\" on the Servers page while they are reachable. They used to show offline about 5 minutes after bootstrap.",
+      "Verified before release: in-place upgrades from 0.11.2 and from 0.10.45, plus the feature checks above on the upgraded panel."
+     ]
+    },
+    {
      "title": "Added",
      "total": 4,
      "items": [
-      "Per-database backup policy.",
-      "Panel self-backup.",
-      "Preview-only environment. A git-backed service can hold environment values that only its PR previews receive. Previews still never receive the service's secrets.",
-      "Alert metrics `disk` and `server_offline`."
+      "Per-database backup policy. Settings: a cron schedule, local retention (1–365), optional remote retention, and a destination or local-only. Where to configure it: the database's Backups tab, `GET`/`PUT /v1/databases/:id/backup-policy`,…",
+      "Panel self-backup. What is backed up: the panel database (a consistent snapshot), master key, `.env` and Traefik config. It is written to a backup destination on a schedule, encrypted with a recovery passphrase the operator keeps, and…",
+      "Preview-only environment. A git-backed service can hold environment values that only its PR previews receive. Previews still never receive the service's secrets. Where to set them: Env tab → Preview deployments,…",
+      "Alert metrics `disk` and `server_offline`. `disk` is the worst disk-usage percentage across the panel host, Docker's data root and the remote nodes. `server_offline` is the number of minutes a remote node has gone unseen. Both are…"
      ]
     },
     {
@@ -31,6 +155,15 @@
    "date": "2026-10-08",
    "tagline": "Security release: a failed submodule clone could put the Git source's access token into deploy logs, the audit log and notifications.",
    "groups": [
+    {
+     "title": "Upgrade notes",
+     "total": 3,
+     "items": [
+      "Rotate Git source tokens that may have leaked. Before this release, a deploy whose repository had a submodule the token could not clone wrote the token into: the deploy log (live stream and `logs/<id>.log`); the `deploy.failed` audit…",
+      "No database migrations or new configuration fields.",
+      "The OIDC provider `defaultRole` field is deprecated. The API still accepts and returns it, but it has had no effect since 0.11.0."
+     ]
+    },
     {
      "title": "Security",
      "total": 1,
@@ -63,6 +196,15 @@
    "tagline": "Private repositories: complete repository lists, clone errors that say why, and a token check.",
    "groups": [
     {
+     "title": "Upgrade notes",
+     "total": 3,
+     "items": [
+      "No database migrations or new configuration fields.",
+      "`POST /v1/insights` and `POST /v1/services/:id/insights/refresh` answer 400 `repo_unreachable` or `branch_not_found` when the repository cannot be cloned. The first answered 500 and the refresh route answered 404 before.",
+      "`GET /v1/sources/:id/test` returns `tokenKind`, `scopes` and `warnings` for GitHub sources. These fields are additive."
+     ]
+    },
+    {
      "title": "Fixed",
      "total": 2,
      "items": [
@@ -86,6 +228,17 @@
    "tagline": "The evidence audit release: over 300 defects, each reproduced on the previous code before it was fixed, then verified and, where it mattered, pinned by a regression test.",
    "groups": [
     {
+     "title": "Upgrade notes",
+     "total": 5,
+     "items": [
+      "No database migrations or new configuration fields.",
+      "API changes: `POST /v1/build-cache/store` answers HTTP 400 `{ error }` for a missing key, malformed digest or unknown cache (was `200 { ok: false }`). It also accepts an optional `ref` (`<repo>@sha256:<64 hex>`). Compose services and…",
+      "CLI: `ninedeploy deploys watch` exits 1 on any close other than a clean end, including when its 30-minute wait limit is reached. Ctrl-C still exits 0. The source-token environment variable is `NINEDEPLOY_SOURCE_TOKEN`.",
+      "One-shot repairs on first boot: Team services and databases still owned by a deactivated user move to the workspace owner (`ownership_repair_deactivated_owner_r976`). SSO personal workspaces get their owner seat back. Both write audit…",
+      "Behaviour: The build cache now stores a pullable image reference (new marker and registry-manifest fields). An FCM channel whose device token is rejected as dead is deactivated. Docker inspects that time out (10 s) fail instead of…"
+     ]
+    },
+    {
      "title": "Security",
      "total": 7,
      "items": [
@@ -100,11 +253,11 @@
      "title": "Fixed",
      "total": 10,
      "items": [
-      "Data safety:",
-      "DNS:",
-      "Deploys:",
-      "Runtime:",
-      "Build cache:"
+      "Data safety: Backup retention could delete the last good backup after a failed upload. Restore checked only the primary container while replicas kept running on the volume. Prune, delete and the doctor treated database-adopted volumes…",
+      "DNS: A Namecheap reply without a host list could wipe the whole zone on the next write. Concurrent record changes in one zone overwrote each other. IPv6 targets were sent as CNAME records; they are now AAAA.",
+      "Deploys: A template service with a second attached database took its database settings from the wrong one. Compose deploys picked the wrong main container. A pipeline crash left deployments `building` for up to 45 minutes. Scheduled…",
+      "Runtime: About 25 Docker calls that could hang a deploy, a health check or a request for 30 minutes are now bounded. A user-stopped service is no longer restarted by the background reconcile. The deploy-log WebSocket closes once a…",
+      "Build cache: Cache hits now reach `docker buildx --cache-from` on the inline, registry and S3 backends. Malformed digests are refused instead of overwriting a valid entry."
      ]
     },
     {
@@ -121,6 +274,14 @@
    "date": "2026-10-05",
    "tagline": "Deployment reliability and shared-contract fixes from the evidence-led audit.",
    "groups": [
+    {
+     "title": "Upgrade notes",
+     "total": 2,
+     "items": [
+      "No database migrations or new configuration fields.",
+      "Existing source builds on remote nodes retain the agent requirements introduced in earlier releases."
+     ]
+    },
     {
      "title": "Fixed",
      "total": 11,
@@ -145,8 +306,17 @@
   {
    "version": "0.10.44",
    "date": "2026-10-03",
-   "tagline": "Ownership follow-up to 0.10.43 (r710–r711): team services whose creator was",
+   "tagline": "Ownership follow-up to 0.10.43 (r710–r711): team services whose creator was removed by SCIM before 0.10.43 deployed without their project's shared environment; the first boot of this release hands them to the workspace owner. Repository analysis now needs the same seat as creating a service.",
    "groups": [
+    {
+     "title": "Upgrade notes",
+     "total": 3,
+     "items": [
+      "One-time ownership hand-over on first boot (r710). Services and managed databases in a workspace whose creator no longer holds a seat there (SCIM suspend or deprovision before 0.10.43) now belong to the workspace owner — what 0.10.43…",
+      "Repository analysis needs a member seat (r711). `POST /v1/insights` (the Deploy Wizard's analysis step) answers 403 for accounts with no seat or only viewer seats, the same rule as creating a service. Operators and members are unaffected.",
+      "No migrations."
+     ]
+    },
     {
      "title": "Fixed",
      "total": 1,
@@ -173,8 +343,19 @@
   {
    "version": "0.10.43",
    "date": "2026-10-02",
-   "tagline": "The verified-release release (r690–r703): releases are signed and their",
+   "tagline": "The verified-release release (r690–r703): releases are signed and their assets checksummed, installs verify what they download, and every API route is now held to an authorization matrix that fails the build when a new route is not classified.",
    "groups": [
+    {
+     "title": "Upgrade notes",
+     "total": 6,
+     "items": [
+      "Creators who lost their seat lose access (r694). A service or database creator counts as its owner only while they hold a seat in a workspace it belongs to. Someone removed from the workspace (for example by SCIM) now gets \"not found\";…",
+      "SCIM removal hands ownership over (r695). Suspending or deprovisioning a user through SCIM transfers what they created to the workspace owner, as the panel's own member-removal already did. Reinstating the user restores the seat, not…",
+      "Installs verify downloads (r702). From this release on, the installer downloads the release's own source archive and checks it against the signed `SHA256SUMS`; when `cosign` (v2.4+) is installed it also verifies the signature. A…",
+      "Self-update verifies the installer (r703). Takes effect from the first update a 0.10.43 panel starts.",
+      "Revoking something that is already gone, or that is not yours, now answers 404 instead of 200 (r691)."
+     ]
+    },
     {
      "title": "Security",
      "total": 3,
@@ -198,8 +379,19 @@
   {
    "version": "0.10.42",
    "date": "2026-10-02",
-   "tagline": "The second-pass audit release (r630–r680): ingress, managed data, PR previews",
+   "tagline": "The second-pass audit release (r630–r680): ingress, managed data, PR previews and remote nodes. Two bugs could freeze routing for the whole instance, PR previews still received production credentials, and managed Redis/Valkey have never started since 0.2.2. All fixed, each with a regression test proven to fail on 0.10.41, and every refusal says what to do.",
    "groups": [
+    {
+     "title": "Upgrade notes — read before updating",
+     "total": 11,
+     "items": [
+      "Update your node agents (r660). Agents older than 0.10.42 are refused for remote source builds (repository Dockerfile, repository compose, source fan-out) — the error names the node. Image deploys and inline compose stacks keep working.…",
+      "SSH host keys are now pinned (r661). The first SSH test or bootstrap after updating trusts and records the node's host key (shown as a warning). A reinstalled host then fails until you enter its new fingerprint on the Servers page.",
+      "Managed Redis/Valkey start now (r644). Databases created before stayed in `error`; start them from the database page (or delete and recreate).",
+      "PR previews lose production credentials (r651). They no longer receive project-shared secrets, vault references, the parent's databases, or a manifest `database:` attachment; each preview's deploy log lists what was withheld. Give a…",
+      "Manifest restrictions (r650, r652). A `.ninedeploy` `database:` section only attaches databases the service owner administers; `notifications:` only applies to operator-owned services (existing subscriptions on other services stop…"
+     ]
+    },
     {
      "title": "Security",
      "total": 8,
@@ -227,7 +419,7 @@
   {
    "version": "0.10.41",
    "date": "2026-10-02",
-   "tagline": "Security release — update now. A second-pass audit found that a signed-in",
+   "tagline": "Security release — update now. A second-pass audit found that a signed-in user could make the panel read a file on the panel host through a symlink committed to a repository and get its content back — any file the panel process can read: its environment (`NINEDEPLOY_JWT_SECRET`), `master.key`, the panel database, and on bare-metal installs (which run as root) system files. Every release before 0.10.41 is affected.",
    "groups": [
     {
      "title": "Security",
@@ -237,13 +429,22 @@
       "Workspace email overrides could send arbitrary mail through the instance (r621) — a regression in 0.10.40, where they were first wired into sending. Overrides now apply only to workspaces an instance operator owns and must keep…",
       "Git never runs hooks from a checkout (r622) — `core.hooksPath=/dev/null` on every clone, fetch and submodule update."
      ]
+    },
+    {
+     "title": "Upgrade notes",
+     "total": 3,
+     "items": [
+      "No migrations. Stored analyses are left in place (Doctor needs them to tell you what happened); re-run analysis or redeploy to rewrite them.",
+      "A `.ninedeploy` that is a symlink now fails with a message naming it instead of being followed — commit the file itself.",
+      "Custom invitation emails on workspaces not owned by an instance operator stop being sent (the built-in text goes out); saving one there answers 400 with the reason."
+     ]
     }
    ]
   },
   {
    "version": "0.10.40",
    "date": "2026-10-02",
-   "tagline": "The first published build of the 0.10.38 changes — read the 0.10.38",
+   "tagline": "The first published build of the 0.10.38 changes — read the 0.10.38 section below, including its upgrade notes. Neither the 0.10.38 nor the 0.10.39 tag reached a panel: the smoke-gated release pipeline (r581) stopped each one before any image was pushed, `:latest` moved or a GitHub Release was created.",
    "groups": [
     {
      "title": "Fixed",
@@ -257,7 +458,7 @@
   {
    "version": "0.10.39",
    "date": "2026-10-02",
-   "tagline": "The first published build of the 0.10.38 changes. The 0.10.38 tag never",
+   "tagline": "The first published build of the 0.10.38 changes. The 0.10.38 tag never reached a panel: its release checks failed on a test that only broke on Node 26, and the smoke-gated pipeline (r581) pushed no image, moved no `:latest` and created no GitHub Release. Read the 0.10.38 section below — including its upgrade notes — for everything this release contains.",
    "groups": [
     {
      "title": "Fixed",
@@ -271,8 +472,19 @@
   {
    "version": "0.10.38",
    "date": "2026-10-02",
-   "tagline": "The proven-upgrade release (r580–r610): releases are now only offered to",
+   "tagline": "The proven-upgrade release (r580–r610): releases are now only offered to installed servers after the published image has been upgraded onto from the previous release and walked through the user journey — and the follow-ups the 0.10.37 audit deliberately left out.",
    "groups": [
+    {
+     "title": "Upgrade notes — read before updating",
+     "total": 6,
+     "items": [
+      "Workspace invitations (r604). For non-operators, adding an email that is not yet a member always sends an invitation, even when an account exists — the colleague accepts it from the link. Instance operators still add registered accounts…",
+      "Sandbox plugins on Node < 25 (r600). Already-installed sandbox plugins keep loading; installing a new one (or reinstalling) is refused unless you upgrade Node to ≥ 25 or set `NINEDEPLOY_ALLOW_SANDBOX_NETWORK=1`. Doctor lists sandbox…",
+      "Email templates (r610). Workspace invitation overrides you saved earlier are now actually sent. Without an override, emails are byte-for-byte what 0.10.37 sent. Password-reset overrides are refused (a workspace admin must not rewrite…",
+      "Railpack (r582). Ships in the container image now. Railpack builds need a BuildKit daemon: set `BUILDKIT_HOST` (e.g. `docker-container://buildkit` next to a `moby/buildkit` container). Without it, saving or deploying a railpack service…",
+      "Compose redeploys (r590) build before taking the old stack down, so the previous stack keeps serving during the build and a failed build leaves it running."
+     ]
+    },
     {
      "title": "Release process",
      "total": 2,
@@ -308,8 +520,19 @@
   {
    "version": "0.10.37",
    "date": "2026-10-02",
-   "tagline": "The tenancy release (r500–r576): a whole-repo deep audit found that several",
+   "tagline": "The tenancy release (r500–r576): a whole-repo deep audit found that several per-instance resources (the vault, registry credentials, preview hosts, SCIM, the plugin event bus) were reachable across tenants. All fixed, each with a regression test proven to fail on 0.10.35, and every behaviour change ships with an upgrade path so a 0.10.35 panel updates in place.",
    "groups": [
+    {
+     "title": "Upgrade notes — read before updating",
+     "total": 15,
+     "items": [
+      "Vault allowlist (r510). On first boot the allowlist is seeded from current use (workspaces of non-operator services/projects that already reference the vault), audited as `settings.vault_allowlist_seeded` and logged. Working deploys…",
+      "Registry credentials (r512). Each registry source is bound to the hosts its services pull from today (audited as `source.registry_hosts_seeded`). A credential is no longer sent to any other host.",
+      "Preview patterns (r511). Stored patterns without both `{{pr}}` and `{{slug}}` keep deploying previews but provision no domain (`previewDomainSkipped: pattern_requires_pr_and_slug`).",
+      "Passkeys / TOTP (r502) ask for your password (or a sign-in from the last 10 minutes) when enrolling.",
+      "SSO (r505). A tab loaded before the update will be asked to sign in again once."
+     ]
+    },
     {
      "title": "Security",
      "total": 12,
@@ -348,7 +571,7 @@
   {
    "version": "0.10.36",
    "date": "2026-10-02",
-   "tagline": "The bounded-backstop release (r480): the audit of the rejection backstop",
+   "tagline": "The bounded-backstop release (r480): the audit of the rejection backstop found its own memory hole and two polish items. The security surface is now bounded, honest in shape, and self-documenting.",
    "groups": [
     {
      "title": "Fixed",
@@ -371,7 +594,7 @@
   {
    "version": "0.10.35",
    "date": "2026-10-02",
-   "tagline": "The backstop release (r479): the fresh-eyes audit of the owner-throttle fix",
+   "tagline": "The backstop release (r479): the fresh-eyes audit of the owner-throttle fix found the fix's own hole — requests that die at a privilege guard had escaped rate limiting entirely.",
    "groups": [
     {
      "title": "Fixed",
@@ -394,7 +617,7 @@
   {
    "version": "0.10.34",
    "date": "2026-10-01",
-   "tagline": "The owner-throttle release (r478): reported live by the owner — the panel",
+   "tagline": "The owner-throttle release (r478): reported live by the owner — the panel rate-limited its own operator on the dashboard. The limiter now buckets by PRINCIPAL, not by IP.",
    "groups": [
     {
      "title": "Fixed",
@@ -408,7 +631,7 @@
   {
    "version": "0.10.33",
    "date": "2026-10-01",
-   "tagline": "The journey release (r477): the product now proves its own core loop on the",
+   "tagline": "The journey release (r477): the product now proves its own core loop on the published image — and the very first run of that journey caught a real bug no unit test had: a bodyless JSON-declared request answered 500.",
    "groups": [
     {
      "title": "Added",
@@ -446,7 +669,7 @@
   {
    "version": "0.10.32",
    "date": "2026-10-01",
-   "tagline": "The truth-in-docs release (r476): the documentation sweep that had never",
+   "tagline": "The truth-in-docs release (r476): the documentation sweep that had never been done, plus the audit of the two chain-guard releases. The docs were not merely stale — they actively lied, in four P1 ways, and two of them were fresh copies of a bug this project had already fixed once.",
    "groups": [
     {
      "title": "Fixed — documentation that lied",
@@ -472,7 +695,7 @@
   {
    "version": "0.10.31",
    "date": "2026-10-01",
-   "tagline": "The chain-guard release (r475): the release chain audited itself. The last",
+   "tagline": "The chain-guard release (r475): the release chain audited itself. The last never-audited surface produced this round's only P1 — and the guards it shipped are the ones yesterday's v0.10.30 escape proved were missing.",
    "groups": [
     {
      "title": "Security / Release integrity",
@@ -501,7 +724,7 @@
   {
    "version": "0.10.30",
    "date": "2026-10-01",
-   "tagline": "The clean-sweep release (r474): the fresh-eyes audit of 0.10.29 came back",
+   "tagline": "The clean-sweep release (r474): the fresh-eyes audit of 0.10.29 came back 0 P1 / 0 P2 — the notification encryption, the SDK-honouring bootstraps and the member gating all held. What ships here are the three P3s it did find, plus the two debris items the r473 audit had noted and deferred.",
    "groups": [
     {
      "title": "Fixed",
@@ -525,7 +748,7 @@
   {
    "version": "0.10.29",
    "date": "2026-10-01",
-   "tagline": "The contract-honest SDK + secrets-at-rest release (r473): the auditors-audit",
+   "tagline": "The contract-honest SDK + secrets-at-rest release (r473): the auditors-audit of 0.10.28 plus the first deep pass over plugin-sdk, db and schemas. One P1 (the plugin SDK promised a contract the sandbox never honoured), one secrets-at-rest P2, and the last member-reachable 403 holes in the UI.",
    "groups": [
     {
      "title": "Security",
@@ -541,81 +764,6 @@
       "The plugin SDK's declared contract is now the runtime's actual contract (P1). `configSchema`, `menuItems` and `dependencies` declared on the object a plugin's code RETURNS — the thing `definePlugin` validates — were silently dropped:…",
       "The last member-reachable 403 holes in wizards and modals (P2). The Deploy wizard (member-reachable from Services and Hub) fired the operator-only `sources` + `servers` listings on every open — doubled by the app-wide retry — and…",
       "Schema boundary honesty (P3). `webhookCreate.branch` now carries the same git charset rule as the service's own branch field (whitespace-tolerant — trimmed before validation, exactly as the route always did) instead of accepting any…"
-     ]
-    }
-   ]
-  },
-  {
-   "version": "0.10.28",
-   "date": "2026-10-01",
-   "tagline": "The member posture release (r472): first deep audits of the two surfaces",
-   "groups": [
-    {
-     "title": "Web — members stop hitting walls that were never theirs",
-     "total": 4,
-     "items": [
-      "Six operator-only routes left member-visible (P2). The sidebar (and command palette) offered `/volumes`, `/activity`, `/docker`, `/sources`, `/servers` and `/users` to members although every one is operator-only server-side. Each…",
-      "Eleven operator-only Settings sections showed member error states (P2). `/v1/settings` and its satellites (firewall, log drains, notifications, resources, storage, migration, OIDC) are operator-only; members saw the sections render with…",
-      "The Volumes tab fabricated storage numbers for members (P2). The tab queried the instance-wide (operator-only) volume inventory, swallowed the 403, and rendered \"Total Storage Footprint 0 B\" plus \"0 B\" primary/DB cards for any service…",
-      "Silent member-side 403s removed (P3). Monitoring no longer fetches the operator-only servers listing for members (the node-stats query already gated); Topology no longer fetches the volume inventory (the graph renders without volume…"
-     ]
-    },
-    {
-     "title": "MCP — posture, not breakage",
-     "total": 3,
-     "items": [
-      "`list_configs` no longer offers `reveal` (P2). The SDK supports `reveal=true` (plaintext secret values for operator tokens), and the tool forwarded that choice to the model. An MCP tool result is persisted in agent transcripts and…",
-      "The doc example taught an unauthenticated client (P2). `docs/AI_MCP_CLI.md`'s quick-start used a nonexistent `token` option (the SDK takes `getToken`), then read `services.items.length` and `deploy.id`/`deploy.status` — none of which…",
-      "Package hygiene (P3). `@ninedeploy/mcp` now declares `engines: { node: \">=22.13.0\" }` (it installs standalone via `npx -y`, far from the monorepo root's engines) and ships a README covering the env vars, the readonly flag,…"
-     ]
-    }
-   ]
-  },
-  {
-   "version": "0.10.27",
-   "date": "2026-10-01",
-   "tagline": "The override-escape patch (r471): the fresh-eyes audit of the 0.10.26",
-   "groups": [
-    {
-     "title": "Fixed",
-     "total": 4,
-     "items": [
-      "The `$`-escape landed on one of three compose renderers (P2). 0.10.26 added `composeScalar` to `renderRuntimeCompose` — but the volume-override files (the LOCAL builder's inline renderer and the remote builder's `renderVolumeOverride`)…",
-      "The fan-out patrol does what its docstring promised. `patrolTargets`' comment has said \"targets whose container is GONE get their row marked error\" since the beginning — but since r466's agentOp contract, `docker inspect` on a missing…",
-      "A refused remote network delete carries docker's reason. `DELETE /v1/networks/:name?serverId=` discarded the op's output lines (`noop` sink), so an in-use network answered a bare `400 \"agent docker.networkRm exited with 1\"` the operator…",
-      "Sandbox crash reports survive their last line; test cleanup stops racing the dead channel. The child's stderr line-splitter never flushed, so a crash report killed mid-write (no trailing newline) was swallowed exactly where the code…"
-     ]
-    }
-   ]
-  },
-  {
-   "version": "0.10.26",
-   "date": "2026-09-30",
-   "tagline": "The contract-honesty patch (r470): a fresh-eyes audit of the previous two",
-   "groups": [
-    {
-     "title": "Fixed",
-     "total": 6,
-     "items": [
-      "agentOp's exit-code contract vs its r466 callers (P1). `agentOp` throws on any non-zero exit — but `docker.volumeInspect`, used as an existence probe, exits 1 for exactly the answer being probed (\"volume missing\"). Result: every…",
-      "`df` dispatched to `git` (P1). `spawnValidated`'s executable dispatch was a two-way ternary from the docker+git era; adding `df` to the type silently made every node disk probe run `git df -k .` (exit 129) — node disk telemetry never…",
-      "Sandbox SIGKILL escalation was dead code (P1). `terminate()` armed the SIGKILL behind `!child.killed` — but `killed` only records that a signal was SENT, and the SIGTERM above had already set it, so a wedged sandbox child outlived its…",
-      "Sandbox child pipes were never drained (P2). `silent: true` pipes stdout/stderr into the parent; an unread pipe eventually fills its kernel buffer and the child blocks on its next write. stdout is now drained (plugin output travels the…",
-      "Compose bridge parity and interpolation (P2). `renderRuntimeCompose` now emits `memswap_limit` alongside `mem_limit` (the `docker run` line pins `--memory-swap` to the memory limit; the compose twin could balloon into swap on the same…"
-     ]
-    },
-    {
-     "title": "Added",
-     "total": 1,
-     "items": [
-      "The processBootstrap honesty tests. The compiled sandbox bootstrap is forked under the REAL permission-model flags (`SandboxPlugin.sandboxExecArgv`): INIT→READY handshake, hook round-trip, clean SHUTDOWN (exit 0, not a kill), and an…"
-     ]
-    },
-    {
-     "title": "Dependencies",
-     "total": 1,
-     "items": [
-      "zod 4.6.5, dotenv 18.0.4, simple-git 4.0.2 (security fix; our named imports were already 4.x-compatible), @simplewebauthn/server 14.0.3 + @simplewebauthn/browser 14.0.0 (Node 22+; the v14 `AuthenticatorTransport` rename applied),…"
      ]
     }
    ]

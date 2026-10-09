@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Changelog",
-  description: "Every NineDeploy release, newest first — straight from CHANGELOG.md.",
+  description: "Recent NineDeploy releases, features, fixes and upgrade notes — straight from CHANGELOG.md.",
 };
 
 const tone: Record<string, string> = {
@@ -25,7 +25,7 @@ export default function ChangelogPage() {
     <div className="page-in">
       <PageHero
         title="Changelog."
-        lede={`${releaseTotal} releases and counting. This page shows the newest ${releases.length}; the full history lives in CHANGELOG.md, which the release process treats as a load-bearing document.`}
+        lede={`${releaseTotal} releases and counting. Highlights and upgrade notes from the newest ${releases.length}; read the full release notes before upgrading.`}
       >
         <a
           href={site.changelogFull}
@@ -67,6 +67,9 @@ export default function ChangelogPage() {
                 <ChevronDown className="mt-1 size-4 shrink-0 text-muted transition-transform group-open:rotate-180" />
               </summary>
               <div className="space-y-5 border-t border-rail p-5">
+                <a href={`${site.changelogFull}#${r.version.replace(/\./g, "")}${r.date ? `---${r.date}` : ""}`} target="_blank" rel="noreferrer" className="text-sm font-semibold underline underline-offset-4 hover:text-green">
+                  Full v{r.version} release and upgrade notes
+                </a>
                 {r.groups.length === 0 && <p className="text-sm text-muted">See CHANGELOG.md for details.</p>}
                 {r.groups.map((g) => (
                   <div key={g.title}>

@@ -5,6 +5,7 @@ import { Bot, Braces, FileCode2, SquareTerminal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { highlight } from "@/components/code";
 import { tabListKeys } from "@/lib/tabs";
+import { site } from "@/lib/site";
 
 const slides = [
   {
@@ -47,8 +48,8 @@ await nd.deploys.trigger(services[0].id);`,
     id: "mcp",
     name: "MCP",
     icon: Bot,
-    title: "38 tools for your AI assistant, with a read-only switch.",
-    text: "Claude, Cursor or Cline can list services, read logs, deploy and roll back. Pair READONLY with a read-scoped token and the server enforces it.",
+    title: `${site.stats.mcpTools} tools for your AI assistant, with a read-only switch.`,
+    text: "Inspect services, traffic, grants and terminal history, or search the OpenAPI document. Pair READONLY with a read-scoped token. Trusted agents can use existing deploy and rollback tools.",
     lang: "json",
     file: "mcp.json",
     code: `{

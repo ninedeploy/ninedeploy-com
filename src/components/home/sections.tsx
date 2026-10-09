@@ -7,7 +7,7 @@ const rows: { label: string; nd: [Mark, string]; raw: [Mark, string]; paas: [Mar
   { label: "Zero-downtime deploys", nd: ["yes", "Blue-green"], raw: ["no", "DIY scripts"], paas: ["yes", "Yes"] },
   { label: "Managed databases and backups", nd: ["yes", "9 engines, S3"], raw: ["no", "Manual"], paas: ["meh", "Metered"] },
   { label: "Automatic HTTPS and wildcard domains", nd: ["yes", "ACME DNS-01"], raw: ["no", "Manual proxy"], paas: ["yes", "Yes"] },
-  { label: "AI agents can operate it", nd: ["yes", "38 MCP tools"], raw: ["no", "Shell access"], paas: ["meh", "Varies"] },
+  { label: "AI agents can operate it", nd: ["yes", `${site.stats.mcpTools} MCP tools`], raw: ["no", "Shell access"], paas: ["meh", "Varies"] },
   { label: "Price at 50 services", nd: ["yes", "$0, your hardware"], raw: ["meh", "$0, your weekends"], paas: ["no", "Per seat, per GB"] },
   { label: "Lock-in", nd: ["yes", "None, MIT"], raw: ["yes", "None"], paas: ["no", "Proprietary"] },
 ];
@@ -74,11 +74,10 @@ const plate: [string, string][] = [
   ["Release", `v${site.version}`],
   ["Runtime", "Node ≥ 22.13 + Docker"],
   ["Panel state", `1 SQLite file, ${site.stats.tables} tables`],
-  ["API surface", `${site.stats.routeModules} route modules`],
+  ["API contract", "OpenAPI 3.1 + typed SDK"],
   ["Database engines", String(site.stats.dbEngines)],
   ["Templates", `${site.stats.templates} (${site.stats.certified} certified)`],
   ["MCP tools", String(site.stats.mcpTools)],
-  ["Tests in CI", site.stats.tests.toLocaleString("en")],
   ["Secrets", "AES-256-GCM, rotatable keys"],
   ["Releases", "Sigstore-signed, SLSA provenance"],
 ];

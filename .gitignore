@@ -45,3 +45,5 @@ next-env.d.ts
 
 # fetched from the product repo at build time (pnpm installer)
 /public/install.sh
+/public/install.sh.tmp
+/.temp_files/
