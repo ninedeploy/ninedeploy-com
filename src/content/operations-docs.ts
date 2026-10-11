@@ -1,5 +1,6 @@
 import type { Doc } from "./docs";
 import { site } from "@/lib/site";
+import { releaseDocs } from "./release-docs";
 
 export const operationsDocs: Doc[] = [
   {
@@ -29,7 +30,7 @@ export const operationsDocs: Doc[] = [
     source: "TERMINALS.md",
     blocks: [
       { kind: "h2", text: "Open a container or database shell" },
-      { kind: "p", text: "Instance operators can open shells from service and database pages, the CLI or client.terminals in the SDK. Local and node-placed Docker services get a real TTY with resize. For Compose, open a managed container instead of the service target. Database client mode supports psql, mysql/mariadb, redis-cli and valkey-cli." },
+      { kind: "p", text: "Instance operators can open shells from service and database pages, the CLI or client.terminals in the SDK. Local and node-placed Docker services get a real TTY with resize. For Compose, open a managed container. Panel-host database client mode supports psql, mysql/mariadb and Redis-compatible clients; node databases support a shell only, where you can run the client yourself." },
       { kind: "code", body: "ninedeploy terminal service 12\nninedeploy terminal db 3\nninedeploy terminals list\nninedeploy terminals kill <session-id>" },
       { kind: "h2", text: "Host terminals and remote nodes" },
       { kind: "callout", tone: "warn", title: "Host shells are off by default", text: "An operator must enable host shells under Settings → Security using an interactive browser session and a password re-check (or a recent SSO sign-in). Every host-shell session requires the same check. NINEDEPLOY_HOST_TERMINAL=off forbids panel host shells; NINEDEPLOY_AGENT_HOST_TERMINAL=off forbids them on a node." },
@@ -64,12 +65,12 @@ export const operationsDocs: Doc[] = [
     source: "DATABASES_BACKUPS.md",
     blocks: [
       { kind: "h2", text: "Public TCP access" },
-      { kind: "p", text: "Public access is off until an operator configures it. PostgreSQL, MySQL, MariaDB, Redis, Valkey and MongoDB can use a dedicated Traefik TCP sidecar on one host port, leaving the main proxy unchanged. An IP allowlist is mandatory, with at most 100 ranges and no /0. Uploaded-certificate TLS termination is optional and unavailable for MySQL/MariaDB." },
+      { kind: "p", text: "Public access is off until an operator configures it. Panel-host PostgreSQL, MySQL, MariaDB, Redis, Valkey, KeyDB, Dragonfly and MongoDB can use a dedicated Traefik TCP sidecar. An IP allowlist is mandatory, with at most 100 ranges and no /0. Uploaded-certificate TLS termination is optional and unavailable for MySQL/MariaDB. Node databases do not support public access." },
       { kind: "callout", tone: "info", title: "Connection credentials", text: "The credentials response includes publicConnectionString. It uses the database's root credentials; create a limited database user for application or external access." },
       { kind: "h2", text: "Import an existing dump" },
       { kind: "list", items: [
         "Database admins can upload resumable 8 MiB chunks. Operators can select an object in a backup destination.",
-        "Supported formats: PostgreSQL custom/plain SQL, MySQL/MariaDB SQL, MongoDB archive and Redis/Valkey RDB, optionally gzipped.",
+        "Supported formats: PostgreSQL custom/plain SQL, MySQL/MariaDB SQL, MongoDB archive and Redis-compatible RDB (Redis, Valkey, KeyDB, Dragonfly), optionally gzipped.",
         "A pre-import safety backup is created first, followed by a check that the panel can still authenticate to the database.",
         "Use the database page, databases public-access|import|imports in the CLI, or the SDK's importFile helper. MCP exposes state and history through read-only tools.",
       ] },
@@ -106,15 +107,16 @@ export const operationsDocs: Doc[] = [
       { kind: "h2", text: "Upgrade through the installer" },
       { kind: "code", body: `${site.install}\n\n# Installer-managed Docker\n${site.installDocker}\n\n# Pin a release\n${site.install} -s -- --version v${site.version}\n\n# Track main\n${site.install} -s -- --channel main` },
       { kind: "p", text: "Bare-metal upgrades snapshot the database and master key, rebuild, migrate and gate readiness on /health. Installer-managed Docker installs keep an image pin, so a plain compose pull re-pulls the same release; re-run --docker to upgrade. The dashboard's self-update button is available on systemd bare-metal panels." },
-      { kind: "h2", text: "Moving to 0.15" },
+      { kind: "h2", text: "Updates since 0.15.0" },
       { kind: "list", items: [
-        "Migration 0071 adds terminal_sessions, traffic_rollups and access_grants. Existing rows are unchanged.",
-        "Host shells and traffic analytics start off. Existing access behavior stays the same until a grant is configured.",
-        "Update remote agents to v0.15.0 for node terminals. Private GitHub App clones need agent v0.13.0 or newer.",
-        "For older installs, review the intervening release notes too: 0.14 recreates Traefik once, and the 0.11.2 security notes describe when Git source tokens need rotation.",
+        "Migration 0072 adds image transfers and node-placement columns; 0073 adds optional SSH host-key pinning to sources. Existing services retain their behavior until you enable new features.",
+        "Update node agents separately: v0.15.2 for builds, private clones and volumes; v0.15.3 for node databases; v0.15.4 for Swarm; v0.15.6 for node KeyDB/Dragonfly. Agent v0.15.5 adds clone fixes and Railpack preflight.",
+        "Swarm and SSH host-key pinning are opt-in. Existing template deployments keep the Compose files they were created with, including after the catalog expansion.",
+        "Nixpacks builds with a push registry and secrets are now refused; choose Dockerfile/Railpack or clear the registry. deploys watch exits 1 for failed or cancelled deploys.",
       ] },
       { kind: "h2", text: "Rollback" },
-      { kind: "p", text: "Rollback to 0.14 is supported: the new tables are ignored and grant-only access is lost. If analytics was enabled, 0.14 recreates Traefik without the access log. Read docs/ROLLBACK.md in the repository for terminal-helper cleanup and the additional steps when rolling back across earlier releases." },
+      { kind: "p", text: "Rollback from 0.15.8 to 0.15.7 boots on the migrated database, but host-key pinning stops being enforced. Read docs/ROLLBACK.md before rolling back farther: Swarm stacks and node resources need the multi-node runbook, and releases before 0.15.6 cannot fully manage KeyDB/Dragonfly or deliver Teams/Resend channels." },
     ],
   },
+  ...releaseDocs,
 ];

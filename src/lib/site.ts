@@ -21,7 +21,7 @@ export const site = {
     certified: templateData.templates.filter((template) => template.verified).length,
     tables: product.tables,
     mcpTools: product.mcpTools,
-    dbEngines: 9,
+    dbEngines: 11,
     cliCommands: 40,
   },
 };

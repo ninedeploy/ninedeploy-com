@@ -70,6 +70,7 @@ const templates = registry.templates.map((t) => {
   verified: t.runtimeVerified === true,
   compose: !!t.composeContent,
   volume: t.volumeMount ?? null,
+  requires: t.requires ?? null,
   // Keys only: defaults can be generated secrets, and the site never needs values.
   env: (t.env ?? []).map((e) => ({ key: e.key, secret: !!e.secret })),
   };

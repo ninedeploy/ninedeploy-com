@@ -31,7 +31,7 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
     ["Container port", String(t.port)],
     ["Category", t.category],
     ["Runtime", t.compose ? "Compose stack" : "Docker container"],
-    ["Persistence", t.volume ? `Volume at ${t.volume}` : "Ephemeral"],
+    ["Persistence", t.compose ? "Defined by Compose stack" : t.volume ? `Volume at ${t.volume}` : "Ephemeral"],
   ];
   // Mirrors the panel: Hub → template detail → Deploy wizard (Source, Runtime, Environment, Resources, Review).
   const steps = [
@@ -86,6 +86,12 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
         <div>
           <h2 className="heading text-3xl">About {t.name}</h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">{t.description}</p>
+          {t.requires && (
+            <aside className="mt-6 rounded-2xl border border-amber/40 bg-amber/[0.07] p-5">
+              <h3 className="font-semibold">Requirements</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{t.requires}</p>
+            </aside>
+          )}
           {t.website && (
             <a
               href={t.website}

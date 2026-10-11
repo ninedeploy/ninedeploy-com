@@ -35,6 +35,18 @@ const faqs = [
     a: `Everything is API-first: a scoped /v1 REST API with an authenticated OpenAPI 3.1 document, a typed SDK, the ninedeploy CLI and ${site.stats.mcpTools} MCP tools. Generated tools inspect traffic, grants, terminal history and more; search_api discovers operations without calling them. Existing tools can mutate. Pair NINEDEPLOY_MCP_READONLY=1 with a read-scoped token for inspection agents.`,
   },
   {
+    q: "Can nodes build apps and host databases now?",
+    a: "Yes. Updated agents support Nixpacks/Railpack, private clones and volumes from v0.15.2, databases from v0.15.3 and KeyDB/Dragonfly from v0.15.6. You can also build on the panel or a build server and transfer the image. Node databases attach to services on the same host; Studio, PgBouncer and public access remain unavailable there.",
+  },
+  {
+    q: "Is Docker Swarm required?",
+    a: "No. It starts off, and existing services keep their container runtime. Operators can opt Docker services into Swarm for rolling updates and replicas after initializing the manager and enrolling opted-in nodes. Compose, PM2, volumes and managed databases keep their separate runtimes.",
+  },
+  {
+    q: "Does Git SSH host-key pinning cover remote clones?",
+    a: "Pinning is optional per SSH deploy-key source and covers panel clones across deployments. A successful clone learns the host keys; later panel clones refuse a changed key. Remote nodes retain their per-job policy. Disabling pinning or resetting the keys requires an interactive password re-check.",
+  },
+  {
     q: "Which sign-in methods are supported?",
     a: "Passkeys (WebAuthn), OpenID Connect for Google, GitHub, Okta, Keycloak and custom providers, TOTP two-factor with replay protection, and Argon2id passwords with brute-force lockout.",
   },

@@ -1,6 +1,7 @@
 import { FeatureRooms } from "@/components/home/feature-rooms";
 import { Hero } from "@/components/home/hero";
 import { InstallCta } from "@/components/home/install-cta";
+import { LatestUpdates } from "@/components/home/latest-updates";
 import { Interfaces } from "@/components/home/interfaces";
 import { PanelTour } from "@/components/home/panel-tour";
 import { Pipeline } from "@/components/home/pipeline";
@@ -12,6 +13,7 @@ export default function Home() {
     <>
       <Hero />
       <TemplateMarquee />
+      <LatestUpdates />
       <PanelTour />
       <Pipeline />
       <FeatureRooms />

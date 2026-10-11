@@ -16,6 +16,7 @@ export interface Template {
   verified: boolean;
   compose: boolean;
   volume: string | null;
+  requires: string | null;
   env: { key: string; secret: boolean }[];
 }
 

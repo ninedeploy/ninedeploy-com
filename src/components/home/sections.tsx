@@ -5,7 +5,7 @@ type Mark = "yes" | "no" | "meh";
 const rows: { label: string; nd: [Mark, string]; raw: [Mark, string]; paas: [Mark, string] }[] = [
   { label: "Your data stays on your server", nd: ["yes", "Always"], raw: ["yes", "Yes"], paas: ["no", "Vendor cloud"] },
   { label: "Zero-downtime deploys", nd: ["yes", "Blue-green"], raw: ["no", "DIY scripts"], paas: ["yes", "Yes"] },
-  { label: "Managed databases and backups", nd: ["yes", "9 engines, S3"], raw: ["no", "Manual"], paas: ["meh", "Metered"] },
+  { label: "Managed databases and backups", nd: ["yes", `${site.stats.dbEngines} engines, S3`], raw: ["no", "Manual"], paas: ["meh", "Metered"] },
   { label: "Automatic HTTPS and wildcard domains", nd: ["yes", "ACME DNS-01"], raw: ["no", "Manual proxy"], paas: ["yes", "Yes"] },
   { label: "AI agents can operate it", nd: ["yes", `${site.stats.mcpTools} MCP tools`], raw: ["no", "Shell access"], paas: ["meh", "Varies"] },
   { label: "Price at 50 services", nd: ["yes", "$0, your hardware"], raw: ["meh", "$0, your weekends"], paas: ["no", "Per seat, per GB"] },
@@ -92,9 +92,9 @@ export function DataPlate() {
             One process. One file. The Docker socket.
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted">
-            No scheduler, no service mesh, no cluster consensus. One panel that knows how to drive Docker on one host,
-            and on a handful of remote ones when you add them. Upgrades snapshot your data first and gate on a health
-            endpoint.
+            Start with one host, then add nodes for workloads, databases or builds. The panel keeps its state in SQLite;
+            Docker Swarm is an optional orchestrator for services that need rolling updates and replicas.
+            Upgrades snapshot your data first and gate on a health endpoint.
           </p>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted">
             It is not Kubernetes, and doesn&apos;t pretend to be.
@@ -141,8 +141,8 @@ const limits = [
     text: "It fails closed and uses sealed operations, but keep worker nodes on a private network or VPN.",
   },
   {
-    title: "Remote nodes run docker and compose services.",
-    text: "PM2 and Nixpacks builds are refused on a node with a reason, instead of quietly running on the panel host.",
+    title: "Node capabilities depend on the agent version.",
+    text: "Updated nodes support Nixpacks and Railpack. Missing capabilities or disabled node switches give an explicit refusal. PM2 remains on the panel host.",
   },
   {
     title: "Remote health is container state, not an HTTP probe.",

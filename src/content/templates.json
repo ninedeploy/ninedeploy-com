@@ -1,5 +1,5 @@
 {
- "updated": "2026-08-20",
+ "updated": "2026-10-10",
  "templates": [
   {
    "id": "n8n",
@@ -15,6 +15,7 @@
    "verified": true,
    "compose": false,
    "volume": "/home/node/.n8n",
+   "requires": null,
    "env": []
   },
   {
@@ -31,6 +32,7 @@
    "verified": true,
    "compose": true,
    "volume": "/root/.activepieces",
+   "requires": "Needs a Redis instance (AP_REDIS_HOST/AP_REDIS_PORT) for its queue — point these env keys at one after deploy",
    "env": [
     {
      "key": "AP_ENCRYPTION_KEY",
@@ -56,6 +58,7 @@
    "verified": true,
    "compose": false,
    "volume": "/directus/uploads",
+   "requires": "Directus needs a PostgreSQL database — one is provisioned and attached automatically",
    "env": [
     {
      "key": "ADMIN_EMAIL",
@@ -89,6 +92,7 @@
    "verified": true,
    "compose": false,
    "volume": "/pb_data",
+   "requires": null,
    "env": []
   },
   {
@@ -105,6 +109,7 @@
    "verified": true,
    "compose": false,
    "volume": "/usr/app/data",
+   "requires": "NocoDB can connect to existing databases or use its internal data store",
    "env": []
   },
   {
@@ -121,6 +126,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": "Hasura needs a PostgreSQL database — one is provisioned and attached automatically",
    "env": [
     {
      "key": "HASURA_GRAPHQL_ENABLE_CONSOLE",
@@ -146,6 +152,7 @@
    "verified": true,
    "compose": false,
    "volume": "/root/.ollama",
+   "requires": null,
    "env": []
   },
   {
@@ -162,6 +169,7 @@
    "verified": true,
    "compose": false,
    "volume": "/root/.flowise",
+   "requires": null,
    "env": [
     {
      "key": "FLOWISE_USERNAME",
@@ -187,6 +195,7 @@
    "verified": true,
    "compose": false,
    "volume": "/build/models",
+   "requires": null,
    "env": []
   },
   {
@@ -203,6 +212,7 @@
    "verified": true,
    "compose": false,
    "volume": "/etc/searxng",
+   "requires": null,
    "env": [
     {
      "key": "SEARXNG_SECRET",
@@ -224,6 +234,7 @@
    "verified": true,
    "compose": false,
    "volume": "/qdrant/storage",
+   "requires": null,
    "env": []
   },
   {
@@ -240,6 +251,7 @@
    "verified": true,
    "compose": false,
    "volume": "/chroma/chroma",
+   "requires": null,
    "env": []
   },
   {
@@ -256,6 +268,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/lib/weaviate",
+   "requires": null,
    "env": [
     {
      "key": "AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED",
@@ -281,6 +294,7 @@
    "verified": true,
    "compose": false,
    "volume": "/home/libretranslate",
+   "requires": null,
    "env": []
   },
   {
@@ -297,6 +311,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": "Umami needs a PostgreSQL database — one is provisioned and attached automatically",
    "env": [
     {
      "key": "APP_SECRET",
@@ -318,6 +333,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/www/html",
+   "requires": "Matomo needs a MySQL/MariaDB database — one is provisioned and attached automatically",
    "env": [
     {
      "key": "MATOMO_DATABASE_ADAPTER",
@@ -339,6 +355,7 @@
    "verified": true,
    "compose": false,
    "volume": "/metabase-data",
+   "requires": null,
    "env": []
   },
   {
@@ -355,6 +372,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": "YOURLS needs a MySQL database — one is provisioned and attached automatically",
    "env": [
     {
      "key": "YOURLS_SITE",
@@ -384,6 +402,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/data",
+   "requires": null,
    "env": []
   },
   {
@@ -400,6 +419,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/lib/grafana",
+   "requires": null,
    "env": [
     {
      "key": "GF_SECURITY_ADMIN_PASSWORD",
@@ -421,6 +441,7 @@
    "verified": true,
    "compose": false,
    "volume": "/prometheus",
+   "requires": null,
    "env": []
   },
   {
@@ -437,6 +458,7 @@
    "verified": true,
    "compose": false,
    "volume": "/loki",
+   "requires": null,
    "env": []
   },
   {
@@ -453,6 +475,7 @@
    "verified": true,
    "compose": false,
    "volume": "/beszel_data",
+   "requires": null,
    "env": []
   },
   {
@@ -469,6 +492,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -485,6 +509,7 @@
    "verified": true,
    "compose": false,
    "volume": "/victoria-metrics-data",
+   "requires": null,
    "env": []
   },
   {
@@ -501,6 +526,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/www/html",
+   "requires": null,
    "env": []
   },
   {
@@ -517,6 +543,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/opt/memos",
+   "requires": null,
    "env": []
   },
   {
@@ -533,6 +560,7 @@
    "verified": true,
    "compose": false,
    "volume": "/home/node/trilium-data",
+   "requires": null,
    "env": []
   },
   {
@@ -549,6 +577,7 @@
    "verified": true,
    "compose": false,
    "volume": "/space",
+   "requires": null,
    "env": []
   },
   {
@@ -565,6 +594,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/vikunja/files",
+   "requires": "Vikunja needs a PostgreSQL database — one is provisioned and attached automatically",
    "env": [
     {
      "key": "VIKUNJA_DATABASE_TYPE",
@@ -598,6 +628,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -614,6 +645,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -630,6 +662,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -646,6 +679,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -662,6 +696,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -678,6 +713,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/data",
+   "requires": null,
    "env": []
   },
   {
@@ -694,6 +730,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -710,6 +747,7 @@
    "verified": true,
    "compose": false,
    "volume": "/etc/linkding/data",
+   "requires": null,
    "env": []
   },
   {
@@ -726,6 +764,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/data",
+   "requires": null,
    "env": []
   },
   {
@@ -742,6 +781,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -758,6 +798,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -774,6 +815,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/opt/gitlab",
+   "requires": null,
    "env": []
   },
   {
@@ -790,6 +832,7 @@
    "verified": true,
    "compose": false,
    "volume": "/home/coder/project",
+   "requires": null,
    "env": [
     {
      "key": "PASSWORD",
@@ -811,6 +854,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -827,6 +871,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/data",
+   "requires": null,
    "env": []
   },
   {
@@ -843,6 +888,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -859,6 +905,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -875,6 +922,7 @@
    "verified": true,
    "compose": false,
    "volume": "/etc/letsencrypt",
+   "requires": null,
    "env": []
   },
   {
@@ -891,6 +939,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": [
     {
      "key": "ROCKET_PORT",
@@ -916,6 +965,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": [
     {
      "key": "KEYCLOAK_ADMIN",
@@ -941,6 +991,7 @@
    "verified": true,
    "compose": false,
    "volume": "/verdaccio/storage",
+   "requires": null,
    "env": []
   },
   {
@@ -957,6 +1008,7 @@
    "verified": true,
    "compose": false,
    "volume": "/nexus-data",
+   "requires": null,
    "env": []
   },
   {
@@ -973,6 +1025,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": [
     {
      "key": "MP_DATA_FILE",
@@ -994,6 +1047,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1010,6 +1064,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1026,6 +1081,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1042,6 +1098,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1058,6 +1115,7 @@
    "verified": true,
    "compose": false,
    "volume": "/meili_data",
+   "requires": null,
    "env": [
     {
      "key": "MEILI_MASTER_KEY",
@@ -1083,6 +1141,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": [
     {
      "key": "TYPESENSE_DATA_DIR",
@@ -1108,6 +1167,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": [
     {
      "key": "MINIO_ROOT_USER",
@@ -1133,6 +1193,7 @@
    "verified": true,
    "compose": false,
    "volume": "/root",
+   "requires": null,
    "env": []
   },
   {
@@ -1149,6 +1210,7 @@
    "verified": true,
    "compose": false,
    "volume": "/srv",
+   "requires": null,
    "env": []
   },
   {
@@ -1165,6 +1227,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1181,6 +1244,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1197,6 +1261,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1213,6 +1278,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1229,6 +1295,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1245,6 +1312,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1261,6 +1329,7 @@
    "verified": true,
    "compose": false,
    "volume": "/photoprism/storage",
+   "requires": null,
    "env": [
     {
      "key": "PHOTOPRISM_ADMIN_PASSWORD",
@@ -1282,6 +1351,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1298,6 +1368,7 @@
    "verified": true,
    "compose": false,
    "volume": "/kavita/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1314,6 +1385,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1330,6 +1402,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1346,6 +1419,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1362,6 +1436,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1378,6 +1453,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1394,6 +1470,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1410,6 +1487,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1426,6 +1504,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1442,6 +1521,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1458,6 +1538,7 @@
    "verified": true,
    "compose": false,
    "volume": "/appdata",
+   "requires": null,
    "env": []
   },
   {
@@ -1474,6 +1555,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1490,6 +1572,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1506,6 +1589,7 @@
    "verified": true,
    "compose": false,
    "volume": "/app/user-data",
+   "requires": null,
    "env": []
   },
   {
@@ -1522,6 +1606,7 @@
    "verified": true,
    "compose": false,
    "volume": "/opt/adguardhome/work",
+   "requires": null,
    "env": []
   },
   {
@@ -1538,6 +1623,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1554,6 +1640,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/lib/ghost/content",
+   "requires": "Ghost needs a MySQL database in production — one is provisioned and attached automatically",
    "env": [
     {
      "key": "url",
@@ -1579,6 +1666,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/www/html",
+   "requires": "WordPress needs a MySQL database — one is provisioned and attached automatically",
    "env": []
   },
   {
@@ -1595,6 +1683,7 @@
    "verified": true,
    "compose": true,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1611,6 +1700,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1627,6 +1717,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/cache/ntfy",
+   "requires": null,
    "env": []
   },
   {
@@ -1643,6 +1734,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/www/FreshRSS/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1659,6 +1751,7 @@
    "verified": true,
    "compose": false,
    "volume": "/shiori",
+   "requires": null,
    "env": []
   },
   {
@@ -1675,6 +1768,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/www/html/db",
+   "requires": null,
    "env": []
   },
   {
@@ -1691,6 +1785,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": "Speedtest Tracker needs a MySQL database — one is provisioned and attached automatically",
    "env": [
     {
      "key": "DB_CONNECTION",
@@ -1716,6 +1811,7 @@
    "verified": true,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": [
     {
      "key": "HBOX_AUTH_API_KEY_PEPPER",
@@ -1737,6 +1833,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/www/html/storage/upload",
+   "requires": null,
    "env": []
   },
   {
@@ -1753,6 +1850,7 @@
    "verified": true,
    "compose": false,
    "volume": "/var/syncthing",
+   "requires": null,
    "env": []
   },
   {
@@ -1769,6 +1867,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1785,6 +1884,7 @@
    "verified": true,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -1801,6 +1901,7 @@
    "verified": true,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1817,6 +1918,7 @@
    "verified": false,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1833,6 +1935,7 @@
    "verified": false,
    "compose": false,
    "volume": "/app/backend/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1849,6 +1952,7 @@
    "verified": false,
    "compose": false,
    "volume": "/appsmith-stacks",
+   "requires": null,
    "env": []
   },
   {
@@ -1865,6 +1969,7 @@
    "verified": false,
    "compose": false,
    "volume": "/baserow/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1881,6 +1986,7 @@
    "verified": false,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1897,6 +2003,7 @@
    "verified": false,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1913,6 +2020,7 @@
    "verified": false,
    "compose": false,
    "volume": "/var/www/wallabag/data",
+   "requires": null,
    "env": []
   },
   {
@@ -1929,6 +2037,7 @@
    "verified": false,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -1945,6 +2054,7 @@
    "verified": false,
    "compose": false,
    "volume": "/var/www/html/upload",
+   "requires": null,
    "env": [
     {
      "key": "DB_TYPE",
@@ -1978,6 +2088,7 @@
    "verified": false,
    "compose": false,
    "volume": "/usr/src/redmine/files",
+   "requires": null,
    "env": []
   },
   {
@@ -1994,6 +2105,7 @@
    "verified": false,
    "compose": false,
    "volume": "/var/jenkins_home",
+   "requires": null,
    "env": []
   },
   {
@@ -2010,6 +2122,7 @@
    "verified": false,
    "compose": false,
    "volume": "/var/lib/woodpecker",
+   "requires": "A Git forge (GitHub, Gitea, GitLab…) with OAuth credentials: set WOODPECKER_* forge env vars on the service after deploy — v3 refuses to boot without one.",
    "env": [
     {
      "key": "WOODPECKER_HOST",
@@ -2031,6 +2144,7 @@
    "verified": false,
    "compose": false,
    "volume": "/data",
+   "requires": "Needs a source-control management server (GitHub, Gitea, GitLab…) configured via DRONE_* environment variables — v3 refuses to boot without one.",
    "env": []
   },
   {
@@ -2047,6 +2161,7 @@
    "verified": false,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -2063,6 +2178,7 @@
    "verified": false,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": []
   },
   {
@@ -2079,6 +2195,7 @@
    "verified": false,
    "compose": false,
    "volume": "/config",
+   "requires": "Needs a MySQL database and PIWIGO_DB_HOST/PIWIGO_DB_USER/PIWIGO_DB_PASSWORD/PIWIGO_DB_NAME environment variables set on the service before its web server starts.",
    "env": []
   },
   {
@@ -2095,6 +2212,7 @@
    "verified": false,
    "compose": false,
    "volume": "/var/lib/registry",
+   "requires": null,
    "env": []
   },
   {
@@ -2111,6 +2229,7 @@
    "verified": false,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": [
     {
      "key": "APP_KEY",
@@ -2132,6 +2251,7 @@
    "verified": false,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": [
     {
      "key": "JWT_SECRET",
@@ -2173,6 +2293,7 @@
    "verified": false,
    "compose": false,
    "volume": "/srv/data",
+   "requires": null,
    "env": []
   },
   {
@@ -2189,6 +2310,7 @@
    "verified": false,
    "compose": false,
    "volume": null,
+   "requires": "WUD 9.x (the current :latest) ignores the generated WUD_AUTH_ADMIN_* bootstrap credentials — they take effect from WUD's next release. Until then the UI is unauthenticated: set WUD_AUTH_BASIC_<NAME>_USER and WUD_AUTH_BASIC_<NAME>_HASH (an APR1 htpasswd hash) before attaching a public domain",
    "env": [
     {
      "key": "WUD_AUTH_ADMIN_USER",
@@ -2214,6 +2336,7 @@
    "verified": false,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
   },
   {
@@ -2230,6 +2353,7 @@
    "verified": false,
    "compose": false,
    "volume": "/app/data",
+   "requires": "RTMP ingest listens on 1935 — publish it via the service's published-port setting if you stream INTO this instance",
    "env": []
   },
   {
@@ -2246,6 +2370,7 @@
    "verified": false,
    "compose": false,
    "volume": "/data",
+   "requires": null,
    "env": []
   },
   {
@@ -2262,6 +2387,7 @@
    "verified": false,
    "compose": false,
    "volume": "/config",
+   "requires": "Needs a PostgreSQL database configured via SPRING_DATASOURCE_URL (jdbc:postgresql://…) — set the SPRING_DATASOURCE_* env vars on the service after deploy; the managed-database URL contract does not match Komga’s JDBC format.",
    "env": []
   },
   {
@@ -2278,6 +2404,7 @@
    "verified": false,
    "compose": false,
    "volume": "/downloads",
+   "requires": null,
    "env": []
   },
   {
@@ -2294,6 +2421,7 @@
    "verified": false,
    "compose": false,
    "volume": null,
+   "requires": null,
    "env": [
     {
      "key": "ROOT_URL",
@@ -2315,6 +2443,7 @@
    "verified": false,
    "compose": false,
    "volume": "/app/data",
+   "requires": null,
    "env": []
   },
   {
@@ -2331,7 +2460,5052 @@
    "verified": false,
    "compose": false,
    "volume": "/config",
+   "requires": null,
    "env": []
+  },
+  {
+   "id": "coolify-apprise-api",
+   "name": "Apprise Api",
+   "tagline": "Push Notifications API",
+   "description": "Push Notifications API",
+   "category": "Automation",
+   "icon": null,
+   "image": "linuxserver/apprise-api:latest",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: apprise-api (port-reference)",
+   "env": []
+  },
+  {
+   "id": "coolify-glances",
+   "name": "Glances",
+   "tagline": "An Eye on your system",
+   "description": "An Eye on your system",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "nicolargo/glances:latest",
+   "port": 61208,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: glances (url-token) · uses the Docker socket, privileged mode, the host PID namespace",
+   "env": []
+  },
+  {
+   "id": "coolify-gotenberg",
+   "name": "Gotenberg",
+   "tagline": "Gotenberg is a Docker-powered stateless API for PDF files.",
+   "description": "Gotenberg is a Docker-powered stateless API for PDF files.",
+   "category": "Developer",
+   "icon": null,
+   "image": "gotenberg/gotenberg:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: gotenberg (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-actualbudget",
+   "name": "Actualbudget",
+   "tagline": "A local-first personal finance app.",
+   "description": "A local-first personal finance app.",
+   "category": "Finance",
+   "icon": "actualbudget",
+   "image": "actualbudget/actual-server:latest",
+   "port": 5006,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: actual_server (first-service)",
+   "env": []
+  },
+  {
+   "id": "coolify-anythingllm",
+   "name": "Anythingllm",
+   "tagline": "AnythingLLM is the easiest to use, all-in-one AI application that can do RAG, AI Agents, and much more with no code or infrastructure headaches.",
+   "description": "AnythingLLM is the easiest to use, all-in-one AI application that can do RAG, AI Agents, and much more with no code or infrastructure headaches.",
+   "category": "AI",
+   "icon": null,
+   "image": "mintplexlabs/anythingllm",
+   "port": 3001,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: anything-llm (url-token)",
+   "env": [
+    {
+     "key": "DISABLE_TELEMETRY",
+     "secret": false
+    },
+    {
+     "key": "GID",
+     "secret": false
+    },
+    {
+     "key": "PASSWORDLOWERCASE",
+     "secret": false
+    },
+    {
+     "key": "PASSWORDMAXCHAR",
+     "secret": false
+    },
+    {
+     "key": "PASSWORDMINCHAR",
+     "secret": false
+    },
+    {
+     "key": "PASSWORDNUMERIC",
+     "secret": false
+    },
+    {
+     "key": "PASSWORDREQUIREMENTS",
+     "secret": false
+    },
+    {
+     "key": "PASSWORDSYMBOL",
+     "secret": false
+    },
+    {
+     "key": "PASSWORDUPPERCASE",
+     "secret": false
+    },
+    {
+     "key": "SERVER_PORT",
+     "secret": false
+    },
+    {
+     "key": "UID",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-changedetection",
+   "name": "Changedetection",
+   "tagline": "Website change detection monitor and notifications.",
+   "description": "Website change detection monitor and notifications.",
+   "category": "Monitoring",
+   "icon": "changedetection",
+   "image": "ghcr.io/dgtlmoon/changedetection.io",
+   "port": 5000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: changedetection (url-token)",
+   "env": [
+    {
+     "key": "DISABLE_VERSION_CHECK",
+     "secret": false
+    },
+    {
+     "key": "FETCH_WORKERS",
+     "secret": false
+    },
+    {
+     "key": "HIDE_REFERER",
+     "secret": false
+    },
+    {
+     "key": "LOGGER_LEVEL",
+     "secret": false
+    },
+    {
+     "key": "MAX_CONCURRENT_CHROME_PROCESSES",
+     "secret": false
+    },
+    {
+     "key": "MINIMUM_SECONDS_RECHECK_TIME",
+     "secret": false
+    },
+    {
+     "key": "PGID",
+     "secret": false
+    },
+    {
+     "key": "PLAYWRIGHT_DRIVER_URL",
+     "secret": false
+    },
+    {
+     "key": "PUID",
+     "secret": false
+    },
+    {
+     "key": "SCREEN_DEPTH",
+     "secret": false
+    },
+    {
+     "key": "SCREEN_HEIGHT",
+     "secret": false
+    },
+    {
+     "key": "SCREEN_WIDTH",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-dokuwiki",
+   "name": "Dokuwiki",
+   "tagline": "A lightweight and easy-to-use wiki platform for creating and managing documentation and knowledge bases.",
+   "description": "A lightweight and easy-to-use wiki platform for creating and managing documentation and knowledge bases.",
+   "category": "CMS",
+   "icon": null,
+   "image": "lscr.io/linuxserver/dokuwiki:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: dokuwiki (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-listmonk",
+   "name": "Listmonk",
+   "tagline": "Self-hosted newsletter and mailing list manager",
+   "description": "Self-hosted newsletter and mailing list manager",
+   "category": "Email",
+   "icon": "listmonk",
+   "image": "listmonk/listmonk:v6.0.0",
+   "port": 9000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: listmonk (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-readeck",
+   "name": "Readeck",
+   "tagline": "Simple web application that lets you save the precious readable content of web pages you like and want to keep forever.",
+   "description": "Simple web application that lets you save the precious readable content of web pages you like and want to keep forever.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "codeberg.org/readeck/readeck:latest",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: readeck (url-token)",
+   "env": [
+    {
+     "key": "READECK_USE_X_FORWARDED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-miniflux",
+   "name": "Miniflux",
+   "tagline": "Miniflux is a minimalist and opinionated feed reader.",
+   "description": "Miniflux is a minimalist and opinionated feed reader.",
+   "category": "Reading",
+   "icon": null,
+   "image": "ghcr.io/miniflux/miniflux:latest",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: miniflux (url-token)",
+   "env": [
+    {
+     "key": "CREATE_ADMIN",
+     "secret": false
+    },
+    {
+     "key": "PORT",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "RUN_MIGRATIONS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-docmost",
+   "name": "Docmost",
+   "tagline": "Open-source collaborative wiki and documentation software",
+   "description": "Open-source collaborative wiki and documentation software",
+   "category": "Productivity",
+   "icon": null,
+   "image": "docmost/docmost:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: docmost (url-token)",
+   "env": [
+    {
+     "key": "MAIL_DRIVER",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-9router",
+   "name": "9router",
+   "tagline": "Free AI coding gateway. Routes Claude Code, Codex, Cursor, Cline, Copilot requests to 40+ LLM providers with auto-fallback and token savings.",
+   "description": "Free AI coding gateway. Routes Claude Code, Codex, Cursor, Cline, Copilot requests to 40+ LLM providers with auto-fallback and token savings.",
+   "category": "AI",
+   "icon": null,
+   "image": "decolua/9router:0.5.65",
+   "port": 20128,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: 9router (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-autobase",
+   "name": "Autobase",
+   "tagline": "Autobase for PostgreSQL® is an open-source alternative to cloud-managed databases (self-hosted DBaaS).",
+   "description": "Autobase for PostgreSQL® is an open-source alternative to cloud-managed databases (self-hosted DBaaS).",
+   "category": "Database",
+   "icon": null,
+   "image": "autobase/console_ui:2.11.0",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: autobase (url-token) · uses the Docker socket",
+   "env": [
+    {
+     "key": "CORS_ORIGIN",
+     "secret": false
+    },
+    {
+     "key": "PG_CONSOLE_LOGGER_LEVEL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-babybuddy",
+   "name": "Babybuddy",
+   "tagline": "It helps parents track their baby's daily activities, growth, and health with ease.",
+   "description": "It helps parents track their baby's daily activities, growth, and health with ease.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "lscr.io/linuxserver/babybuddy:latest",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: babybuddy (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-bento-pdf",
+   "name": "Bento Pdf",
+   "tagline": "Process PDFs entirely in your browser. No uploads. No servers. Complete privacy.",
+   "description": "Process PDFs entirely in your browser. No uploads. No servers. Complete privacy.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "ghcr.io/alam00000/bentopdf:v1.16.1",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: bento-pdf (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-browserless",
+   "name": "Browserless",
+   "tagline": "A headless Chrome browser as a service.",
+   "description": "A headless Chrome browser as a service.",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/browserless/chromium",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: browserless (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-budibase",
+   "name": "Budibase",
+   "tagline": "Low code platform for building business apps and workflows in minutes. Supports PostgreSQL, MySQL, MSSQL, MongoDB, Rest API, Docker, K8s, and more.",
+   "description": "Low code platform for building business apps and workflows in minutes. Supports PostgreSQL, MySQL, MSSQL, MongoDB, Rest API, Docker, K8s, and more.",
+   "category": "Automation",
+   "icon": "budibase",
+   "image": "budibase/proxy",
+   "port": 10000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: proxy-service (port-reference)",
+   "env": [
+    {
+     "key": "BUDIBASE_ENVIRONMENT",
+     "secret": false
+    },
+    {
+     "key": "ENABLE_ANALYTICS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-cap-captcha",
+   "name": "Cap Captcha",
+   "tagline": "The self-hosted CAPTCHA for the modern web.",
+   "description": "The self-hosted CAPTCHA for the modern web.",
+   "category": "Security",
+   "icon": null,
+   "image": "tiago2/cap:3.0.4",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: cap (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-castopod",
+   "name": "Castopod",
+   "tagline": "Castopod is a free & open-source hosting platform made for podcasters who want engage and interact with their audience.",
+   "description": "Castopod is a free & open-source hosting platform made for podcasters who want engage and interact with their audience.",
+   "category": "Media",
+   "icon": null,
+   "image": "castopod/castopod:1.15.4",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: castopod (url-token)",
+   "env": [
+    {
+     "key": "CP_DISABLE_HTTPS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-chatwoot",
+   "name": "Chatwoot",
+   "tagline": "Delightful customer relationships at scale.",
+   "description": "Delightful customer relationships at scale.",
+   "category": "Helpdesk",
+   "icon": "chatwoot",
+   "image": "chatwoot/chatwoot:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: chatwoot (url-token)",
+   "env": [
+    {
+     "key": "ACTIVE_STORAGE_SERVICE",
+     "secret": false
+    },
+    {
+     "key": "ENABLE_ACCOUNT_SIGNUP",
+     "secret": false
+    },
+    {
+     "key": "FORCE_SSL",
+     "secret": false
+    },
+    {
+     "key": "INSTALLATION_ENV",
+     "secret": false
+    },
+    {
+     "key": "NODE_ENV",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_HOST",
+     "secret": false
+    },
+    {
+     "key": "RAILS_ENV",
+     "secret": false
+    },
+    {
+     "key": "RAILS_MAX_THREADS",
+     "secret": false
+    },
+    {
+     "key": "REDIS_OPENSSL_VERIFY_MODE",
+     "secret": false
+    },
+    {
+     "key": "SAFE_FETCH_ALLOW_PRIVATE_NETWORK",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-classicpress-with-mariadb",
+   "name": "Classicpress With Mariadb",
+   "tagline": "A lightweight, stable, instantly familiar free open-source content management system, based on WordPress without the block editor (Gutenberg).",
+   "description": "A lightweight, stable, instantly familiar free open-source content management system, based on WordPress without the block editor (Gutenberg).",
+   "category": "CMS",
+   "icon": null,
+   "image": "classicpress/classicpress:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: classicpress (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-cloudbeaver",
+   "name": "Cloudbeaver",
+   "tagline": "CloudBeaver is a lightweight web application designed for comprehensive data management.",
+   "description": "CloudBeaver is a lightweight web application designed for comprehensive data management.",
+   "category": "Developer",
+   "icon": null,
+   "image": "dbeaver/cloudbeaver:24",
+   "port": 8978,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: cloudbeaver (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-cockpit",
+   "name": "Cockpit",
+   "tagline": "Cockpit is a headless content platform that is lightweight, fast and ready for takeoff.",
+   "description": "Cockpit is a headless content platform that is lightweight, fast and ready for takeoff.",
+   "category": "CMS",
+   "icon": "cockpit",
+   "image": "cockpithq/cockpit:core-latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: cockpit (first-service)",
+   "env": []
+  },
+  {
+   "id": "coolify-convertx",
+   "name": "Convertx",
+   "tagline": "A self-hosted online file converter. Supports over a thousand different formats.",
+   "description": "A self-hosted online file converter. Supports over a thousand different formats.",
+   "category": "Backend",
+   "icon": null,
+   "image": "ghcr.io/c4illin/convertx:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: convertx (url-token)",
+   "env": [
+    {
+     "key": "ACCOUNT_REGISTRATION",
+     "secret": false
+    },
+    {
+     "key": "ALLOW_UNAUTHENTICATED",
+     "secret": false
+    },
+    {
+     "key": "AUTO_DELETE_EVERY_N_HOURS",
+     "secret": false
+    },
+    {
+     "key": "HTTP_ALLOWED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-cryptgeon",
+   "name": "Cryptgeon",
+   "tagline": "Secure note / file sharing service inspired by PrivNote.",
+   "description": "Secure note / file sharing service inspired by PrivNote.",
+   "category": "Security",
+   "icon": null,
+   "image": "cupcakearmy/cryptgeon:latest",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: app (port-reference)",
+   "env": [
+    {
+     "key": "ALLOW_ADVANCED",
+     "secret": false
+    },
+    {
+     "key": "ALLOW_FILES",
+     "secret": false
+    },
+    {
+     "key": "MAX_EXPIRATION",
+     "secret": false
+    },
+    {
+     "key": "MAX_VIEWS",
+     "secret": false
+    },
+    {
+     "key": "SIZE_LIMIT",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-docling",
+   "name": "Docling",
+   "tagline": "Convert documents (PDF, DOCX, PPTX, images, HTML) to Markdown, JSON, and more using AI-powered document processing.",
+   "description": "Convert documents (PDF, DOCX, PPTX, images, HTML) to Markdown, JSON, and more using AI-powered document processing.",
+   "category": "AI",
+   "icon": null,
+   "image": "ghcr.io/docling-project/docling-serve-cpu:latest",
+   "port": 5001,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: docling-serve (port-reference)",
+   "env": [
+    {
+     "key": "DOCLING_NUM_THREADS",
+     "secret": false
+    },
+    {
+     "key": "DOCLING_SERVE_ENABLE_UI",
+     "secret": false
+    },
+    {
+     "key": "DOCLING_SERVE_LOG_LEVEL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-dolibarr",
+   "name": "Dolibarr",
+   "tagline": "Dolibarr is a modern software package to manage your organization's activity (contacts, quotes, invoices, orders, stocks, agenda, hr, expense reports, accountancy, ecm, manufacturing, ...).",
+   "description": "Dolibarr is a modern software package to manage your organization's activity (contacts, quotes, invoices, orders, stocks, agenda, hr, expense reports, accountancy, ecm, manufacturing, ...).",
+   "category": "Productivity",
+   "icon": "dolibarr",
+   "image": "dolibarr/dolibarr:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: dolibarr (url-token)",
+   "env": [
+    {
+     "key": "DOLI_COMPANY_NAME",
+     "secret": false
+    },
+    {
+     "key": "DOLI_CRON",
+     "secret": false
+    },
+    {
+     "key": "DOLI_INIT_DEMO",
+     "secret": false
+    },
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "WWW_GROUP_ID",
+     "secret": false
+    },
+    {
+     "key": "WWW_USER_ID",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-evolution-api",
+   "name": "Evolution Api",
+   "tagline": "Multi-platform messaging (whatsapp and more) integration API",
+   "description": "Multi-platform messaging (whatsapp and more) integration API",
+   "category": "Backend",
+   "icon": null,
+   "image": "evoapicloud/evolution-api:v2.3.7",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: api (port-reference)",
+   "env": [
+    {
+     "key": "AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES",
+     "secret": false
+    },
+    {
+     "key": "CACHE_LOCAL_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "CACHE_REDIS_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "CACHE_REDIS_PREFIX_KEY",
+     "secret": false
+    },
+    {
+     "key": "CACHE_REDIS_SAVE_INSTANCES",
+     "secret": false
+    },
+    {
+     "key": "CACHE_REDIS_URI",
+     "secret": false
+    },
+    {
+     "key": "CHATWOOT_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "CHATWOOT_IMPORT_PLACEHOLDER_MEDIA_MESSAGE",
+     "secret": false
+    },
+    {
+     "key": "CHATWOOT_MESSAGE_DELETE",
+     "secret": false
+    },
+    {
+     "key": "CHATWOOT_MESSAGE_READ",
+     "secret": false
+    },
+    {
+     "key": "CONFIG_SESSION_PHONE_CLIENT",
+     "secret": false
+    },
+    {
+     "key": "CONFIG_SESSION_PHONE_NAME",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-firefox",
+   "name": "Firefox",
+   "tagline": "Fast, private, and self-hosted secure browser for browsing without limits.",
+   "description": "Fast, private, and self-hosted secure browser for browsing without limits.",
+   "category": "Productivity",
+   "icon": "firefox",
+   "image": "jlesage/firefox",
+   "port": 5800,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: firefox (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-flipt",
+   "name": "Flipt",
+   "tagline": "Flipt is a fully managed feature flag solution that enables you to keep your feature flags and remote config next to your code in Git.",
+   "description": "Flipt is a fully managed feature flag solution that enables you to keep your feature flags and remote config next to your code in Git.",
+   "category": "Backend",
+   "icon": null,
+   "image": "docker.flipt.io/flipt/flipt:latest",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: flipt (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-freshrss-with-postgresql",
+   "name": "Freshrss With Postgresql",
+   "tagline": "A free, self-hostable feed aggregator.",
+   "description": "A free, self-hostable feed aggregator.",
+   "category": "Reading",
+   "icon": null,
+   "image": "freshrss/freshrss:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: freshrss (url-token)",
+   "env": [
+    {
+     "key": "CRON_MIN",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-glitchtip",
+   "name": "Glitchtip",
+   "tagline": "GlitchTip is a error tracking system.",
+   "description": "GlitchTip is a error tracking system.",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "glitchtip/glitchtip:6.0",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: web (first-service)",
+   "env": [
+    {
+     "key": "CELERY_WORKER_AUTOSCALE",
+     "secret": false
+    },
+    {
+     "key": "CELERY_WORKER_MAX_TASKS_PER_CHILD",
+     "secret": false
+    },
+    {
+     "key": "DEFAULT_FROM_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_URL",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-goatcounter",
+   "name": "Goatcounter",
+   "tagline": "Lightweight web analytics platform.",
+   "description": "Lightweight web analytics platform.",
+   "category": "Analytics",
+   "icon": null,
+   "image": "arp242/goatcounter:2.7",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: goatcounter (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-grist",
+   "name": "Grist",
+   "tagline": "Grist is a modern relational spreadsheet. It combines the flexibility of a spreadsheet with the robustness of a database.",
+   "description": "Grist is a modern relational spreadsheet. It combines the flexibility of a spreadsheet with the robustness of a database.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "gristlabs/grist:latest",
+   "port": 8484,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: grist (url-token)",
+   "env": [
+    {
+     "key": "COMMENTS",
+     "secret": false
+    },
+    {
+     "key": "COOKIE_MAX_AGE",
+     "secret": false
+    },
+    {
+     "key": "DEFAULT_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "FORCE_LOGIN",
+     "secret": false
+    },
+    {
+     "key": "HIDE_UI_ELEMENTS",
+     "secret": false
+    },
+    {
+     "key": "HOME_INCLUDE_STATIC",
+     "secret": false
+    },
+    {
+     "key": "OIDC_IDP_SCOPES",
+     "secret": false
+    },
+    {
+     "key": "OIDC_IDP_SKIP_END_SESSION_ENDPOINT",
+     "secret": false
+    },
+    {
+     "key": "ORG_IN_PATH",
+     "secret": false
+    },
+    {
+     "key": "PAGE_TITLE_SUFFIX",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "REDIS_URL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-hermes-agent-with-webui",
+   "name": "Hermes Agent With Webui",
+   "tagline": "Hermes Agent - autonomous AI agent with persistent memory, scheduling, and a self-hosted web chat UI.",
+   "description": "Hermes Agent - autonomous AI agent with persistent memory, scheduling, and a self-hosted web chat UI.",
+   "category": "AI",
+   "icon": null,
+   "image": "ghcr.io/nesquena/hermes-webui:0.51.489",
+   "port": 8787,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: hermes-webui (url-token)",
+   "env": [
+    {
+     "key": "ANTHROPIC_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "FIRECRAWL_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "FIRECRAWL_API_URL",
+     "secret": false
+    },
+    {
+     "key": "GOOGLE_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "HERMES_ALLOW_PRIVATE_URLS",
+     "secret": false
+    },
+    {
+     "key": "HERMES_ENABLE_PROJECT_PLUGINS",
+     "secret": false
+    },
+    {
+     "key": "HERMES_OPTIONAL_SKILLS",
+     "secret": false
+    },
+    {
+     "key": "OPENAI_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "OPENROUTER_API_KEY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-heyform",
+   "name": "Heyform",
+   "tagline": "Allows anyone to create engaging conversational forms for surveys, questionnaires, quizzes, and polls. No coding skills required.",
+   "description": "Allows anyone to create engaging conversational forms for surveys, questionnaires, quizzes, and polls. No coding skills required.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "heyform/community-edition:latest",
+   "port": 9157,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: heyform (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-influxdb",
+   "name": "Influxdb",
+   "tagline": "Open source time series database for metrics, events, and analytics.",
+   "description": "Open source time series database for metrics, events, and analytics.",
+   "category": "Database",
+   "icon": "influxdb",
+   "image": "influxdb:2.7-alpine",
+   "port": 8086,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: influxdb (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-joplin",
+   "name": "Joplin",
+   "tagline": "Self-hosted sync server for Joplin",
+   "description": "Self-hosted sync server for Joplin",
+   "category": "Productivity",
+   "icon": "joplin",
+   "image": "joplin/server:latest",
+   "port": 22300,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: joplin (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-labelstudio",
+   "name": "Labelstudio",
+   "tagline": "Label Studio is a multi-type data labeling and annotation tool with standardized output format",
+   "description": "Label Studio is a multi-type data labeling and annotation tool with standardized output format",
+   "category": "AI",
+   "icon": null,
+   "image": "heartexlabs/label-studio:latest",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: labelstudio (url-token)",
+   "env": [
+    {
+     "key": "DATA_UPLOAD_MAX_NUMBER_FILES",
+     "secret": false
+    },
+    {
+     "key": "DJANGO_DB",
+     "secret": false
+    },
+    {
+     "key": "EXPERIMENTAL_FEATURES",
+     "secret": false
+    },
+    {
+     "key": "LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK",
+     "secret": false
+    },
+    {
+     "key": "LABEL_STUDIO_USERNAME",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "SSRF_PROTECTION_ENABLED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-leantime",
+   "name": "Leantime",
+   "tagline": "Leantime is a goals focused project management system for non-project managers.",
+   "description": "Leantime is a goals focused project management system for non-project managers.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "leantime/leantime:latest",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: leantime (url-token)",
+   "env": [
+    {
+     "key": "DB_NAME",
+     "secret": false
+    },
+    {
+     "key": "REDIS_PORT",
+     "secret": false
+    },
+    {
+     "key": "REDIS_SCHEME",
+     "secret": false
+    },
+    {
+     "key": "SESSION_EXPIRATION",
+     "secret": false
+    },
+    {
+     "key": "USE_REDIS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-librespeed",
+   "name": "Librespeed",
+   "tagline": "Self-hosted lightweight Speed Test.",
+   "description": "Self-hosted lightweight Speed Test.",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/librespeed/speedtest:latest",
+   "port": 82,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: librespeed (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-linkwarden",
+   "name": "Linkwarden",
+   "tagline": "A self-hostable collaborative bookmark manager to collect, organize, and preserve web pages.",
+   "description": "A self-hostable collaborative bookmark manager to collect, organize, and preserve web pages.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "ghcr.io/linkwarden/linkwarden:v2.16.1",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: linkwarden (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-lowcoder",
+   "name": "Lowcoder",
+   "tagline": "Lowcoder (forked from OpenBlocks) is a self-hosted, open-source, low-code platform for building internal tools.",
+   "description": "Lowcoder (forked from OpenBlocks) is a self-hosted, open-source, low-code platform for building internal tools.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "lowcoderorg/lowcoder-ce",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: lowcoder (url-token)",
+   "env": [
+    {
+     "key": "LOWCODER_EMAIL_SIGNUP_ENABLED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-marimo",
+   "name": "Marimo",
+   "tagline": "An open-source reactive notebook for Python — reproducible, git-friendly, SQL built-in, executable as a script, and shareable as an app.",
+   "description": "An open-source reactive notebook for Python — reproducible, git-friendly, SQL built-in, executable as a script, and shareable as an app.",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/marimo-team/marimo:latest-sql",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: marimo (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-metamcp",
+   "name": "Metamcp",
+   "tagline": "MCP Aggregator, Orchestrator, Middleware, Gateway in one app",
+   "description": "MCP Aggregator, Orchestrator, Middleware, Gateway in one app",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/metatool-ai/metamcp:2.4",
+   "port": 12008,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: app (port-reference)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_HOST",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_PORT",
+     "secret": false
+    },
+    {
+     "key": "TRANSFORM_LOCALHOST_TO_DOCKER_INTERNAL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-mixpost",
+   "name": "Mixpost",
+   "tagline": "Mixpost is a robust and versatile social media management software, designed to streamline social media operations and enhance content marketing strategies.",
+   "description": "Mixpost is a robust and versatile social media management software, designed to streamline social media operations and enhance content marketing strategies.",
+   "category": "Analytics",
+   "icon": null,
+   "image": "inovector/mixpost:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: mixpost (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "SSL_EMAIL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-n8n-with-postgres-and-worker",
+   "name": "N8n With Postgres And Worker",
+   "tagline": "n8n is an extendable workflow automation tool with queue mode and workers.",
+   "description": "n8n is an extendable workflow automation tool with queue mode and workers.",
+   "category": "Automation",
+   "icon": null,
+   "image": "n8nio/n8n:2.10.4",
+   "port": 5678,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: n8n (url-token)",
+   "env": [
+    {
+     "key": "GENERIC_TIMEZONE",
+     "secret": false
+    },
+    {
+     "key": "N8N_BLOCK_ENV_ACCESS_IN_NODE",
+     "secret": false
+    },
+    {
+     "key": "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS",
+     "secret": false
+    },
+    {
+     "key": "N8N_GIT_NODE_DISABLE_BARE_REPOS",
+     "secret": false
+    },
+    {
+     "key": "N8N_NATIVE_PYTHON_RUNNER",
+     "secret": false
+    },
+    {
+     "key": "N8N_PROTOCOL",
+     "secret": false
+    },
+    {
+     "key": "N8N_PROXY_HOPS",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_BROKER_LISTEN_ADDRESS",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_BROKER_PORT",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_MAX_CONCURRENCY",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_TASK_BROKER_URI",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-newapi",
+   "name": "Newapi",
+   "tagline": "The next-generation LLM gateway and AI asset management system supports multiple languages.",
+   "description": "The next-generation LLM gateway and AI asset management system supports multiple languages.",
+   "category": "Developer",
+   "icon": null,
+   "image": "calciumion/new-api:v0.9.2.0",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: new-api (port-reference)",
+   "env": [
+    {
+     "key": "ERROR_LOG_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-nextcloud-with-mariadb",
+   "name": "Nextcloud With Mariadb",
+   "tagline": "NextCloud is a self-hosted, open-source platform that provides file storage, collaboration, and communication tools for seamless data management.",
+   "description": "NextCloud is a self-hosted, open-source platform that provides file storage, collaboration, and communication tools for seamless data management.",
+   "category": "Files",
+   "icon": null,
+   "image": "lscr.io/linuxserver/nextcloud:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: nextcloud (url-token)",
+   "env": [
+    {
+     "key": "MARIADB_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-nexus-arm",
+   "name": "Nexus Arm",
+   "tagline": "Open source Universal Repository Manager (ARM version, community edition), default credentials: admin/admin123",
+   "description": "Open source Universal Repository Manager (ARM version, community edition), default credentials: admin/admin123",
+   "category": "Developer",
+   "icon": null,
+   "image": "sonatypecommunity/nexus3",
+   "port": 8081,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: nexus (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-nitropage",
+   "name": "Nitropage",
+   "tagline": "Nitropage is an extensible, visual website builder, offering a growing library of versatile building blocks, focal-point image cropping and sovereign font management.",
+   "description": "Nitropage is an extensible, visual website builder, offering a growing library of versatile building blocks, focal-point image cropping and sovereign font management.",
+   "category": "CMS",
+   "icon": null,
+   "image": "nitropage/nitropage:sqlite",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: nitropage (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-nodebb",
+   "name": "Nodebb",
+   "tagline": "A next-generation discussion platform.",
+   "description": "A next-generation discussion platform.",
+   "category": "Messaging",
+   "icon": "nodebb",
+   "image": "ghcr.io/nodebb/nodebb:latest",
+   "port": 4567,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: nodebb (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-obsidian",
+   "name": "Obsidian",
+   "tagline": "Note-taking app with linking, organizing, and hundreds of plugins - runs in your browser via remote desktop",
+   "description": "Note-taking app with linking, organizing, and hundreds of plugins - runs in your browser via remote desktop",
+   "category": "Productivity",
+   "icon": "obsidian",
+   "image": "lscr.io/linuxserver/obsidian:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: obsidian (url-token)",
+   "env": [
+    {
+     "key": "PGID",
+     "secret": false
+    },
+    {
+     "key": "PUID",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-onetimesecret",
+   "name": "Onetimesecret",
+   "tagline": "Share sensitive information securely with self-destructing links that are only viewable once.",
+   "description": "Share sensitive information securely with self-destructing links that are only viewable once.",
+   "category": "Security",
+   "icon": null,
+   "image": "onetimesecret/onetimesecret:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: onetimesecret (url-token)",
+   "env": [
+    {
+     "key": "AUTH_AUTOVERIFY",
+     "secret": false
+    },
+    {
+     "key": "AUTH_SIGNUP",
+     "secret": false
+    },
+    {
+     "key": "COLONEL",
+     "secret": false
+    },
+    {
+     "key": "HOST",
+     "secret": false
+    },
+    {
+     "key": "SSL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-openwa-with-postgresql-and-redis",
+   "name": "Openwa With Postgresql And Redis",
+   "tagline": "Production OpenWA with PostgreSQL, Redis, and bundled dashboard.",
+   "description": "Production OpenWA with PostgreSQL, Redis, and bundled dashboard.",
+   "category": "Messaging",
+   "icon": null,
+   "image": "ghcr.io/rmyndharis/openwa:0.23.1",
+   "port": 2785,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: openwa (url-token)",
+   "env": [
+    {
+     "key": "AUTO_START_SESSIONS",
+     "secret": false
+    },
+    {
+     "key": "ENGINE_TYPE",
+     "secret": false
+    },
+    {
+     "key": "LOG_LEVEL",
+     "secret": false
+    },
+    {
+     "key": "OPENWA_MEM_LIMIT",
+     "secret": false
+    },
+    {
+     "key": "OPENWA_PIDS_LIMIT",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-orangehrm",
+   "name": "Orangehrm",
+   "tagline": "OrangeHRM open source HR management software.",
+   "description": "OrangeHRM open source HR management software.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "orangehrm/orangehrm:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: orangehrm (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-pairdrop",
+   "name": "Pairdrop",
+   "tagline": "Pairdrop is a self-hosted file sharing and collaboration platform, offering secure file sharing and collaboration capabilities for efficient teamwork.",
+   "description": "Pairdrop is a self-hosted file sharing and collaboration platform, offering secure file sharing and collaboration capabilities for efficient teamwork.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "lscr.io/linuxserver/pairdrop:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: pairdrop (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-passbolt",
+   "name": "Passbolt",
+   "tagline": "Passbolt Community Edition (CE) API. The JSON API for the open source password manager for teams!",
+   "description": "Passbolt Community Edition (CE) API. The JSON API for the open source password manager for teams!",
+   "category": "Auth",
+   "icon": "passbolt",
+   "image": "passbolt/passbolt:latest-ce",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: passbolt (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-peertube",
+   "name": "Peertube",
+   "tagline": "Free, open-source and decentralized video platform.",
+   "description": "Free, open-source and decentralized video platform.",
+   "category": "Media",
+   "icon": "peertube",
+   "image": "chocobozzz/peertube:v8.2.4",
+   "port": 9000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: peertube (url-token)",
+   "env": [
+    {
+     "key": "PEERTUBE_WEBSERVER_HTTPS",
+     "secret": false
+    },
+    {
+     "key": "PEERTUBE_WEBSERVER_PORT",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-pgadmin",
+   "name": "Pgadmin",
+   "tagline": "pgAdmin is a web-based database management tool for administering your PostgreSQL databases through a user-friendly interface.",
+   "description": "pgAdmin is a web-based database management tool for administering your PostgreSQL databases through a user-friendly interface.",
+   "category": "Database",
+   "icon": null,
+   "image": "dpage/pgadmin4:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: pgadmin (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-phpmyadmin",
+   "name": "Phpmyadmin",
+   "tagline": "phpMyAdmin is a web-based database management tool for administering your MySQL and MariaDB databases through a user-friendly interface.",
+   "description": "phpMyAdmin is a web-based database management tool for administering your MySQL and MariaDB databases through a user-friendly interface.",
+   "category": "Database",
+   "icon": "phpmyadmin",
+   "image": "lscr.io/linuxserver/phpmyadmin:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: phpmyadmin (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-pocket-id-with-postgresql",
+   "name": "Pocket Id With Postgresql",
+   "tagline": "A simple and secure OIDC provider with passkey authentication",
+   "description": "A simple and secure OIDC provider with passkey authentication",
+   "category": "Auth",
+   "icon": null,
+   "image": "ghcr.io/pocket-id/pocket-id:v1.13",
+   "port": 1411,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: pocket-id (url-token)",
+   "env": [
+    {
+     "key": "EMAIL_API_KEY_EXPIRATION_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_LOGIN_NOTIFICATION_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "KEYS_STORAGE",
+     "secret": false
+    },
+    {
+     "key": "PGID",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "PUID",
+     "secret": false
+    },
+    {
+     "key": "SMTP_PORT",
+     "secret": false
+    },
+    {
+     "key": "SMTP_SKIP_CERT_VERIFY",
+     "secret": false
+    },
+    {
+     "key": "SMTP_TLS",
+     "secret": false
+    },
+    {
+     "key": "TRUST_PROXY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-postiz",
+   "name": "Postiz",
+   "tagline": "Open source social media scheduling tool.",
+   "description": "Open source social media scheduling tool.",
+   "category": "Analytics",
+   "icon": "postiz",
+   "image": "ghcr.io/gitroomhq/postiz-app:v2.10.1",
+   "port": 5000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: postiz (url-token)",
+   "env": [
+    {
+     "key": "FEE_AMOUNT",
+     "secret": false
+    },
+    {
+     "key": "NEXT_PUBLIC_UPLOAD_DIRECTORY",
+     "secret": false
+    },
+    {
+     "key": "NOT_SECURED",
+     "secret": false
+    },
+    {
+     "key": "NX_ADD_PLUGINS",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "STORAGE_PROVIDER",
+     "secret": false
+    },
+    {
+     "key": "UPLOAD_DIRECTORY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-proxyscotch",
+   "name": "Proxyscotch",
+   "tagline": "A simple proxy server created for https://hoppscotch.io - CORS proxy",
+   "description": "A simple proxy server created for https://hoppscotch.io - CORS proxy",
+   "category": "DevOps",
+   "icon": null,
+   "image": "hoppscotch/proxyscotch:v0.1.4",
+   "port": 9159,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: proxyscotch (url-token)",
+   "env": [
+    {
+     "key": "ALLOWED_ORIGINS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-rallly",
+   "name": "Rallly",
+   "tagline": "Rallly is an open-source scheduling and collaboration tool designed to make organizing events and meetings easier.",
+   "description": "Rallly is an open-source scheduling and collaboration tool designed to make organizing events and meetings easier.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "lukevella/rallly:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: rallly (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "REGISTRATION_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "SMTP_SECURE",
+     "secret": false
+    },
+    {
+     "key": "SMTP_TLS_ENABLED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-rocketchat",
+   "name": "Rocketchat",
+   "tagline": "Self-hosted, secure and highly customizable open-source communication platform for organizations with sophisticated security and privacy concerns.",
+   "description": "Self-hosted, secure and highly customizable open-source communication platform for organizations with sophisticated security and privacy concerns.",
+   "category": "Messaging",
+   "icon": null,
+   "image": "registry.rocket.chat/rocketchat/rocket.chat:8.0.1",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: rocketchat (url-token)",
+   "env": [
+    {
+     "key": "MAIL_URL",
+     "secret": false
+    },
+    {
+     "key": "MONGODB_ADVERTISED_HOSTNAME",
+     "secret": false
+    },
+    {
+     "key": "MONGODB_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "MONGODB_INITIAL_PRIMARY_PORT_NUMBER",
+     "secret": false
+    },
+    {
+     "key": "MONGODB_REPLICA_SET_NAME",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-seafile",
+   "name": "Seafile",
+   "tagline": "Open source cloud storage system for file sync, share and document collaboration",
+   "description": "Open source cloud storage system for file sync, share and document collaboration",
+   "category": "Files",
+   "icon": "seafile",
+   "image": "seafileltd/seafile-mc:12.0-latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: seafile (url-token)",
+   "env": [
+    {
+     "key": "INIT_SEAFILE_ADMIN_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "NON_ROOT",
+     "secret": false
+    },
+    {
+     "key": "SEAFILE_LOG_TO_STDOUT",
+     "secret": false
+    },
+    {
+     "key": "SEAFILE_MYSQL_DB_CCNET_DB_NAME",
+     "secret": false
+    },
+    {
+     "key": "SEAFILE_MYSQL_DB_SEAFILE_DB_NAME",
+     "secret": false
+    },
+    {
+     "key": "SEAFILE_MYSQL_DB_SEAHUB_DB_NAME",
+     "secret": false
+    },
+    {
+     "key": "SITE_ROOT",
+     "secret": false
+    },
+    {
+     "key": "TIME_ZONE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-sessy",
+   "name": "Sessy",
+   "tagline": "Email observability platform for monitoring and analyzing email systems.",
+   "description": "Email observability platform for monitoring and analyzing email systems.",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "ghcr.io/marckohlbrugge/sessy:main",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: sessy (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-slash",
+   "name": "Slash",
+   "tagline": "An open source, self-hosted links shortener and sharing platform.",
+   "description": "An open source, self-hosted links shortener and sharing platform.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "yourselfhosted/slash",
+   "port": 5231,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: slash (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-snipe-it",
+   "name": "Snipe It",
+   "tagline": "Snipe-IT is an open-source asset management platform built for IT departments.",
+   "description": "Snipe-IT is an open-source asset management platform built for IT departments.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "snipe/snipe-it:v8.7.1",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: app (first-service)",
+   "env": [
+    {
+     "key": "APP_LOCALE",
+     "secret": false
+    },
+    {
+     "key": "APP_TIMEZONE",
+     "secret": false
+    },
+    {
+     "key": "MAIL_FROM_ADDR",
+     "secret": false
+    },
+    {
+     "key": "MAIL_FROM_NAME",
+     "secret": false
+    },
+    {
+     "key": "MAIL_HOST",
+     "secret": false
+    },
+    {
+     "key": "MAIL_MAILER",
+     "secret": false
+    },
+    {
+     "key": "MAIL_PASSWORD",
+     "secret": false
+    },
+    {
+     "key": "MAIL_PORT",
+     "secret": false
+    },
+    {
+     "key": "MAIL_USERNAME",
+     "secret": false
+    },
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-soketi",
+   "name": "Soketi",
+   "tagline": "Soketi is your simple, fast, and resilient open-source WebSockets server.",
+   "description": "Soketi is your simple, fast, and resilient open-source WebSockets server.",
+   "category": "Messaging",
+   "icon": null,
+   "image": "quay.io/soketi/soketi:1.6-16-debian",
+   "port": 6001,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: soketi (url-token)",
+   "env": [
+    {
+     "key": "DEBUG",
+     "secret": false
+    },
+    {
+     "key": "SOKETI_PUSHER_SCHEME",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-sparkyfitness",
+   "name": "Sparkyfitness",
+   "tagline": "SparkyFitness is a comprehensive fitness tracking and management application designed to help users monitor their nutrition, exercise, and body measurements. It provides tools for daily progress tracking, goal setting, and insightful reports to support a healthy lifestyle.",
+   "description": "SparkyFitness is a comprehensive fitness tracking and management application designed to help users monitor their nutrition, exercise, and body measurements. It provides tools for daily progress tracking, goal setting, and insightful reports to support a healthy lifestyle.",
+   "category": "Health",
+   "icon": null,
+   "image": "codewithcj/sparkyfitness:v1.6.1",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: sparkyfitness-frontend (first-service)",
+   "env": [
+    {
+     "key": "ALLOW_PRIVATE_NETWORK_CORS",
+     "secret": false
+    },
+    {
+     "key": "NODE_ENV",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_ADMIN_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_APP_DB_USER",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_DB_NAME",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_DB_PORT",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_DISABLE_SIGNUP",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_EMAIL_FROM",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_EMAIL_HOST",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_EMAIL_PORT",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_EMAIL_SECURE",
+     "secret": false
+    },
+    {
+     "key": "SPARKY_FITNESS_EXTRA_TRUSTED_ORIGINS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-strapi",
+   "name": "Strapi",
+   "tagline": "Open-source headless CMS to build powerful APIs with built-in content management.",
+   "description": "Open-source headless CMS to build powerful APIs with built-in content management.",
+   "category": "Backend",
+   "icon": "strapi",
+   "image": "elestio/strapi-production:v5.33.4",
+   "port": 1337,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: strapi (url-token)",
+   "env": [
+    {
+     "key": "BROWSER",
+     "secret": false
+    },
+    {
+     "key": "FAST_REFRESH",
+     "secret": false
+    },
+    {
+     "key": "NODE_ENV",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "STRAPI_ENFORCE_SOURCEMAPS",
+     "secret": false
+    },
+    {
+     "key": "STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE",
+     "secret": false
+    },
+    {
+     "key": "STRAPI_TELEMETRY_DISABLED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-supertokens-with-postgresql",
+   "name": "Supertokens With Postgresql",
+   "tagline": "An open-source authentication solution that simplifies the implementation of secure user authentication and session management for web and mobile applications.",
+   "description": "An open-source authentication solution that simplifies the implementation of secure user authentication and session management for web and mobile applications.",
+   "category": "Auth",
+   "icon": null,
+   "image": "registry.supertokens.io/supertokens/supertokens-postgresql:latest",
+   "port": 3567,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: supertokens (url-token)",
+   "env": [
+    {
+     "key": "API_KEYS",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-tolgee",
+   "name": "Tolgee",
+   "tagline": "Tolgee is a localization management platform for developers and translators.",
+   "description": "Tolgee is a localization management platform for developers and translators.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "tolgee/tolgee",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: tolgee (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-triliumnext",
+   "name": "Triliumnext",
+   "tagline": "Build your personal knowledge base with TriliumNext Notes.",
+   "description": "Build your personal knowledge base with TriliumNext Notes.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "ghcr.io/triliumnext/trilium:stable",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: triliumnext (url-token)",
+   "env": [
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-unleash-with-postgresql",
+   "name": "Unleash With Postgresql",
+   "tagline": "Open source feature flag management for enterprises.",
+   "description": "Open source feature flag management for enterprises.",
+   "category": "Developer",
+   "icon": null,
+   "image": "unleashorg/unleash-server:latest",
+   "port": 4242,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: unleash (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-unstructured",
+   "name": "Unstructured",
+   "tagline": "Unstructured provides a platform and tools to ingest and process unstructured documents for Retrieval Augmented Generation (RAG) and model fine-tuning.",
+   "description": "Unstructured provides a platform and tools to ingest and process unstructured documents for Retrieval Augmented Generation (RAG) and model fine-tuning.",
+   "category": "AI",
+   "icon": null,
+   "image": "downloads.unstructured.io/unstructured-io/unstructured-api:latest",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: unstructured (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-usesend",
+   "name": "Usesend",
+   "tagline": "Usesend is an open-source alternative to Resend, Sendgrid, Mailgun and Postmark etc.",
+   "description": "Usesend is an open-source alternative to Resend, Sendgrid, Mailgun and Postmark etc.",
+   "category": "Email",
+   "icon": null,
+   "image": "usesend/usesend:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: usesend (url-token)",
+   "env": [
+    {
+     "key": "API_RATE_LIMIT",
+     "secret": false
+    },
+    {
+     "key": "NEXT_PUBLIC_IS_CLOUD",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-vert",
+   "name": "Vert",
+   "tagline": "The next-generation file converter. Open source, fully local and free forever.",
+   "description": "The next-generation file converter. Open source, fully local and free forever.",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/vert-sh/vert:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: vert (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-vvveb-with-mariadb",
+   "name": "Vvveb With Mariadb",
+   "tagline": "Powerful and easy to use cms to build websites, blogs or ecommerce stores.",
+   "description": "Powerful and easy to use cms to build websites, blogs or ecommerce stores.",
+   "category": "CMS",
+   "icon": null,
+   "image": "vvveb/vvvebcms:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: vvveb (url-token)",
+   "env": [
+    {
+     "key": "MARIADB_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-wakapi",
+   "name": "Wakapi",
+   "tagline": "A minimalist, self-hosted WakaTime-compatible backend for coding statistics",
+   "description": "A minimalist, self-hosted WakaTime-compatible backend for coding statistics",
+   "category": "Analytics",
+   "icon": null,
+   "image": "ghcr.io/muety/wakapi:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: wakapi (url-token)",
+   "env": [
+    {
+     "key": "TIMEZONE",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_ALLOW_SIGNUP",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_DB_HOST",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_DB_NAME",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_DB_PORT",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_DISABLE_FRONTPAGE",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_ENVIRONMENT",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_LEADERBOARD_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_MAIL_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_MAIL_SMTP_PORT",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_MAIL_SMTP_TLS",
+     "secret": false
+    },
+    {
+     "key": "WAKAPI_SECURITY_EXPOSE_METRICS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-weblate",
+   "name": "Weblate",
+   "tagline": "Weblate is a libre software web-based continuous localization system.",
+   "description": "Weblate is a libre software web-based continuous localization system.",
+   "category": "Productivity",
+   "icon": "weblate",
+   "image": "weblate/weblate:latest",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: weblate (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "WEBLATE_ADMIN_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "WEBLATE_ADMIN_NAME",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-wordpress-with-mariadb",
+   "name": "Wordpress With Mariadb",
+   "tagline": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
+   "description": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
+   "category": "CMS",
+   "icon": null,
+   "image": "wordpress:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: wordpress (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-yamtrack-with-postgresql",
+   "name": "Yamtrack With Postgresql",
+   "tagline": "Yamtrack is a self hosted media tracker for movies, tv shows, anime, manga, video games and books.",
+   "description": "Yamtrack is a self hosted media tracker for movies, tv shows, anime, manga, video games and books.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "ghcr.io/fuzzygrim/yamtrack",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: yamtrack (url-token)",
+   "env": [
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "REGISTRATION_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-budge",
+   "name": "Budge",
+   "tagline": "A budgeting personal finance app.",
+   "description": "A budgeting personal finance app.",
+   "category": "Finance",
+   "icon": null,
+   "image": "lscr.io/linuxserver/budge:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: budge (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-bulwark",
+   "name": "Bulwark",
+   "tagline": "Modern webmail platform",
+   "description": "Modern webmail platform",
+   "category": "Email",
+   "icon": null,
+   "image": "ghcr.io/bulwarkmail/webmail:v1.8.1",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: bulwark (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-calibre-web-automated-book-downloader",
+   "name": "Calibre Web Automated Book Downloader",
+   "tagline": "An intuitive web interface for searching and requesting book downloads, designed to work seamlessly with Calibre-Web-Automated.",
+   "description": "An intuitive web interface for searching and requesting book downloads, designed to work seamlessly with Calibre-Web-Automated.",
+   "category": "Media",
+   "icon": null,
+   "image": "crocodilestick/calibre-web-automated:latest",
+   "port": 8083,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: calibre-web-automated (port-reference)",
+   "env": [
+    {
+     "key": "APP_ENV",
+     "secret": false
+    },
+    {
+     "key": "BOOK_LANGUAGE",
+     "secret": false
+    },
+    {
+     "key": "CWA_DB_PATH",
+     "secret": false
+    },
+    {
+     "key": "FLASK_PORT",
+     "secret": false
+    },
+    {
+     "key": "GID",
+     "secret": false
+    },
+    {
+     "key": "LOG_LEVEL",
+     "secret": false
+    },
+    {
+     "key": "NETWORK_SHARE_MODE",
+     "secret": false
+    },
+    {
+     "key": "PGID",
+     "secret": false
+    },
+    {
+     "key": "PUID",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    },
+    {
+     "key": "UID",
+     "secret": false
+    },
+    {
+     "key": "USE_BOOK_TITLE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-checkmate",
+   "name": "Checkmate",
+   "tagline": "An open source server and websites monitoring application",
+   "description": "An open source server and websites monitoring application",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "ghcr.io/bluewave-labs/checkmate-backend-mono-multiarch:v3.2.0",
+   "port": 52345,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: checkmate (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-classicpress-without-database",
+   "name": "Classicpress Without Database",
+   "tagline": "A lightweight, stable, instantly familiar free open-source content management system, based on WordPress without the block editor (Gutenberg).",
+   "description": "A lightweight, stable, instantly familiar free open-source content management system, based on WordPress without the block editor (Gutenberg).",
+   "category": "CMS",
+   "icon": null,
+   "image": "classicpress/classicpress:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: classicpress (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-cloudreve",
+   "name": "Cloudreve",
+   "tagline": "A self-hosted file management and sharing system.",
+   "description": "A self-hosted file management and sharing system.",
+   "category": "Files",
+   "icon": null,
+   "image": "cloudreve/cloudreve:4.10.1",
+   "port": 5212,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: cloudreve (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-codimd",
+   "name": "Codimd",
+   "tagline": "Realtime collaborative markdown notes on all platforms",
+   "description": "Realtime collaborative markdown notes on all platforms",
+   "category": "Productivity",
+   "icon": null,
+   "image": "nabo.codimd.dev/hackmdio/hackmd:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: codimd (url-token)",
+   "env": [
+    {
+     "key": "CMD_ALLOW_EMAIL_REGISTER",
+     "secret": false
+    },
+    {
+     "key": "CMD_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "CMD_PROTOCOL_USESSL",
+     "secret": false
+    },
+    {
+     "key": "CMD_USECDN",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-databasus",
+   "name": "Databasus",
+   "tagline": "Databasus is a free, open source and self-hosted tool to backup PostgreSQL, MySQL, and MongoDB.",
+   "description": "Databasus is a free, open source and self-hosted tool to backup PostgreSQL, MySQL, and MongoDB.",
+   "category": "Developer",
+   "icon": null,
+   "image": "databasus/databasus:v3.16.2",
+   "port": 4005,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: databasus (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-directus-with-postgresql",
+   "name": "Directus With Postgresql",
+   "tagline": "Directus wraps databases with a dynamic API, and provides an intuitive app for managing its content.",
+   "description": "Directus wraps databases with a dynamic API, and provides an intuitive app for managing its content.",
+   "category": "CMS",
+   "icon": null,
+   "image": "directus/directus:11",
+   "port": 8055,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: directus (url-token)",
+   "env": [
+    {
+     "key": "ADMIN_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "CORS_ALLOWED_HEADERS",
+     "secret": false
+    },
+    {
+     "key": "CORS_CREDENTIALS",
+     "secret": false
+    },
+    {
+     "key": "CORS_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "CORS_METHODS",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-docuseal",
+   "name": "Docuseal",
+   "tagline": "Document Signing for Everyone free forever for individuals, extensible for businesses and developers. Open Source Alternative to DocuSign, PandaDoc and more.",
+   "description": "Document Signing for Everyone free forever for individuals, extensible for businesses and developers. Open Source Alternative to DocuSign, PandaDoc and more.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "docuseal/docuseal:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: docuseal (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-drizzle-gateway",
+   "name": "Drizzle Gateway",
+   "tagline": "Free self-hosted Drizzle Studio on steroids",
+   "description": "Free self-hosted Drizzle Studio on steroids",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/drizzle-team/gateway:latest",
+   "port": 4983,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: drizzle-gateway (first-service)",
+   "env": []
+  },
+  {
+   "id": "coolify-easyappointments",
+   "name": "Easyappointments",
+   "tagline": "Schedule Anything. Let's start with easy! Get the best free online appointment scheduler on your server, today.",
+   "description": "Schedule Anything. Let's start with easy! Get the best free online appointment scheduler on your server, today.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "alextselegidis/easyappointments:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: easyappointments (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-elasticsearch",
+   "name": "Elasticsearch",
+   "tagline": "Elasticsearch is free and Open Source, Distributed, RESTful Search Engine.",
+   "description": "Elasticsearch is free and Open Source, Distributed, RESTful Search Engine.",
+   "category": "Search",
+   "icon": "elasticsearch",
+   "image": "docker.elastic.co/elasticsearch/elasticsearch-wolfi:8.19.0",
+   "port": 9200,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: elasticsearch (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-embystat",
+   "name": "Embystat",
+   "tagline": "EmbyStat is a web analytics tool, designed to provide insight into website traffic and user behavior.",
+   "description": "EmbyStat is a web analytics tool, designed to provide insight into website traffic and user behavior.",
+   "category": "Analytics",
+   "icon": null,
+   "image": "lscr.io/linuxserver/embystat:latest",
+   "port": 6555,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: embystat (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-espocrm",
+   "name": "Espocrm",
+   "tagline": "EspoCRM is a free and open-source CRM platform.",
+   "description": "EspoCRM is a free and open-source CRM platform.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "espocrm/espocrm:10",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: espocrm (url-token)",
+   "env": [
+    {
+     "key": "ESPOCRM_ADMIN_USERNAME",
+     "secret": false
+    },
+    {
+     "key": "MARIADB_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-fileflows",
+   "name": "Fileflows",
+   "tagline": "FileFlows can drastically reduce your files, up to 90%, saving you space and money. No need to buy more hard drives, just shrink your files and start saving.",
+   "description": "FileFlows can drastically reduce your files, up to 90%, saving you space and money. No need to buy more hard drives, just shrink your files and start saving.",
+   "category": "Media",
+   "icon": null,
+   "image": "revenz/fileflows",
+   "port": 5000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: fileflows (url-token)",
+   "env": [
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-fizzy",
+   "name": "Fizzy",
+   "tagline": "Kanban tracking tool for issues and ideas by 37signals",
+   "description": "Kanban tracking tool for issues and ideas by 37signals",
+   "category": "Productivity",
+   "icon": null,
+   "image": "ghcr.io/basecamp/fizzy:main",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: fizzy (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-freshrss-with-mariadb",
+   "name": "Freshrss With Mariadb",
+   "tagline": "A free, self-hostable feed aggregator.",
+   "description": "A free, self-hostable feed aggregator.",
+   "category": "Reading",
+   "icon": null,
+   "image": "freshrss/freshrss:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: freshrss (url-token)",
+   "env": [
+    {
+     "key": "CRON_MIN",
+     "secret": false
+    },
+    {
+     "key": "MARIADB_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-glpi",
+   "name": "Glpi",
+   "tagline": "GLPI (Gestionnaire Libre de Parc Informatique) is a free, open-source IT Service Management (ITSM) platform used for IT asset management, helpdesk, and service desk operations.",
+   "description": "GLPI (Gestionnaire Libre de Parc Informatique) is a free, open-source IT Service Management (ITSM) platform used for IT asset management, helpdesk, and service desk operations.",
+   "category": "Helpdesk",
+   "icon": null,
+   "image": "glpi/glpi:11",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: glpi (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-gowa",
+   "name": "Gowa",
+   "tagline": "Golang WhatsApp - Built with Go for efficient memory use",
+   "description": "Golang WhatsApp - Built with Go for efficient memory use",
+   "category": "Messaging",
+   "icon": null,
+   "image": "aldinokemal2104/go-whatsapp-web-multidevice:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: gowa (url-token)",
+   "env": [
+    {
+     "key": "APP_ACCOUNT_VALIDATION",
+     "secret": false
+    },
+    {
+     "key": "APP_DEBUG",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-grimmory",
+   "name": "Grimmory",
+   "tagline": "Grimmory is a self-hosted application for managing your entire book collection in one place. Organize, read, annotate, sync across devices, and share without relying on third-party services.",
+   "description": "Grimmory is a self-hosted application for managing your entire book collection in one place. Organize, read, annotate, sync across devices, and share without relying on third-party services.",
+   "category": "Tools",
+   "icon": null,
+   "image": "grimmory/grimmory:nightly-20260403-3a371f7",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: grimmory (url-token)",
+   "env": [
+    {
+     "key": "GRIMMORY_GROUP_ID",
+     "secret": false
+    },
+    {
+     "key": "GRIMMORY_USER_ID",
+     "secret": false
+    },
+    {
+     "key": "MARIADB_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-hermes-agent",
+   "name": "Hermes Agent",
+   "tagline": "Hermes Agent - autonomous AI agent with persistent memory, scheduling, and built-in web dashboard.",
+   "description": "Hermes Agent - autonomous AI agent with persistent memory, scheduling, and built-in web dashboard.",
+   "category": "AI",
+   "icon": null,
+   "image": "nousresearch/hermes-agent:v2026.8.3",
+   "port": 9119,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: hermes-agent (url-token)",
+   "env": [
+    {
+     "key": "ANTHROPIC_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "FIRECRAWL_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "FIRECRAWL_API_URL",
+     "secret": false
+    },
+    {
+     "key": "GOOGLE_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "HERMES_ALLOW_PRIVATE_URLS",
+     "secret": false
+    },
+    {
+     "key": "HERMES_ENABLE_PROJECT_PLUGINS",
+     "secret": false
+    },
+    {
+     "key": "OPENAI_API_KEY",
+     "secret": false
+    },
+    {
+     "key": "OPENROUTER_API_KEY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-honcho",
+   "name": "Honcho",
+   "tagline": "Honcho is a developer tool to build personalized AI agents with production-ready memory, dialectic reasoning, and stateful dialogue.",
+   "description": "Honcho is a developer tool to build personalized AI agents with production-ready memory, dialectic reasoning, and stateful dialogue.",
+   "category": "AI",
+   "icon": null,
+   "image": "ghcr.io/plastic-labs/honcho:v3.0.12",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: api (url-token)",
+   "env": [
+    {
+     "key": "LOG_LEVEL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-imgcompress",
+   "name": "Imgcompress",
+   "tagline": "Offline image compression, conversion, and AI background removal for Docker homelabs.",
+   "description": "Offline image compression, conversion, and AI background removal for Docker homelabs.",
+   "category": "Media",
+   "icon": null,
+   "image": "karimz1/imgcompress:0.6.0",
+   "port": 5000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: imgcompress (url-token)",
+   "env": [
+    {
+     "key": "DISABLE_LOGO",
+     "secret": false
+    },
+    {
+     "key": "DISABLE_STORAGE_MANAGEMENT",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-joomla-with-mariadb",
+   "name": "Joomla With Mariadb",
+   "tagline": "Joomla! is the mobile-ready and user-friendly way to build your website. Choose from thousands of features and designs. Joomla! is free and open source.",
+   "description": "Joomla! is the mobile-ready and user-friendly way to build your website. Choose from thousands of features and designs. Joomla! is free and open source.",
+   "category": "CMS",
+   "icon": null,
+   "image": "joomla:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: joomla (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-jupyter-notebook-python",
+   "name": "Jupyter Notebook Python",
+   "tagline": "Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations, and narrative text.",
+   "description": "Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations, and narrative text.",
+   "category": "Developer",
+   "icon": null,
+   "image": "quay.io/jupyter/base-notebook:latest",
+   "port": 8888,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: jupyter-notebook-python (port-reference)",
+   "env": []
+  },
+  {
+   "id": "coolify-keycloak-with-postgres",
+   "name": "Keycloak With Postgres",
+   "tagline": "Keycloak is an open-source Identity and Access Management tool.",
+   "description": "Keycloak is an open-source Identity and Access Management tool.",
+   "category": "Auth",
+   "icon": null,
+   "image": "quay.io/keycloak/keycloak:26.1",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: keycloak (url-token)",
+   "env": [
+    {
+     "key": "KC_HEALTH_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "KC_HTTP_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "KC_PROXY_HEADERS",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "TIMEZONE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-kuzzle",
+   "name": "Kuzzle",
+   "tagline": "Kuzzle is a generic backend offering the basic building blocks common to every application.",
+   "description": "Kuzzle is a generic backend offering the basic building blocks common to every application.",
+   "category": "Backend",
+   "icon": null,
+   "image": "kuzzleio/kuzzle:latest",
+   "port": 7512,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: kuzzle (url-token)",
+   "env": [
+    {
+     "key": "DEBUG",
+     "secret": false
+    },
+    {
+     "key": "DEBUG_COLORS",
+     "secret": false
+    },
+    {
+     "key": "DEBUG_DEPTH",
+     "secret": false
+    },
+    {
+     "key": "DEBUG_EXPAND",
+     "secret": false
+    },
+    {
+     "key": "DEBUG_MAX_ARRAY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-langflow",
+   "name": "Langflow",
+   "tagline": "Langflow is an open-source, Python-based, customizable framework for building AI applications.",
+   "description": "Langflow is an open-source, Python-based, customizable framework for building AI applications.",
+   "category": "AI",
+   "icon": "langflow",
+   "image": "langflowai/langflow:1.7.2",
+   "port": 7860,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: langflow (url-token)",
+   "env": [
+    {
+     "key": "LANGFLOW_AUTO_LOGIN",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-libreoffice",
+   "name": "Libreoffice",
+   "tagline": "LibreOffice is a free and powerful office suite.",
+   "description": "LibreOffice is a free and powerful office suite.",
+   "category": "Productivity",
+   "icon": "libreoffice",
+   "image": "lscr.io/linuxserver/libreoffice:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: libreoffice (url-token)",
+   "env": [
+    {
+     "key": "PGID",
+     "secret": false
+    },
+    {
+     "key": "PUID",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-linkding-plus",
+   "name": "Linkding Plus",
+   "tagline": "A self-hosted bookmark manager designed to be minimal, fast, and easy to set up. (Includes feature for archiving websites as HTML snapshots)",
+   "description": "A self-hosted bookmark manager designed to be minimal, fast, and easy to set up. (Includes feature for archiving websites as HTML snapshots)",
+   "category": "Reading",
+   "icon": null,
+   "image": "sissbruecker/linkding:latest-plus",
+   "port": 9090,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: linkding-plus (first-service)",
+   "env": []
+  },
+  {
+   "id": "coolify-mage-ai",
+   "name": "Mage Ai",
+   "tagline": "Build, run, and manage data pipelines for integrating and transforming data.",
+   "description": "Build, run, and manage data pipelines for integrating and transforming data.",
+   "category": "Automation",
+   "icon": null,
+   "image": "mageai/mageai:0.9.78",
+   "port": 6789,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: mage-ai (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-mediawiki",
+   "name": "Mediawiki",
+   "tagline": "MediaWiki is a collaboration and documentation platform brought to you by a vibrant community.",
+   "description": "MediaWiki is a collaboration and documentation platform brought to you by a vibrant community.",
+   "category": "CMS",
+   "icon": null,
+   "image": "mediawiki:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: mediawiki (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-mindsdb",
+   "name": "Mindsdb",
+   "tagline": "MindsDB is the platform for building AI from enterprise data, enabling smarter organizations.",
+   "description": "MindsDB is the platform for building AI from enterprise data, enabling smarter organizations.",
+   "category": "AI",
+   "icon": null,
+   "image": "mindsdb/mindsdb:latest",
+   "port": 47334,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: mindsdb (url-token)",
+   "env": [
+    {
+     "key": "FLASK_DEBUG",
+     "secret": false
+    },
+    {
+     "key": "LANGFUSE_DEBUG",
+     "secret": false
+    },
+    {
+     "key": "LANGFUSE_RELEASE",
+     "secret": false
+    },
+    {
+     "key": "LANGFUSE_SAMPLE_RATE",
+     "secret": false
+    },
+    {
+     "key": "LANGFUSE_TIMEOUT",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-moodle",
+   "name": "Moodle",
+   "tagline": "Moodle is the world’s most customisable and trusted eLearning solution that empowers educators to improve our world.",
+   "description": "Moodle is the world’s most customisable and trusted eLearning solution that empowers educators to improve our world.",
+   "category": "CMS",
+   "icon": "moodle",
+   "image": "docker.io/bitnamilegacy/moodle:4.3",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: moodle (url-token)",
+   "env": [
+    {
+     "key": "MOODLE_SITE_NAME",
+     "secret": false
+    },
+    {
+     "key": "MOODLE_USERNAME",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-n8n-with-postgresql",
+   "name": "N8n With Postgresql",
+   "tagline": "n8n is an extendable workflow automation tool.",
+   "description": "n8n is an extendable workflow automation tool.",
+   "category": "Automation",
+   "icon": null,
+   "image": "n8nio/n8n:2.10.2",
+   "port": 5678,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: n8n (url-token)",
+   "env": [
+    {
+     "key": "GENERIC_TIMEZONE",
+     "secret": false
+    },
+    {
+     "key": "N8N_BLOCK_ENV_ACCESS_IN_NODE",
+     "secret": false
+    },
+    {
+     "key": "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS",
+     "secret": false
+    },
+    {
+     "key": "N8N_GIT_NODE_DISABLE_BARE_REPOS",
+     "secret": false
+    },
+    {
+     "key": "N8N_NATIVE_PYTHON_RUNNER",
+     "secret": false
+    },
+    {
+     "key": "N8N_PROTOCOL",
+     "secret": false
+    },
+    {
+     "key": "N8N_PROXY_HOPS",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_BROKER_LISTEN_ADDRESS",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_BROKER_PORT",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_MAX_CONCURRENCY",
+     "secret": false
+    },
+    {
+     "key": "N8N_RUNNERS_TASK_BROKER_URI",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-next-image-transformation",
+   "name": "Next Image Transformation",
+   "tagline": "Drop-in replacement for Vercel's Nextjs image optimization service.",
+   "description": "Drop-in replacement for Vercel's Nextjs image optimization service.",
+   "category": "Media",
+   "icon": null,
+   "image": "ghcr.io/coollabsio/next-image-transformation:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: next-image-transformation (port-reference)",
+   "env": [
+    {
+     "key": "ALLOWED_REMOTE_DOMAINS",
+     "secret": false
+    },
+    {
+     "key": "IMGPROXY_URL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-nextcloud-with-postgres",
+   "name": "Nextcloud With Postgres",
+   "tagline": "NextCloud is a self-hosted, open-source platform that provides file storage, collaboration, and communication tools for seamless data management.",
+   "description": "NextCloud is a self-hosted, open-source platform that provides file storage, collaboration, and communication tools for seamless data management.",
+   "category": "Files",
+   "icon": null,
+   "image": "lscr.io/linuxserver/nextcloud:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: nextcloud (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-nitropage-with-postgresql",
+   "name": "Nitropage With Postgresql",
+   "tagline": "Nitropage is an extensible, visual website builder, offering a growing library of versatile building blocks, focal-point image cropping and sovereign font management.",
+   "description": "Nitropage is an extensible, visual website builder, offering a growing library of versatile building blocks, focal-point image cropping and sovereign font management.",
+   "category": "CMS",
+   "icon": null,
+   "image": "nitropage/nitropage",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: nitropage (url-token)",
+   "env": [
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-nocobase",
+   "name": "Nocobase",
+   "tagline": "NocoBase is the most extensible AI-powered no-code/low-code platform.",
+   "description": "NocoBase is the most extensible AI-powered no-code/low-code platform.",
+   "category": "Developer",
+   "icon": null,
+   "image": "nocobase/nocobase:1.9.33",
+   "port": 13000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: nocobase (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-observium",
+   "name": "Observium",
+   "tagline": "Observium is a comprehensive network monitoring platform designed to deliver powerful monitoring capabilities, combined with an elegant and intuitive user interface.",
+   "description": "Observium is a comprehensive network monitoring platform designed to deliver powerful monitoring capabilities, combined with an elegant and intuitive user interface.",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "mbixtech/observium:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: observium (url-token)",
+   "env": [
+    {
+     "key": "MARIADB_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "OBSERVIUM_DB_NAME",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-odoo",
+   "name": "Odoo",
+   "tagline": "Odoo is a suite of open-source business apps that cover all your company needs.",
+   "description": "Odoo is a suite of open-source business apps that cover all your company needs.",
+   "category": "Productivity",
+   "icon": "odoo",
+   "image": "odoo:18",
+   "port": 8069,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: odoo (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-onedev",
+   "name": "Onedev",
+   "tagline": "Git server with CI/CD, kanban, and packages. Seamless integration. Unparalleled experience.",
+   "description": "Git server with CI/CD, kanban, and packages. Seamless integration. Unparalleled experience.",
+   "category": "Developer",
+   "icon": null,
+   "image": "1dev/server:latest",
+   "port": 6610,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: onedev (url-token) · uses the Docker socket",
+   "env": [
+    {
+     "key": "ONEDEV_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "SSH_ROOT_URL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-open-archiver",
+   "name": "Open Archiver",
+   "tagline": "A self-hosted, open-source email archiving solution with full-text search capability.",
+   "description": "A self-hosted, open-source email archiving solution with full-text search capability.",
+   "category": "Email",
+   "icon": null,
+   "image": "logiclabshq/open-archiver:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: open-archiver (url-token)",
+   "env": [
+    {
+     "key": "BODY_SIZE_LIMIT",
+     "secret": false
+    },
+    {
+     "key": "JWT_EXPIRES_IN",
+     "secret": false
+    },
+    {
+     "key": "NODE_ENV",
+     "secret": false
+    },
+    {
+     "key": "PORT_BACKEND",
+     "secret": false
+    },
+    {
+     "key": "PORT_FRONTEND",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "RATE_LIMIT_MAX_REQUESTS",
+     "secret": false
+    },
+    {
+     "key": "RATE_LIMIT_WINDOW_MS",
+     "secret": false
+    },
+    {
+     "key": "STORAGE_LOCAL_ROOT_PATH",
+     "secret": false
+    },
+    {
+     "key": "STORAGE_S3_FORCE_PATH_STYLE",
+     "secret": false
+    },
+    {
+     "key": "STORAGE_TYPE",
+     "secret": false
+    },
+    {
+     "key": "SYNC_FREQUENCY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-openobserve",
+   "name": "Openobserve",
+   "tagline": "Cloud-native observability platform for logs, metrics, traces, RUM, errors and session replays — a 140x cheaper alternative to Elasticsearch, Splunk and Datadog.",
+   "description": "Cloud-native observability platform for logs, metrics, traces, RUM, errors and session replays — a 140x cheaper alternative to Elasticsearch, Splunk and Datadog.",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "public.ecr.aws/zinclabs/openobserve:v0.90.0",
+   "port": 5080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: openobserve (url-token)",
+   "env": [
+    {
+     "key": "ZO_COOKIE_SECURE_ONLY",
+     "secret": false
+    },
+    {
+     "key": "ZO_ROOT_USER_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "ZO_TELEMETRY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-openwa",
+   "name": "Openwa",
+   "tagline": "Free, open source, self-hosted WhatsApp API gateway with bundled dashboard.",
+   "description": "Free, open source, self-hosted WhatsApp API gateway with bundled dashboard.",
+   "category": "Messaging",
+   "icon": null,
+   "image": "ghcr.io/rmyndharis/openwa:0.23.1",
+   "port": 2785,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: openwa (url-token)",
+   "env": [
+    {
+     "key": "AUTO_START_SESSIONS",
+     "secret": false
+    },
+    {
+     "key": "ENGINE_TYPE",
+     "secret": false
+    },
+    {
+     "key": "LOG_LEVEL",
+     "secret": false
+    },
+    {
+     "key": "OPENWA_MEM_LIMIT",
+     "secret": false
+    },
+    {
+     "key": "OPENWA_PIDS_LIMIT",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-owncloud",
+   "name": "Owncloud",
+   "tagline": "OwnCloud with Open Web UI integrates file management with a powerful, user-friendly interface.",
+   "description": "OwnCloud with Open Web UI integrates file management with a powerful, user-friendly interface.",
+   "category": "Files",
+   "icon": "owncloud",
+   "image": "owncloud/server:latest",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: owncloud (url-token)",
+   "env": [
+    {
+     "key": "DB_NAME",
+     "secret": false
+    },
+    {
+     "key": "MYSQL_UTF8MB4",
+     "secret": false
+    },
+    {
+     "key": "REDIS_ENABLED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-paymenter",
+   "name": "Paymenter",
+   "tagline": "Open-Source Billing, Built for Hosting",
+   "description": "Open-Source Billing, Built for Hosting",
+   "category": "Finance",
+   "icon": null,
+   "image": "ghcr.io/paymenter/paymenter:v1.4.5",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: paymenter (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-penpot",
+   "name": "Penpot",
+   "tagline": "Penpot is the first Open Source design and prototyping platform for product teams.",
+   "description": "Penpot is the first Open Source design and prototyping platform for product teams.",
+   "category": "Productivity",
+   "icon": "penpot",
+   "image": "penpotapp/frontend:2.11.1",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: frontend (url-token)",
+   "env": [
+    {
+     "key": "PENPOT_BACKEND_FLAGS",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_FRONTEND_FLAGS",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_DEFAULT_FROM",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_DEFAULT_REPLY_TO",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_HOST",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_PASSWORD",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_PORT",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_SSL",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_TLS",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_SMTP_USERNAME",
+     "secret": false
+    },
+    {
+     "key": "PENPOT_TELEMETRY_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-plunk",
+   "name": "Plunk",
+   "tagline": "Plunk, The Open-Source Email Platform for AWS",
+   "description": "Plunk, The Open-Source Email Platform for AWS",
+   "category": "Email",
+   "icon": null,
+   "image": "driaug/plunk:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: plunk (url-token)",
+   "env": [
+    {
+     "key": "DISABLE_SIGNUPS",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-pocket-id",
+   "name": "Pocket Id",
+   "tagline": "A simple and secure OIDC provider with passkey authentication",
+   "description": "A simple and secure OIDC provider with passkey authentication",
+   "category": "Auth",
+   "icon": null,
+   "image": "ghcr.io/pocket-id/pocket-id:v1.13",
+   "port": 1411,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: pocket-id (url-token)",
+   "env": [
+    {
+     "key": "EMAIL_API_KEY_EXPIRATION_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_LOGIN_NOTIFICATION_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "PGID",
+     "secret": false
+    },
+    {
+     "key": "PUID",
+     "secret": false
+    },
+    {
+     "key": "SMTP_PORT",
+     "secret": false
+    },
+    {
+     "key": "SMTP_SKIP_CERT_VERIFY",
+     "secret": false
+    },
+    {
+     "key": "SMTP_TLS",
+     "secret": false
+    },
+    {
+     "key": "TRUST_PROXY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-portainer",
+   "name": "Portainer",
+   "tagline": "Portainer is a lightweight management UI for Docker",
+   "description": "Portainer is a lightweight management UI for Docker",
+   "category": "Developer",
+   "icon": "portainer",
+   "image": "portainer/portainer-ce:alpine",
+   "port": 9000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: portainer (url-token) · uses the Docker socket",
+   "env": []
+  },
+  {
+   "id": "coolify-pydio-cells",
+   "name": "Pydio Cells",
+   "tagline": "High-performance large file sharing, native no-code automation, and a collaboration-centric architecture that simplifies access control without compromising security or compliance.",
+   "description": "High-performance large file sharing, native no-code automation, and a collaboration-centric architecture that simplifies access control without compromising security or compliance.",
+   "category": "Files",
+   "icon": null,
+   "image": "pydio/cells:4.4",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: cells (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-rivet-engine",
+   "name": "Rivet Engine",
+   "tagline": "Build and scale stateful workloads with long-lived processes",
+   "description": "Build and scale stateful workloads with long-lived processes",
+   "category": "Developer",
+   "icon": null,
+   "image": "rivetdev/engine:2.2.0",
+   "port": 6420,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: rivet-engine (port-reference)",
+   "env": []
+  },
+  {
+   "id": "coolify-siyuan",
+   "name": "Siyuan",
+   "tagline": "A privacy-first, self-hosted, fully open source personal knowledge management software, written in typescript and golang.",
+   "description": "A privacy-first, self-hosted, fully open source personal knowledge management software, written in typescript and golang.",
+   "category": "Productivity",
+   "icon": "siyuan",
+   "image": "b3log/siyuan:v3.3.5",
+   "port": 6806,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: siyuan (url-token)",
+   "env": [
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-snapdrop",
+   "name": "Snapdrop",
+   "tagline": "A self-hosted file-sharing service for secure and convenient file transfers, whether on a local network or the internet.",
+   "description": "A self-hosted file-sharing service for secure and convenient file transfers, whether on a local network or the internet.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "linuxserver/snapdrop:version-b8b78cc2",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: snapdrop (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-spacebot",
+   "name": "Spacebot",
+   "tagline": "An agentic AI system with specialized processes for thinking, working, and remembering.",
+   "description": "An agentic AI system with specialized processes for thinking, working, and remembering.",
+   "category": "AI",
+   "icon": null,
+   "image": "ghcr.io/spacedriveapp/spacebot:full",
+   "port": 19898,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: spacebot (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-statusnook",
+   "name": "Statusnook",
+   "tagline": "Effortlessly deploy a status page and start monitoring endpoints in minutes",
+   "description": "Effortlessly deploy a status page and start monitoring endpoints in minutes",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "goksan/statusnook",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: statusnook (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-supertokens-with-mysql",
+   "name": "Supertokens With Mysql",
+   "tagline": "An open-source authentication solution that simplifies the implementation of secure user authentication and session management for web and mobile applications.",
+   "description": "An open-source authentication solution that simplifies the implementation of secure user authentication and session management for web and mobile applications.",
+   "category": "Auth",
+   "icon": null,
+   "image": "registry.supertokens.io/supertokens/supertokens-mysql:latest",
+   "port": 3567,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: supertokens (url-token)",
+   "env": [
+    {
+     "key": "API_KEYS",
+     "secret": false
+    },
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-sure",
+   "name": "Sure",
+   "tagline": "An all-in-one personal finance platform.",
+   "description": "An all-in-one personal finance platform.",
+   "category": "Finance",
+   "icon": null,
+   "image": "ghcr.io/we-promise/sure:0.6.7",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: web (port-reference)",
+   "env": [
+    {
+     "key": "ONBOARDING_STATE",
+     "secret": false
+    },
+    {
+     "key": "POSTGRESQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-termix",
+   "name": "Termix",
+   "tagline": "All-in-One SSH & Remote Desktop management app.",
+   "description": "All-in-One SSH & Remote Desktop management app.",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/lukegus/termix:2.6.1",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: termix (url-token)",
+   "env": [
+    {
+     "key": "LOG_LEVEL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-trailbase",
+   "name": "Trailbase",
+   "tagline": "A blazingly fast Rust/SQLite/Wasmtime app server with type-safe APIs",
+   "description": "A blazingly fast Rust/SQLite/Wasmtime app server with type-safe APIs",
+   "category": "Backend",
+   "icon": null,
+   "image": "trailbase/trailbase:0.22.6",
+   "port": 4000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: trailbase (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-uptime-kuma-with-mariadb",
+   "name": "Uptime Kuma With Mariadb",
+   "tagline": "Uptime Kuma is a monitoring tool for tracking the status and performance of your applications in real-time.",
+   "description": "Uptime Kuma is a monitoring tool for tracking the status and performance of your applications in real-time.",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "louislam/uptime-kuma:2",
+   "port": 3001,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: uptime-kuma (url-token)",
+   "env": [
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-vvveb",
+   "name": "Vvveb",
+   "tagline": "Powerful and easy to use cms to build websites, blogs or ecommerce stores.",
+   "description": "Powerful and easy to use cms to build websites, blogs or ecommerce stores.",
+   "category": "CMS",
+   "icon": null,
+   "image": "vvveb/vvvebcms:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: vvveb (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-web-check",
+   "name": "Web Check",
+   "tagline": "All-in-one OSINT tool for analysing any website",
+   "description": "All-in-one OSINT tool for analysing any website",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "lissy93/web-check",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: web-check (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-wordpress-without-database",
+   "name": "Wordpress Without Database",
+   "tagline": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
+   "description": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
+   "category": "CMS",
+   "icon": null,
+   "image": "wordpress:latest",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: wordpress (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-yamtrack",
+   "name": "Yamtrack",
+   "tagline": "Yamtrack is a self hosted media tracker for movies, tv shows, anime, manga, video games and books.",
+   "description": "Yamtrack is a self hosted media tracker for movies, tv shows, anime, manga, video games and books.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "ghcr.io/fuzzygrim/yamtrack",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: yamtrack (url-token)",
+   "env": [
+    {
+     "key": "REGISTRATION_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-zipline",
+   "name": "Zipline",
+   "tagline": "A ShareX/file upload server that is easy to use, packed with features, and with an easy setup!",
+   "description": "A ShareX/file upload server that is easy to use, packed with features, and with an easy setup!",
+   "category": "Media",
+   "icon": null,
+   "image": "ghcr.io/diced/zipline:latest",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: zipline (url-token)",
+   "env": [
+    {
+     "key": "CORE_LOGGER",
+     "secret": false
+    },
+    {
+     "key": "CORE_RETURN_HTTPS",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-affine",
+   "name": "Affine",
+   "tagline": "Affine is an open-source, all-in-one workspace and OS for knowledge management, a Notion/Miro alternative.",
+   "description": "Affine is an open-source, all-in-one workspace and OS for knowledge management, a Notion/Miro alternative.",
+   "category": "Productivity",
+   "icon": "affine",
+   "image": "ghcr.io/toeverything/affine:stable",
+   "port": 3010,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: affine (url-token)",
+   "env": [
+    {
+     "key": "AFFINE_REVISION",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-elasticsearch-with-kibana",
+   "name": "Elasticsearch With Kibana",
+   "tagline": "Elastic + Kibana is a Free and Open Source Search, Monitoring, and Visualization Stack",
+   "description": "Elastic + Kibana is a Free and Open Source Search, Monitoring, and Visualization Stack",
+   "category": "Monitoring",
+   "icon": null,
+   "image": "kibana:9.1.2",
+   "port": 5601,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: kibana (url-token)",
+   "env": [
+    {
+     "key": "TELEMETRY_OPTIN",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-jean",
+   "name": "Jean",
+   "tagline": "Open-source desktop and server client for orchestrating AI coding agents.",
+   "description": "Open-source desktop and server client for orchestrating AI coding agents.",
+   "category": "Developer",
+   "icon": null,
+   "image": "ghcr.io/coollabsio/jean-server:latest",
+   "port": 3456,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: jean (url-token)",
+   "env": [
+    {
+     "key": "JEAN_ALLOW_NATIVE_OPEN",
+     "secret": false
+    },
+    {
+     "key": "JEAN_ALLOW_UNSAFE_NO_TOKEN",
+     "secret": false
+    },
+    {
+     "key": "JEAN_ALLOWED_ORIGINS",
+     "secret": false
+    },
+    {
+     "key": "JEAN_HEADLESS",
+     "secret": false
+    },
+    {
+     "key": "JEAN_HOST",
+     "secret": false
+    },
+    {
+     "key": "JEAN_NO_TOKEN",
+     "secret": false
+    },
+    {
+     "key": "JEAN_PORT",
+     "secret": false
+    },
+    {
+     "key": "JEAN_VERSION",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-inngest",
+   "name": "Inngest",
+   "tagline": "Durable workflow engine for background jobs, queues and scheduled tasks.",
+   "description": "Durable workflow engine for background jobs, queues and scheduled tasks.",
+   "category": "Automation",
+   "icon": null,
+   "image": "inngest/inngest:v1.27.0",
+   "port": 8288,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: inngest (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-martin",
+   "name": "Martin",
+   "tagline": "Martin is a tile server able to generate and serve vector tiles on the fly from large PostGIS databases, PMTiles (local or remote), and MBTiles files, allowing multiple tile sources to be dynamically combined into one.",
+   "description": "Martin is a tile server able to generate and serve vector tiles on the fly from large PostGIS databases, PMTiles (local or remote), and MBTiles files, allowing multiple tile sources to be dynamically combined into one.",
+   "category": "Backend",
+   "icon": null,
+   "image": "ghcr.io/maplibre/martin:v0.13.0",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: martin (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-pgbackweb",
+   "name": "Pgbackweb",
+   "tagline": "Effortless PostgreSQL backups with a user-friendly web interface!",
+   "description": "Effortless PostgreSQL backups with a user-friendly web interface!",
+   "category": "Developer",
+   "icon": null,
+   "image": "eduardolat/pgbackweb:latest",
+   "port": 8085,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: pgbackweb (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "TIME_ZONE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-drupal-with-postgresql",
+   "name": "Drupal With Postgresql",
+   "tagline": "Drupal is a free and open-source web content management system written in PHP and distributed under the GNU General Public License.",
+   "description": "Drupal is a free and open-source web content management system written in PHP and distributed under the GNU General Public License.",
+   "category": "CMS",
+   "icon": null,
+   "image": "drupal:10-apache",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: drupal (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-immich",
+   "name": "Immich",
+   "tagline": "Self-hosted photo and video management solution.",
+   "description": "Self-hosted photo and video management solution.",
+   "category": "Media",
+   "icon": "immich",
+   "image": "ghcr.io/immich-app/immich-server:release",
+   "port": 2283,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: immich (url-token)",
+   "env": [
+    {
+     "key": "DB_DATABASE_NAME",
+     "secret": false
+    },
+    {
+     "key": "DB_STORAGE_TYPE",
+     "secret": false
+    },
+    {
+     "key": "IMMICH_VERSION",
+     "secret": false
+    },
+    {
+     "key": "TZ",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-karakeep",
+   "name": "Karakeep",
+   "tagline": "A self-hostable bookmark-everything app (links, notes and images) with AI-based automatic tagging and full text search",
+   "description": "A self-hostable bookmark-everything app (links, notes and images) with AI-based automatic tagging and full text search",
+   "category": "Productivity",
+   "icon": "karakeep",
+   "image": "ghcr.io/karakeep-app/karakeep:0.33.2",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: web (first-service)",
+   "env": [
+    {
+     "key": "MEILI_NO_ANALYTICS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-once-campfire",
+   "name": "Once Campfire",
+   "tagline": "Super simple group chat, without a subscription.",
+   "description": "Super simple group chat, without a subscription.",
+   "category": "Messaging",
+   "icon": null,
+   "image": "ghcr.io/basecamp/once-campfire:main",
+   "port": 80,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: campfire (url-token)",
+   "env": [
+    {
+     "key": "DISABLE_SSL",
+     "secret": false
+    },
+    {
+     "key": "SKIP_TELEMETRY",
+     "secret": false
+    },
+    {
+     "key": "SSL_DOMAIN",
+     "secret": false
+    },
+    {
+     "key": "TAG",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-redlib",
+   "name": "Redlib",
+   "tagline": "An alternative private front-end to Reddit, with its origins in Libreddit.",
+   "description": "An alternative private front-end to Reddit, with its origins in Libreddit.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "quay.io/redlib/redlib:latest",
+   "port": 8080,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: redlib (url-token)",
+   "env": [
+    {
+     "key": "REDLIB_BANNER",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_AUTOPLAY_VIDEOS",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_BLUR_NSFW",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_BLUR_SPOILER",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_COMMENT_SORT",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_DISABLE_VISIT_REDDIT_CONFIRMATION",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_FIXED_NAVBAR",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_FRONT_PAGE",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_HIDE_AWARDS",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_HIDE_HLS_NOTIFICATION",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_HIDE_SCORE",
+     "secret": false
+    },
+    {
+     "key": "REDLIB_DEFAULT_HIDE_SIDEBAR_AND_SUMMARY",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-paperless",
+   "name": "Paperless",
+   "tagline": "Paperless-ngx is a community-supported open-source document management system that transforms your physical documents into a searchable online archive so you can keep, well, less paper.",
+   "description": "Paperless-ngx is a community-supported open-source document management system that transforms your physical documents into a searchable online archive so you can keep, well, less paper.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "paperlessngx/paperless-ngx:latest",
+   "port": 8000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: paperless (url-token)",
+   "env": []
+  },
+  {
+   "id": "coolify-sequin",
+   "name": "Sequin",
+   "tagline": "The fastest Postgres change data capture",
+   "description": "The fastest Postgres change data capture",
+   "category": "Analytics",
+   "icon": null,
+   "image": "sequin/sequin:latest",
+   "port": 7376,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: sequin (url-token)",
+   "env": [
+    {
+     "key": "CRASH_REPORTING_DISABLED",
+     "secret": false
+    },
+    {
+     "key": "FEATURE_ACCOUNT_SELF_SIGNUP",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "SEQUIN_TELEMETRY_DISABLED",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-vault",
+   "name": "Vault",
+   "tagline": "HashiCorp Vault securely stores and controls access to secrets.",
+   "description": "HashiCorp Vault securely stores and controls access to secrets.",
+   "category": "Security",
+   "icon": "vault",
+   "image": "hashicorp/vault:latest",
+   "port": 8200,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: vault (url-token)",
+   "env": [
+    {
+     "key": "VAULT_VERSION",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-kimai",
+   "name": "Kimai",
+   "tagline": "Open source time-tracking app.",
+   "description": "Open source time-tracking app.",
+   "category": "Productivity",
+   "icon": null,
+   "image": "kimai/kimai2:apache",
+   "port": 8001,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: kimai (url-token)",
+   "env": [
+    {
+     "key": "ADMINMAIL",
+     "secret": false
+    },
+    {
+     "key": "MAILER_FROM",
+     "secret": false
+    },
+    {
+     "key": "MAILER_URL",
+     "secret": false
+    },
+    {
+     "key": "MYSQL_DATABASE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-matrix-synapse-with-postgresql",
+   "name": "Matrix Synapse With Postgresql",
+   "tagline": "Chat securely with your family, friends, community, or build great apps with Matrix!",
+   "description": "Chat securely with your family, friends, community, or build great apps with Matrix!",
+   "category": "Messaging",
+   "icon": null,
+   "image": "matrixdotorg/synapse:latest",
+   "port": 8008,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: synapse (url-token)",
+   "env": [
+    {
+     "key": "ENABLE_REGISTRATION",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "SYNAPSE_REPORT_STATS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-documenso",
+   "name": "Documenso",
+   "tagline": "Document signing, finally open source",
+   "description": "Document signing, finally open source",
+   "category": "Productivity",
+   "icon": null,
+   "image": "documenso/documenso:v1.12.10",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: documenso (url-token)",
+   "env": [
+    {
+     "key": "CERT_INFO_COUNTRY_NAME",
+     "secret": false
+    },
+    {
+     "key": "CERT_INFO_EMAIL",
+     "secret": false
+    },
+    {
+     "key": "CERT_INFO_LOCALITY_NAME",
+     "secret": false
+    },
+    {
+     "key": "CERT_INFO_ORGANIZATION_NAME",
+     "secret": false
+    },
+    {
+     "key": "CERT_INFO_ORGANIZATIONAL_UNIT",
+     "secret": false
+    },
+    {
+     "key": "CERT_INFO_STATE_OR_PROVIDENCE",
+     "secret": false
+    },
+    {
+     "key": "CERT_VALID_DAYS",
+     "secret": false
+    },
+    {
+     "key": "DISABLE_LOGIN",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-matrix-synapse-with-sqlite",
+   "name": "Matrix Synapse With Sqlite",
+   "tagline": "Chat securely with your family, friends, community, or build great apps with Matrix!",
+   "description": "Chat securely with your family, friends, community, or build great apps with Matrix!",
+   "category": "Messaging",
+   "icon": null,
+   "image": "matrixdotorg/synapse:latest",
+   "port": 8008,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: synapse (url-token)",
+   "env": [
+    {
+     "key": "ENABLE_REGISTRATION",
+     "secret": false
+    },
+    {
+     "key": "SYNAPSE_REPORT_STATS",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-prefect",
+   "name": "Prefect",
+   "tagline": "Prefect is an orchestration and observability platform that empowers developers to build and scale workflows quickly.",
+   "description": "Prefect is an orchestration and observability platform that empowers developers to build and scale workflows quickly.",
+   "category": "Automation",
+   "icon": "prefect",
+   "image": "prefecthq/prefect:3-latest",
+   "port": 4200,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: prefect (url-token)",
+   "env": [
+    {
+     "key": "DEFAULT_POOL_LIMIT",
+     "secret": false
+    },
+    {
+     "key": "DEFAULT_POOL_NAME",
+     "secret": false
+    },
+    {
+     "key": "DEFAULT_WORKER_NAME",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "PREFECT_EXPERIMENTAL_ENABLE_SCHEDULE_CONCURRENCY",
+     "secret": false
+    },
+    {
+     "key": "PREFECT_EXPERIMENTAL_WARN",
+     "secret": false
+    },
+    {
+     "key": "PREFECT_RUNNER_SERVER_ENABLE",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-bluesky-pds",
+   "name": "Bluesky Pds",
+   "tagline": "Bluesky PDS (Personal Data Server)",
+   "description": "Bluesky PDS (Personal Data Server)",
+   "category": "Backend",
+   "icon": null,
+   "image": "ghcr.io/bluesky-social/pds:0.4.182",
+   "port": 3000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: pds (url-token)",
+   "env": [
+    {
+     "key": "LOG_ENABLED",
+     "secret": false
+    },
+    {
+     "key": "PDS_BLOB_UPLOAD_LIMIT",
+     "secret": false
+    },
+    {
+     "key": "PDS_BSKY_APP_VIEW_DID",
+     "secret": false
+    },
+    {
+     "key": "PDS_BSKY_APP_VIEW_URL",
+     "secret": false
+    },
+    {
+     "key": "PDS_CRAWLERS",
+     "secret": false
+    },
+    {
+     "key": "PDS_DATA_DIRECTORY",
+     "secret": false
+    },
+    {
+     "key": "PDS_DID_PLC_URL",
+     "secret": false
+    },
+    {
+     "key": "PDS_REPORT_SERVICE_DID",
+     "secret": false
+    },
+    {
+     "key": "PDS_REPORT_SERVICE_URL",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-authentik",
+   "name": "Authentik",
+   "tagline": "An open-source Identity Provider, focused on flexibility and versatility.",
+   "description": "An open-source Identity Provider, focused on flexibility and versatility.",
+   "category": "Auth",
+   "icon": "authentik",
+   "image": "ghcr.io/goauthentik/server:2026.5.6",
+   "port": 9000,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: authentik-server (url-token) · uses the Docker socket",
+   "env": [
+    {
+     "key": "AUTHENTIK_ERROR_REPORTING__ENABLED",
+     "secret": false
+    },
+    {
+     "key": "AUTHENTIK_TAG",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    },
+    {
+     "key": "POSTGRES_HOST",
+     "secret": false
+    }
+   ]
+  },
+  {
+   "id": "coolify-logto",
+   "name": "Logto",
+   "tagline": "A comprehensive identity solution covering both the front and backend, complete with pre-built infrastructure and enterprise-grade solutions.",
+   "description": "A comprehensive identity solution covering both the front and backend, complete with pre-built infrastructure and enterprise-grade solutions.",
+   "category": "Auth",
+   "icon": null,
+   "image": "svhd/logto:latest",
+   "port": 3001,
+   "website": null,
+   "featured": false,
+   "verified": true,
+   "compose": true,
+   "volume": null,
+   "requires": "Coolify mirror · routed service: logto (url-token)",
+   "env": [
+    {
+     "key": "POSTGRES_DB",
+     "secret": false
+    }
+   ]
   }
  ]
 }

@@ -32,6 +32,14 @@ export const rooms: FeatureRoom[] = [
         text: `Use a GitHub App, PAT or SSH deploy key, pull from private registries, or start from ${site.stats.templates} hub templates — ${site.stats.certified} runtime-certified. GitHub Apps use short-lived repository-scoped tokens and can report deploy status and PR preview URLs.`,
       },
       {
+        title: "Build placement and image transfer",
+        text: "Build on the runtime host, the panel or a dedicated build server. Move images to nodes over the sealed agent channel or through an operator-bound registry. A failed build or transfer leaves the running version serving.",
+      },
+      {
+        title: "Docker Swarm, opt-in",
+        text: "Operators can enable Swarm per Docker service for rolling, start-first updates and replicas. Traefik remains the public entry point. Compose, PM2, volumes and managed databases keep their separate runtimes.",
+      },
+      {
         title: "The .ninedeploy manifest",
         text: "Commit build, runtime, routing, storage and alert config next to the code. Panel beats manifest beats auto-detect, and a secret scanner refuses credential-shaped values before they reach git.",
       },
@@ -65,15 +73,19 @@ export const rooms: FeatureRoom[] = [
     id: "data",
     name: "Data",
     icon: Database,
-    summary: "Nine database engines, encrypted backups, volumes you can snapshot — all on your disk.",
+    summary: `${site.stats.dbEngines} database engines, encrypted backups and volumes — on your panel host or nodes.`,
     items: [
       {
-        title: "Nine managed engines",
-        text: "PostgreSQL (with pgvector), MySQL, MariaDB, Redis, Valkey, MongoDB, ClickHouse, Meilisearch and RabbitMQ, with one-click provisioning and a web studio.",
+        title: `${site.stats.dbEngines} managed engines`,
+        text: "PostgreSQL (with pgvector), MySQL, MariaDB, Redis, Valkey, KeyDB, Dragonfly, MongoDB, ClickHouse, Meilisearch and RabbitMQ. KeyDB and Dragonfly include Redis-compatible connection strings, RDB backup/restore, imports and drills.",
+      },
+      {
+        title: "Databases and volumes on nodes",
+        text: "Place managed databases on a node, attach services on the same host, and back up or restore node volumes over the sealed channel. Node databases support logs, limits, backups, imports and shells; Studio, PgBouncer and public access stay on the panel host.",
       },
       {
         title: "Public access and dump import",
-        text: "Opt-in TCP access for six database engines through a dedicated sidecar and a required IP allowlist. Import resumable uploads or S3 dumps with a pre-import safety backup.",
+        text: "Opt-in TCP access for eight database engines on the panel host, through a dedicated sidecar and a required IP allowlist. Import resumable uploads or S3 dumps with a pre-import safety backup.",
       },
       {
         title: "Injected connection strings",
@@ -129,7 +141,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Multi-server agents",
-        text: "Remote hosts run the same binary in agent mode and accept about 24 typed operations — never raw shell over the wire. Each node runs its own Traefik.",
+        text: "Remote hosts advertise their agent version and capabilities. Updated nodes support Docker and Compose, Nixpacks/Railpack builds, private clones and volumes. Each node has its own Traefik; PM2 remains on the panel host.",
       },
       {
         title: "Topology view",
@@ -156,12 +168,16 @@ export const rooms: FeatureRoom[] = [
         text: "Argon2id, passkeys (WebAuthn), TOTP with replay protection, OIDC for Google, GitHub, Okta and Keycloak, and a 5-fails-then-15-minutes lockout.",
       },
       {
+        title: "Pinned Git SSH host keys",
+        text: "Opt in per deploy-key source: a successful panel clone learns the Git host's keys and later clones refuse a changed key. Disabling pinning or resetting keys requires an interactive password re-check and is audited.",
+      },
+      {
         title: "Secrets vault",
         text: "AES-256-GCM in versioned envelopes with a rotatable master-key ring. Resolve Infisical, Doppler, HashiCorp Vault / OpenBao and AWS Secrets Manager references at deploy time.",
       },
       {
         title: "Alerts and notifications",
-        text: "Rules on CPU, memory, disk, cert expiry and offline nodes, delivered to Telegram, Discord, Slack, ntfy, email or webhooks.",
+        text: "Rules on CPU, memory, disk, cert expiry and offline nodes, delivered to Telegram, Discord, Slack, Microsoft Teams, ntfy, SMTP, Resend or webhooks. Password resets and invitations can use Resend, with SMTP preferred when both are configured.",
       },
       {
         title: "Log drains and audit",

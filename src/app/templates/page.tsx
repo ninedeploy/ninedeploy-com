@@ -15,8 +15,12 @@ export default function TemplatesPage() {
     <div className="page-in">
       <PageHero
         title="The template hub."
-        lede={`${templates.length} apps that install in one click, ${certified} of them certified by actually booting them. Each one becomes an ordinary service: its own domain, env, backups and rollbacks.`}
+        lede={`${templates.length} apps across ${templateCategories.length} categories, ${certified} of them certified by actually booting them. Each one becomes an ordinary service: its own domain, env, backups and rollbacks.`}
       />
+      <p className="mx-auto mt-6 max-w-7xl px-4 text-muted sm:px-6 lg:px-8">
+        Explore the expanded catalog, including Immich, Paperless, Authentik, Karakeep and Docmost.
+        Compose templates require Docker Compose and an instance operator; template details show host-access requirements.
+      </p>
       <div className="py-14">
         <FeaturedSlider items={featuredTemplates.slice(0, 16).map(toSummary)} />
       </div>
