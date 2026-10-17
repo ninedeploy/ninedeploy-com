@@ -108,7 +108,7 @@ export function Interfaces() {
 
   return (
     <section
-      className="relative overflow-hidden border-y border-rail bg-bg-2 py-24"
+      className="relative overflow-hidden border-y border-rail bg-bg-2 section-space"
       aria-labelledby="interfaces-heading"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -117,7 +117,7 @@ export function Interfaces() {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false);
       }}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <h2 id="interfaces-heading" className="heading max-w-3xl text-4xl sm:text-5xl">
           Click it, type it, script it, or ask an agent.
         </h2>
@@ -166,7 +166,7 @@ export function Interfaces() {
           id="interfaces-panel"
           role="tabpanel"
           aria-labelledby={`interfaces-tab-${slide.id}`}
-          className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-[0.8fr_1.2fr]"
+          className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start layout-gap lg:grid-cols-[0.8fr_1.2fr]"
         >
           <AnimatePresence mode="wait">
             <motion.div

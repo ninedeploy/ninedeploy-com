@@ -80,7 +80,7 @@ export default function FaqPage() {
   return (
     <div className="page-in">
       <PageHero title="Questions, answered." lede="The things people ask before they put NineDeploy on a real server." />
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_300px] lg:px-8">
+      <div className="site-container sidebar-layout sidebar-layout--trailing reading-flow section-compact">
         <Accordion items={faqs.map((f) => ({ q: f.q, a: <Prose text={f.a} /> }))} />
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-3xl border border-rail bg-panel p-6">

@@ -11,7 +11,7 @@ export function FeatureRooms() {
   const room = rooms.find((r) => r.id === active)!;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8" aria-labelledby="rooms-heading">
+    <section className="site-container section-space" aria-labelledby="rooms-heading">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <h2 id="rooms-heading" className="heading max-w-2xl text-4xl sm:text-5xl">
           A platform, not a pile of scripts.
@@ -77,7 +77,7 @@ export function FeatureRooms() {
               transition={{ duration: 0.28, ease: [0.2, 0.9, 0.1, 1] }}
             >
               <p className="heading max-w-2xl text-2xl text-ink/90">{room.summary}</p>
-              <dl className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-7 sm:grid-cols-2">
+              <dl className="adaptive-grid mt-8 gap-x-10 gap-y-7">
                 {room.items.map((f, i) => (
                   <motion.div
                     key={f.title}

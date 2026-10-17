@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Providers } from "@/components/theme";
 import { site } from "@/lib/site";
 import "./globals.css";
+import "./responsive-layout.css";
 
 // The same pair ninedeploy.com has always used.
 const spaceGrotesk = Space_Grotesk({

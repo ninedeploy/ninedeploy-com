@@ -129,7 +129,7 @@ function Pinned() {
 
   useLayoutEffect(() => {
     const measure = () => {
-      if (track.current) setDistance(Math.max(0, track.current.scrollWidth - window.innerWidth + 64));
+      if (track.current) setDistance(Math.max(0, track.current.scrollWidth - track.current.clientWidth));
     };
     measure();
     window.addEventListener("resize", measure);
@@ -139,15 +139,15 @@ function Pinned() {
   return (
     <div ref={ref} style={{ height: `calc(100vh + ${distance}px)` }}>
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-20">
-        <div className="mx-auto w-full max-w-7xl px-8">
+        <div className="site-container">
           <Intro headingId="pipeline-heading" />
         </div>
-        <motion.div ref={track} style={{ x }} className="mt-12 flex gap-5 pl-[max(2rem,calc((100vw-80rem)/2+2rem))] pr-8">
+        <motion.div ref={track} style={{ x }} className="site-rail mt-12 flex gap-5">
           {steps.map((s, i) => (
             <StepCard key={s.title} i={i} step={s} active={i === active} />
           ))}
         </motion.div>
-        <div className="mx-auto mt-10 w-full max-w-7xl px-8">
+        <div className="site-container mt-10">
           <div className="h-[3px] overflow-hidden rounded-full bg-rail">
             <motion.div className="lane-rule h-full" style={{ width: bar }} />
           </div>
@@ -160,15 +160,15 @@ function Pinned() {
 function Swipe() {
   return (
     <div className="py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="site-container">
         <Intro />
       </div>
-      <div className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-4 px-4 pb-4 sm:scroll-pl-6 sm:px-6">
+      <div className="site-rail no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
         {steps.map((s, i) => (
           <StepCard key={s.title} i={i} step={s} active />
         ))}
       </div>
-      <p className="mx-auto mt-2 max-w-7xl px-4 text-sm text-muted sm:px-6">Swipe through the ten stages.</p>
+      <p className="site-container mt-2 text-sm text-muted">Swipe through the ten stages.</p>
     </div>
   );
 }

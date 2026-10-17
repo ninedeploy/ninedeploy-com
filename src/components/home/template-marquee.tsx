@@ -35,7 +35,7 @@ export function TemplateMarquee() {
   const b = templates.filter((_, i) => i % 2 === 1).slice(0, 34);
   return (
     <section className="border-y border-rail bg-bg-2 py-12" aria-labelledby="hub-heading">
-      <div className="mx-auto mb-8 flex max-w-7xl flex-wrap items-end justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="site-container mb-8 flex flex-wrap items-end justify-between gap-4">
         <h2 id="hub-heading" className="heading max-w-3xl text-3xl sm:text-4xl">
           {site.stats.templates} apps you can run before your coffee cools.
         </h2>

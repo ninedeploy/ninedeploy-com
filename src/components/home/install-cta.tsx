@@ -28,15 +28,15 @@ export function InstallCta() {
   const m = modes.find((x) => x.id === mode)!;
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8" aria-labelledby="install-heading">
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[36px] bg-code px-6 py-16 text-code-ink sm:px-12 sm:py-20">
+    <section className="site-container" aria-labelledby="install-heading">
+      <div className="relative overflow-hidden rounded-[36px] bg-code px-6 py-16 text-code-ink sm:px-12 sm:py-20">
         <div className="lane-rule absolute inset-x-0 top-0 h-1" aria-hidden />
         <div
           aria-hidden
           className="pointer-events-none absolute -right-40 -top-40 size-[520px] rounded-full opacity-30 blur-3xl"
           style={{ background: "radial-gradient(circle, #4ecdc4, transparent 60%)" }}
         />
-        <div className="relative grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-end">
+        <div className="relative grid grid-cols-[minmax(0,1fr)] layout-gap lg:grid-cols-[1fr_1.2fr] lg:items-end">
           <div>
             <h2 id="install-heading" className="display text-[clamp(2.75rem,6vw,5.25rem)] text-white">
               Your server.

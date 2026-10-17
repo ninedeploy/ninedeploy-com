@@ -20,7 +20,7 @@ export default function FeaturesPage() {
         <p className="font-mono text-sm text-muted">{total} capabilities across four areas</p>
       </PageHero>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[220px_1fr] lg:px-8">
+      <div className="site-container sidebar-layout section-compact">
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <ScrollSpy items={rooms.map((r) => ({ id: r.id, label: r.name, count: r.items.length }))} />
         </aside>
@@ -39,7 +39,7 @@ export default function FeaturesPage() {
                   </h2>
                 </div>
                 <p className="mt-4 max-w-2xl text-lg text-muted">{room.summary}</p>
-                <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-px overflow-hidden rounded-3xl border border-rail bg-rail sm:grid-cols-2 xl:grid-cols-3">
+                <div className="feature-inventory mt-10 gap-px overflow-hidden rounded-3xl border border-rail bg-rail">
                   {room.items.map((f) => (
                     <article key={f.title} className="group bg-panel p-6 transition-colors hover:bg-bg-2">
                       <h3 className="font-semibold">{f.title}</h3>

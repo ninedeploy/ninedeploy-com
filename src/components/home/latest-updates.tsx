@@ -10,7 +10,7 @@ const updates = [
 
 export function LatestUpdates() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" aria-labelledby="updates-heading">
+    <section className="site-container section-compact" aria-labelledby="updates-heading">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="font-mono text-sm text-green">New in the 0.15 series</p>

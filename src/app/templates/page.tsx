@@ -17,7 +17,7 @@ export default function TemplatesPage() {
         title="The template hub."
         lede={`${templates.length} apps across ${templateCategories.length} categories, ${certified} of them certified by actually booting them. Each one becomes an ordinary service: its own domain, env, backups and rollbacks.`}
       />
-      <p className="mx-auto mt-6 max-w-7xl px-4 text-muted sm:px-6 lg:px-8">
+      <p className="site-container mt-6 text-muted">
         Explore the expanded catalog, including Immich, Paperless, Authentik, Karakeep and Docmost.
         Compose templates require Docker Compose and an instance operator; template details show host-access requirements.
       </p>

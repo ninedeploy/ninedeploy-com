@@ -14,7 +14,7 @@ export function Hero() {
             "radial-gradient(closest-side at 35% 50%, var(--glow-blue), transparent), radial-gradient(closest-side at 70% 50%, var(--glow-green), transparent)",
         }}
       />
-      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 sm:pt-16 lg:px-8">
+      <div className="site-container hero-shell relative">
         <Link
           href="/changelog"
           className="rise group inline-flex items-center gap-2 rounded-full border border-rail bg-panel/70 py-1 pl-1 pr-3 text-sm text-muted transition-colors hover:text-ink"
@@ -39,7 +39,7 @@ export function Hero() {
             </span>
           </h1>
           <div
-            className="rise mt-10 grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16"
+            className="hero-intro rise mt-10 grid grid-cols-[minmax(0,1fr)] items-start lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
             style={{ animationDelay: "420ms" }}
           >
             <p className="max-w-xl text-lg leading-relaxed text-muted">

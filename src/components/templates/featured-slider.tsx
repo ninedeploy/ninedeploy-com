@@ -38,7 +38,7 @@ export function FeaturedSlider({ items }: { items: TemplateSummary[] }) {
 
   return (
     <div>
-      <div className="mx-auto flex max-w-7xl items-end justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="site-container flex items-end justify-between gap-4">
         <h2 className="heading text-3xl sm:text-4xl">Featured</h2>
         <div className="flex gap-2">
           <button
@@ -63,7 +63,7 @@ export function FeaturedSlider({ items }: { items: TemplateSummary[] }) {
       </div>
       <div
         ref={rail}
-        className="no-scrollbar mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-2 sm:scroll-px-6 sm:px-6 lg:scroll-px-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))]"
+        className="site-rail no-scrollbar mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2"
       >
         {items.map((t, i) => (
           <Link
@@ -93,7 +93,7 @@ export function FeaturedSlider({ items }: { items: TemplateSummary[] }) {
           </Link>
         ))}
       </div>
-      <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="site-container mt-6">
         <div className="h-[3px] overflow-hidden rounded-full bg-rail">
           <div className="lane-rule h-full transition-[width] duration-150" style={{ width: `${Math.max(8, progress * 100)}%` }} />
         </div>

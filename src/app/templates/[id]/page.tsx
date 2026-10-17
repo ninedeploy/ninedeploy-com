@@ -44,11 +44,11 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
     <div className="page-in">
       <section className="relative overflow-hidden border-b border-rail">
         <div className="blueprint absolute inset-0 [mask-image:linear-gradient(180deg,black,transparent)]" aria-hidden />
-        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-10 sm:px-6 lg:px-8">
+        <div className="site-container relative pb-14 pt-10">
           <Link href="/templates" className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink">
             <ArrowLeft className="size-4" /> All templates
           </Link>
-          <div className="mt-10 grid grid-cols-[minmax(0,1fr)] items-end gap-10 lg:grid-cols-[1fr_380px]">
+          <div className="sidebar-layout sidebar-layout--trailing mt-10 items-end">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end">
               <span className="rise grid size-28 shrink-0 place-items-center rounded-[32px] border border-rail bg-panel text-ink">
                 <TemplateIcon t={t} className="size-14" />
@@ -82,7 +82,7 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
         </div>
       </section>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-14 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_380px] lg:px-8">
+      <div className="site-container sidebar-layout sidebar-layout--trailing reading-flow section-compact">
         <div>
           <h2 className="heading text-3xl">About {t.name}</h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">{t.description}</p>
@@ -141,7 +141,7 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
       </div>
 
       {related.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8" aria-labelledby="related-h">
+        <section className="site-container pb-10" aria-labelledby="related-h">
           <h2 id="related-h" className="heading text-3xl">
             More in {t.category}
           </h2>

@@ -24,7 +24,7 @@ export function Header() {
   }, []);
 
   // The sheet closes itself on navigation, on Escape, and when the viewport
-  // grows past md (where it's hidden), so the scroll lock never outlives it.
+  // grows past xl (where it's hidden), so the scroll lock never outlives it.
   const [openedAt, setOpenedAt] = useState(pathname);
   if (open && pathname !== openedAt) {
     setOpen(false);
@@ -34,7 +34,7 @@ export function Header() {
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
-    const wide = window.matchMedia("(min-width: 768px)");
+    const wide = window.matchMedia("(min-width: 1280px)");
     const close = () => setOpen(false);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     const onWide = (e: MediaQueryListEvent) => e.matches && close();
@@ -61,12 +61,12 @@ export function Header() {
       >
         Skip to content
       </a>
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:gap-6 sm:px-6 lg:px-8">
+      <div className="site-container flex h-16 items-center gap-3 sm:gap-6">
         <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
           <Wordmark />
         </Link>
 
-        <nav aria-label="Main" className="hidden flex-1 justify-center md:flex">
+        <nav aria-label="Main" className="hidden flex-1 justify-center xl:flex">
           <ul className="flex items-center gap-1 rounded-full border border-rail bg-panel/60 p-1">
             {nav.map((item) => (
               <li key={item.href} className="relative">
@@ -90,7 +90,7 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-2 md:ml-0">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2 xl:ml-0">
           <SearchButton />
           <a
             href={site.github}
@@ -110,7 +110,7 @@ export function Header() {
           </Link>
           <button
             type="button"
-            className="grid size-10 place-items-center rounded-full border border-rail md:hidden"
+            className="grid size-10 place-items-center rounded-full border border-rail xl:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-nav"
@@ -133,9 +133,9 @@ export function Header() {
             animate={{ opacity: 1, height: "calc(100dvh - 4rem)" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.2, 0.9, 0.1, 1] }}
-            className="overflow-y-auto overscroll-contain md:hidden"
+            className="overflow-y-auto overscroll-contain xl:hidden"
           >
-            <ul className="flex flex-col gap-1 px-4 pt-6 [@media(max-height:500px)]:pt-2">
+            <ul className="site-container flex flex-col gap-1 pt-6 [@media(max-height:500px)]:pt-2">
               {[{ href: "/", label: "Home" }, ...nav].map((item, i) => (
                 <motion.li
                   key={item.href}
@@ -155,7 +155,7 @@ export function Header() {
                 </motion.li>
               ))}
             </ul>
-            <div className="mt-8 flex flex-wrap gap-3 px-4 pb-8">
+            <div className="site-container mt-8 flex flex-wrap gap-3 pb-8">
               <Link
                 href="/docs/installation"
                 onClick={() => setOpen(false)}

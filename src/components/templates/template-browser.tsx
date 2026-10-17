@@ -30,7 +30,7 @@ export function TemplateBrowser({
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="site-container">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <h2 className="heading text-3xl sm:text-4xl">All templates</h2>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -90,7 +90,7 @@ export function TemplateBrowser({
         {results.length === items.length ? `Showing all ${items.length}` : `${results.length} of ${items.length} match`}
       </p>
 
-      <motion.ul layout className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <motion.ul layout className="catalog-grid mt-4 gap-4">
         <AnimatePresence initial={false} mode="popLayout">
           {results.map((t) => (
             <motion.li

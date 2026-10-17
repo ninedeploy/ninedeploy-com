@@ -22,7 +22,7 @@ export function PageHero({
             "radial-gradient(closest-side at 30% 50%, var(--glow-blue), transparent), radial-gradient(closest-side at 70% 50%, var(--glow-green), transparent)",
         }}
       />
-      <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-14 sm:px-6 sm:pt-20 lg:px-8">
+      <div className="site-container page-hero-content relative">
         {kicker && <div className="rise mb-5 text-sm text-muted">{kicker}</div>}
         <h1 className="display text-[clamp(2.75rem,7.5vw,6.25rem)]">
           <span className="block overflow-hidden pb-[0.14em] -mb-[0.08em]">

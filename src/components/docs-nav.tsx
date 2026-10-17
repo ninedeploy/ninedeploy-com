@@ -55,7 +55,7 @@ export function MobileDocsNav({ groups }: { groups: Groups }) {
   const [open, setOpen] = useState(false);
   const current = groups.flatMap((g) => g.docs).find((d) => pathname === `/docs/${d.slug}`);
   return (
-    <div className="sticky top-16 z-30 -mx-4 border-b border-rail bg-bg/90 px-4 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:hidden">
+    <div className="site-edge sticky top-16 z-30 border-b border-rail bg-bg/90 backdrop-blur-xl lg:hidden">
       <button
         type="button"
         aria-expanded={open}

@@ -24,7 +24,7 @@ export default function DocsIndex() {
             <h2 id={`g-${g.name}`} className="heading text-2xl">
               {g.name}
             </h2>
-            <ul className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="adaptive-grid mt-4 gap-3">
               {g.docs.map((d) => (
                 <li key={d.slug}>
                   <Link

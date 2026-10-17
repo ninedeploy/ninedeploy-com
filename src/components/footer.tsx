@@ -42,9 +42,9 @@ export function Footer() {
   const seen = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
   return (
-    <footer className="relative mt-24 border-t border-rail bg-bg-2">
+    <footer className="footer-space relative border-t border-rail bg-bg-2">
       <div className="lane-rule absolute inset-x-0 top-0 h-[2px] opacity-70" aria-hidden />
-      <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8">
+      <div className="site-container footer-content">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_2fr]">
           <div className="max-w-sm">
             <Link href="/" className="inline-flex">
@@ -116,7 +116,7 @@ export function Footer() {
                 run NineDeploy on our own servers first.
               </p>
             </div>
-            <ul className="grid grid-cols-2 gap-2 md:grid-cols-1">
+            <ul className="studio-projects grid grid-cols-2 gap-2 md:grid-cols-1">
               {oxog.siblings.map((s) => (
                 <li key={s.name}>
                   <a

@@ -213,7 +213,7 @@ function MonitoringView({ live }: { live: boolean }) {
           </Card>
         ))}
       </div>
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="panel-card-grid gap-2">
         {workloads.map((w, i) => (
           <div key={w.id} className={i >= 3 ? "hidden sm:block" : undefined}>
             <Workload w={w} live={live} />
@@ -251,7 +251,7 @@ function HubView() {
           </span>
         ))}
       </div>
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="panel-card-grid gap-2">
         {hubApps.map((a, i) => (
           <motion.div key={a.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}>
             <Card className="flex h-full gap-3 p-3">
@@ -613,7 +613,7 @@ export function PanelTour() {
 
   return (
     <section
-      className="relative py-24"
+      className="relative section-space"
       aria-labelledby="tour-heading"
       onMouseEnter={() => setHeld(true)}
       onMouseLeave={() => setHeld(false)}
@@ -622,7 +622,7 @@ export function PanelTour() {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHeld(false);
       }}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">
             <h2 id="tour-heading" className="heading text-4xl sm:text-5xl">

@@ -1,0 +1,85 @@
+:root {
+  --site-max: 108rem;
+  --page-gutter: clamp(1rem, calc(2.5vw + 0.25rem), 3rem);
+  --layout-gap: clamp(1.5rem, 3vw, 3rem);
+  --section-space: clamp(4rem, 6vw, 7rem);
+  --section-compact: clamp(3rem, 4vw, 5rem);
+  --reading-width: 72ch;
+  --sidebar-width: 15rem;
+}
+
+/* One alignment system for navigation, pages, inset panels and footer. */
+.site-container {
+  width: min(calc(100% - 2 * var(--page-gutter)), var(--site-max));
+  min-width: 0;
+  margin-inline: auto;
+}
+.site-edge {
+  margin-inline: calc(-1 * var(--page-gutter));
+  padding-inline: var(--page-gutter);
+}
+
+/* Full-bleed carousels start and finish on the same content edges. */
+.site-rail {
+  --rail-inset: max(var(--page-gutter), calc((100% - var(--site-max)) / 2));
+  padding-inline: var(--rail-inset);
+  scroll-padding-inline: var(--rail-inset);
+}
+
+.section-space { padding-block: var(--section-space); }
+.section-compact { padding-block: var(--section-compact); }
+.hero-shell { padding-top: clamp(2.5rem, 4.5vw, 5rem); padding-bottom: var(--section-compact); }
+.page-hero-content { padding-top: clamp(3.5rem, 5.5vw, 6rem); padding-bottom: var(--section-compact); }
+.footer-space { margin-top: var(--section-space); }
+.footer-content { padding-top: var(--section-compact); }
+.layout-gap { gap: var(--layout-gap); }
+.reading-copy { max-inline-size: var(--reading-width); }
+
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--layout-gap);
+}
+.sidebar-layout > *, .docs-detail > *, .catalog-grid > *, .adaptive-grid > * { min-width: 0; }
+.sidebar-layout--trailing { --sidebar-width: 22rem; }
+.reading-flow p, .doc-blocks > ul { max-inline-size: var(--reading-width); }
+.docs-detail { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--layout-gap); }
+.docs-shell { padding-block: 0 2.5rem; }
+
+/* Cards keep their reading size; additional space adds columns. */
+.adaptive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+.catalog-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.feature-inventory { display: grid; grid-template-columns: minmax(0, 1fr); }
+.panel-card-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.release-groups { display: grid; gap: 1.5rem; }
+.release-summary { max-inline-size: var(--reading-width); }
+.data-table { table-layout: fixed; }
+.data-table th:first-child { width: 36%; }
+.data-table th, .data-table td { overflow-wrap: anywhere; }
+.hero-intro { gap: var(--layout-gap); }
+.studio-projects { max-inline-size: 36rem; }
+
+@media (min-width: 640px) {
+  .catalog-grid, .feature-inventory, .panel-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .docs-shell { padding-block: var(--section-compact); }
+  .sidebar-layout { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
+  .sidebar-layout--trailing { grid-template-columns: minmax(0, 1fr) var(--sidebar-width); }
+  .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1280px) {
+  .catalog-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .feature-inventory { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .panel-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .docs-detail { grid-template-columns: minmax(0, 1fr) 12.5rem; }
+}
+@media (min-width: 1536px) {
+  .catalog-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .release-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--layout-gap); }
+  .studio-projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .panel-card-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}

@@ -37,7 +37,7 @@ export default function ChangelogPage() {
         </a>
       </PageHero>
 
-      <ol className="relative mx-auto max-w-5xl px-4 py-14 [overflow-wrap:anywhere] sm:px-6 lg:px-8">
+      <ol className="site-container section-compact relative [overflow-wrap:anywhere]">
         {releases.map((r, i) => (
           <li key={r.version} className="relative grid gap-4 pb-10 pl-10 md:grid-cols-[160px_1fr] md:gap-10 md:pl-0">
             <span
@@ -56,7 +56,7 @@ export default function ChangelogPage() {
             />
             <details open={i < 3} className="group rounded-3xl border border-rail bg-panel">
               <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
-                <span className="text-[15px] leading-relaxed">
+                <span className="release-summary text-[15px] leading-relaxed">
                   {r.tagline || "Maintenance release."}
                   {i === 0 && (
                     <span className="ml-2 rounded-full bg-green/12 px-2 py-0.5 align-middle font-mono text-[11px] text-green">
@@ -71,6 +71,7 @@ export default function ChangelogPage() {
                   Full v{r.version} release and upgrade notes
                 </a>
                 {r.groups.length === 0 && <p className="text-sm text-muted">See CHANGELOG.md for details.</p>}
+                <div className="release-groups">
                 {r.groups.map((g) => (
                   <div key={g.title}>
                     <h3 className={`text-sm font-semibold ${tone[g.title] ?? "text-ink"}`}>
@@ -92,6 +93,7 @@ export default function ChangelogPage() {
                     </ul>
                   </div>
                 ))}
+                </div>
               </div>
             </details>
           </li>

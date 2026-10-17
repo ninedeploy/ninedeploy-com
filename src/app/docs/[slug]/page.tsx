@@ -30,13 +30,13 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
   const toc = doc.blocks.filter((b) => b.kind === "h2").map((b) => (b as { text: string }).text);
 
   return (
-    <div className="page-in grid grid-cols-[minmax(0,1fr)] gap-12 xl:grid-cols-[1fr_200px]">
-      <article className="min-w-0 max-w-3xl [overflow-wrap:anywhere]">
+    <div className="page-in docs-detail">
+      <article className="min-w-0 reading-flow [overflow-wrap:anywhere]">
         <p className="text-sm text-green">{doc.group}</p>
         <h1 className="display mt-2 text-[clamp(2.25rem,5vw,4rem)]">{doc.title}</h1>
         <p className="mt-4 text-xl text-muted">{doc.description}</p>
 
-        <div className="mt-10 space-y-6">
+        <div className="doc-blocks mt-10 space-y-6">
           {doc.blocks.map((b, i) => {
             switch (b.kind) {
               case "p":

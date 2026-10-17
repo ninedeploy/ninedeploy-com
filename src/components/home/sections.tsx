@@ -27,7 +27,7 @@ function Cell({ mark, text, strong }: { mark: Mark; text: string; strong?: boole
 
 export function Comparison() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8" aria-labelledby="compare-heading">
+    <section className="site-container section-space" aria-labelledby="compare-heading">
       <h2 id="compare-heading" className="heading max-w-3xl text-4xl sm:text-5xl">
         Raw Docker, a managed PaaS, or the one in between.
       </h2>
@@ -35,7 +35,7 @@ export function Comparison() {
         The honest pitch: you get the managed-platform experience and keep the bill and the data of a box you rent.
       </p>
       <div className="mt-10 overflow-x-auto rounded-3xl border border-rail bg-panel">
-        <table className="w-full min-w-[720px] border-collapse text-left">
+        <table className="data-table w-full min-w-[720px] border-collapse text-left">
           <thead>
             <tr className="border-b border-rail">
               <th scope="col" className="px-4 py-4 text-sm font-medium text-muted">
@@ -85,8 +85,8 @@ const plate: [string, string][] = [
 /** A hardware rating plate — it runs on your machine, so it gets one. */
 export function DataPlate() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8" aria-labelledby="plate-heading">
-      <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
+    <section className="site-container section-space" aria-labelledby="plate-heading">
+      <div className="grid grid-cols-[minmax(0,1fr)] items-center layout-gap lg:grid-cols-[1fr_1.1fr]">
         <div>
           <h2 id="plate-heading" className="heading text-4xl sm:text-5xl">
             One process. One file. The Docker socket.
@@ -156,8 +156,8 @@ const limits = [
 
 export function Limits() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8" aria-labelledby="limits-heading">
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+    <section className="site-container section-space" aria-labelledby="limits-heading">
+      <div className="grid grid-cols-[minmax(0,1fr)] layout-gap lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <h2 id="limits-heading" className="heading text-4xl sm:text-5xl">
             The fine print, in large print.
