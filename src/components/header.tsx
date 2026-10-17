@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { nav, site } from "@/lib/site";
 import { Wordmark } from "./brand";
 import { SearchButton } from "./command-palette";
-import { ThemeToggle } from "./theme";
+import { ThemePicker } from "./theme";
 import { GitHubIcon } from "./icons";
 
 export function Header() {
@@ -90,7 +90,7 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 md:ml-0">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2 md:ml-0">
           <SearchButton />
           <a
             href={site.github}
@@ -101,7 +101,7 @@ export function Header() {
           >
             <GitHubIcon className="size-[18px]" />
           </a>
-          <ThemeToggle />
+          <ThemePicker />
           <Link
             href="/docs/installation"
             className="hidden rounded-full bg-green px-4 py-2 text-sm font-semibold text-bg transition-transform hover:-translate-y-0.5 sm:inline-block"

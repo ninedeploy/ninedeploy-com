@@ -188,11 +188,54 @@ body {
   }
 }
 
-/* Theme switch: the new theme is revealed by a clip-path wipe (see ThemeToggle). */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+/* Appearance picker: fixed previews stay readable in either page theme. */
+.theme-picker { position: relative; flex-shrink: 0; }
+.theme-trigger {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  height: 2.5rem; min-width: 2.5rem; border: 1px solid var(--rail);
+  border-radius: 999px; color: var(--ink); cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+}
+.theme-trigger:hover, .theme-trigger[aria-expanded="true"] { background: var(--panel); border-color: var(--rail-strong); }
+.theme-trigger-label, .theme-trigger-chevron { display: none; }
+.theme-panel {
+  position: fixed; z-index: 60; top: 4.5rem; left: 1rem; right: 1rem;
+  max-height: calc(100dvh - 6rem); overflow-y: auto;
+  padding: 1.25rem; border: 1px solid var(--rail-strong); border-radius: 1.25rem;
+  background: var(--panel); color: var(--ink); box-shadow: 0 20px 60px -15px rgb(0 0 0 / 0.3);
+}
+.theme-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.625rem; margin: 1.25rem 0; border: 0; padding: 0; }
+.theme-option { position: relative; min-width: 0; cursor: pointer; }
+.theme-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.theme-preview {
+  --preview-bg: #f2f4f7; --preview-panel: #fff; --preview-rail: #d8dee8; --preview-line: #b6c3d5;
+  position: relative; display: block; height: 4.5rem; overflow: hidden;
+  border: 1px solid var(--rail); border-radius: 0.75rem; background: var(--preview-bg);
+}
+.theme-preview-dark { --preview-bg: #0a101b; --preview-panel: #101a2b; --preview-rail: #354256; --preview-line: #667790; }
+.theme-preview-system { background: linear-gradient(125deg, #f2f4f7 50%, #0a101b 50%); }
+.theme-preview-window { position: absolute; inset: 0.875rem -0.75rem -0.25rem 0.875rem; display: flex; border: 1px solid var(--preview-rail); border-radius: 0.375rem; background: var(--preview-panel); }
+.theme-preview-system .theme-preview-window { background: linear-gradient(125deg, #fff 42%, #101a2b 42%); }
+.theme-preview-sidebar { width: 1rem; flex-shrink: 0; border-right: 1px solid var(--preview-rail); }
+.theme-preview-content { display: flex; flex: 1; flex-direction: column; gap: 0.25rem; padding: 0.625rem; }
+.theme-preview-content i { display: block; width: 70%; height: 3px; background: var(--preview-line); border-radius: 2px; }
+.theme-preview-content i:first-child { width: 55%; background: #4a9e95; }
+.theme-preview-content i:last-child { width: 45%; }
+.theme-choice-icon, .theme-choice-check { position: absolute; display: grid; place-items: center; border-radius: 50%; }
+.theme-choice-icon { bottom: 0.375rem; left: 0.375rem; width: 1.375rem; height: 1.375rem; border: 1px solid var(--preview-rail); background: var(--preview-bg); color: #718096; }
+.theme-choice-check { top: 0.375rem; right: 0.375rem; width: 1.125rem; height: 1.125rem; background: var(--green); color: var(--bg); opacity: 0; }
+.theme-option-label { display: block; margin-top: 0.5rem; text-align: center; font-size: 0.75rem; color: var(--muted); }
+.theme-option input:checked + .theme-preview { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+.theme-option input:checked + .theme-preview .theme-choice-check { opacity: 1; }
+.theme-option input:checked ~ .theme-option-label { color: var(--ink); font-weight: 600; }
+.theme-option input:focus-visible + .theme-preview { outline: 2px solid var(--ink); outline-offset: 3px; }
+.theme-panel-status { display: flex; align-items: center; gap: 0.5rem; border-top: 1px solid var(--rail); padding-top: 0.875rem; font-size: 0.75rem; color: var(--muted); }
+@media (min-width: 640px) {
+  .theme-panel { position: absolute; top: calc(100% + 0.75rem); left: auto; right: 0; width: min(20rem, calc(100vw - 2rem)); }
+}
+@media (min-width: 1280px) {
+  .theme-trigger { padding-inline: 0.875rem; font-size: 0.875rem; }
+  .theme-trigger-label, .theme-trigger-chevron { display: block; }
 }
 
 /* The page-load sequence: headline lines rise out of their masks, then the rest settles. */
