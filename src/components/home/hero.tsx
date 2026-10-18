@@ -5,7 +5,7 @@ import { CutoverStage } from "./cutover-stage";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative isolate overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[1100px] -translate-x-1/2 opacity-60 blur-3xl"
@@ -46,7 +46,7 @@ export function Hero() {
               Push a branch. NineDeploy builds and deploys it on your server, with automatic TLS and healthchecked
               rollouts. Your databases, backups and certificates live alongside it.
             </p>
-            <div>
+            <div data-field-quiet>
               <CopyCommand command={site.install} />
               <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
                 <Link href="/docs/introduction" className="font-semibold underline decoration-rail-strong underline-offset-4 hover:decoration-green">
@@ -58,7 +58,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="rise mt-8 sm:mt-10" style={{ animationDelay: "350ms" }}>
+        <div data-field-ignore className="rise mt-8 sm:mt-10" style={{ animationDelay: "350ms" }}>
           <CutoverStage />
         </div>
       </div>

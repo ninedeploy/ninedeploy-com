@@ -29,6 +29,9 @@
 .section-space { padding-block: var(--section-space); }
 .section-compact { padding-block: var(--section-compact); }
 .hero-shell { padding-top: clamp(2.5rem, 4.5vw, 5rem); padding-bottom: var(--section-compact); }
+.site-background { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.35; }
+.dark .site-background { opacity: 0.45; }
+footer { position: relative; z-index: 1; }
 .page-hero-content { padding-top: clamp(3.5rem, 5.5vw, 6rem); padding-bottom: var(--section-compact); }
 .footer-space { margin-top: var(--section-space); }
 .footer-content { padding-top: var(--section-compact); }

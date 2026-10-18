@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Providers } from "@/components/theme";
 import { site } from "@/lib/site";
+import { SiteBackground } from "@/components/site-background";
 import "./globals.css";
 import "./responsive-layout.css";
 
@@ -68,10 +69,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${jetbrains.variable} ${quicksand.variable}`}>
       <body className="min-h-dvh overflow-x-clip">
+        <SiteBackground />
         <Providers>
           <CommandPalette>
             <Header />
-            <main id="main">{children}</main>
+            <main id="main" className="relative z-[1]">{children}</main>
             <Footer />
           </CommandPalette>
         </Providers>

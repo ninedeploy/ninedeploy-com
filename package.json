@@ -9,7 +9,8 @@
     "lint": "eslint",
     "installer": "node scripts/fetch-installer.mjs",
     "sync:content": "node scripts/sync-content.mjs",
-    "verify:export": "node scripts/verify-export.mjs"
+    "verify:export": "node scripts/verify-export.mjs",
+    "test:background": "node --test scripts/test-site-background.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.52.0",
