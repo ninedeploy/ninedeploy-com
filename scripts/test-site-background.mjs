@@ -20,10 +20,13 @@ function mount({ width = 1440, height = 1080, reduced = false, coarse = false } 
     setAttribute(key, value) { this.attrs[key] = value; }
     appendChild(el) { this.children.push(el); }
     replaceChildren() { this.children = []; }
+    cloneNode() { const copy = new Element(); copy.attrs = { ...this.attrs }; copy.children = this.children.map(el => el.cloneNode()); return copy; }
   }
-  const field = new Element(), effects = new Element(), svg = new Element();
+  const field = new Element(), effects = new Element(), svg = new Element(), overlay = new Element();
+  const highlights = new Element(), pointer = new Element(), trails = new Element();
   svg.clientWidth = width; svg.clientHeight = height;
   svg.querySelector = selector => selector.includes("objects") ? field : effects;
+  overlay.querySelector = selector => selector.includes("highlights") ? highlights : selector.includes("pointer") ? pointer : selector.includes("trails") ? trails : effects;
   const doc = { ...target(), hidden: false, createElementNS: () => new Element() };
   const win = { ...target(), scrollY: 0, getSelection: () => ({ toString: () => "" }) };
   const media = { ...target(), matches: reduced };
@@ -38,7 +41,7 @@ function mount({ width = 1440, height = 1080, reduced = false, coarse = false } 
     IntersectionObserver: observer("view"), ResizeObserver: observer("resize"),
     requestAnimationFrame: fn => { frames.set(++serial, fn); return serial; }, cancelAnimationFrame: id => frames.delete(id),
   });
-  const cleanup = exports.animateSiteBackground(svg);
+  const cleanup = exports.animateSiteBackground(svg, overlay);
   const step = (dt = 16) => { now += dt; const pending = [...frames.values()]; frames.clear(); pending.forEach(fn => fn(now)); };
   const view = value => observers.find(o => o.kind === "view").fn([{ isIntersecting: value }]);
   const event = (x, y, excluded = false) => ({ clientX: x, clientY: y, pointerId: 1, isPrimary: true, button: 0, pointerType: coarse ? "touch" : "mouse", target: new Element(excluded) });
@@ -48,8 +51,8 @@ function mount({ width = 1440, height = 1080, reduced = false, coarse = false } 
     if (options.cancel) doc.emit("pointercancel");
     doc.emit("pointerup", event(500, 300, options.excluded));
   };
-  return { svg, field, effects, doc, win, media, frames, targets, observers, step, view, tap, cleanup,
-    move: (x, y) => doc.emit("pointermove", event(x, y)),
+  return { svg, overlay, field, effects, highlights, pointer, trails, doc, win, media, frames, targets, observers, step, view, tap, cleanup,
+    move: (x, y, excluded = false) => doc.emit("pointermove", event(x, y, excluded)),
     resize: (w, h) => { svg.clientWidth = w; svg.clientHeight = h; observers.find(o => o.kind === "resize").fn(); } };
 }
 
@@ -64,6 +67,35 @@ test("hidden site pauses, resumes one loop without a time jump, and cleans up", 
   s.cleanup(); assert.equal(s.frames.size, 0);
   assert.ok(s.targets.every(events => events.size === 0)); assert.ok(s.observers.every(o => o.disconnected));
   assert.equal(s.field.children.length + s.effects.children.length, 0);
+  assert.equal(s.highlights.children.length + s.pointer.children.length + s.trails.children.length, 0);
+});
+
+test("hover tracking continues over text and interactive content", () => {
+  const s = mount(), c = mount(); s.view(true); c.view(true); s.step(); c.step();
+  const el = s.field.children.find(el => el.style.display !== "none");
+  const [x, y] = el.attrs.transform.match(/translate\(([-\d.]+) ([-\d.]+)/).slice(1).map(Number);
+  s.move(x + 20, y + 10, true); c.move(x + 20, y + 10, false);
+  for (let n = 0; n < 10; n++) { s.step(); c.step(); }
+  assert.deepEqual(s.field.children.map(el => el.attrs.transform), c.field.children.map(el => el.attrs.transform));
+  s.cleanup(); c.cleanup();
+});
+
+test("scrolling preserves the stationary cursor's reaction", () => {
+  const s = mount(), c = mount(); s.view(true); c.view(true); s.step(); c.step();
+  const el = s.field.children.find(el => el.style.display !== "none");
+  const [x, y] = el.attrs.transform.match(/translate\(([-\d.]+) ([-\d.]+)/).slice(1).map(Number);
+  s.move(x + 20, y + 10); c.move(x + 20, y + 10);
+  for (let n = 0; n < 10; n++) { s.step(); c.step(); }
+  s.win.scrollY = 1; c.win.scrollY = 1; s.win.emit("scroll");
+  for (let n = 0; n < 10; n++) { s.step(); c.step(); }
+  assert.deepEqual(s.field.children.map(el => el.attrs.transform), c.field.children.map(el => el.attrs.transform));
+  s.cleanup(); c.cleanup();
+});
+
+test("click waves keep viewport coordinates while scrolling", () => {
+  const s = mount(); s.view(true); s.step(); s.tap(); s.step();
+  s.win.scrollY = 500; s.win.emit("scroll"); s.step();
+  assert.equal(s.effects.children[0].attrs.transform, "translate(500 300)"); s.cleanup();
 });
 
 test("reduced motion is static, updates on scroll, and responds to preference changes", () => {
@@ -87,11 +119,13 @@ test("taps create effects, controls, scrolling, cancellation and selection do no
 test("click and long-scroll stress keep SVG pools bounded, waves expire", () => {
   const s = mount(); s.view(true); s.step();
   const objects = s.field.children.length, bursts = s.effects.children.length;
+  const foregroundObjects = s.highlights.children.length, trailObjects = s.trails.children.length;
   for (let n = 0; n < 100; n++) s.tap(); s.step();
   assert.equal(bursts, 4); assert.equal(s.effects.children.length, bursts);
   assert.ok(s.effects.children.some(el => Number(el.attrs.opacity) > 0));
   for (let n = 0; n < 180; n++) { s.win.scrollY = n * 300; s.win.emit("scroll"); s.step(); }
   assert.equal(s.field.children.length, objects); assert.ok(s.effects.children.every(el => el.attrs.opacity === "0"));
+  assert.equal(s.highlights.children.length, foregroundObjects); assert.equal(s.trails.children.length, trailObjects);
   assert.ok(s.field.children.some(el => el.style.display === "none")); s.cleanup();
 });
 
@@ -99,6 +133,23 @@ test("mobile/4K pools and SVG viewBox stay bounded without raster resolution", (
   const s = mount({ width: 375, height: 900 }); assert.equal(s.field.children.length, 20);
   s.resize(3840, 2160); assert.ok(s.field.children.length <= 120);
   assert.equal(s.svg.attrs.viewBox, "0 0 3840 2160"); s.cleanup();
+});
+
+test("foreground highlights and cursor fade naturally after leaving, coarse input has no hover", () => {
+  const s = mount(); s.view(true); s.step();
+  const el = s.field.children.find(el => el.style.display !== "none");
+  const [x, y] = el.attrs.transform.match(/translate\(([-\d.]+) ([-\d.]+)/).slice(1).map(Number);
+  s.move(x + 20, y + 10, true);
+  for (let n = 0; n < 15; n++) { s.step(); s.move(x + 20 + n, y + 10, true); }
+  assert.ok(Number(s.pointer.attrs.opacity) > 0.5);
+  assert.ok(s.highlights.children.some(el => Number(el.attrs.opacity) > 0.1));
+  assert.equal(s.overlay.attrs.viewBox, s.svg.attrs.viewBox);
+  s.doc.emit("pointerleave");
+  for (let n = 0; n < 140; n++) s.step();
+  assert.ok(Number(s.pointer.attrs.opacity) < 0.001);
+  assert.ok(s.trails.children.every(el => Number(el.attrs.opacity) === 0)); s.cleanup();
+  const mobile = mount({ coarse: true }); mobile.view(true); mobile.step(); mobile.move(500, 300); mobile.step();
+  assert.equal(mobile.pointer.attrs.opacity, "0"); mobile.cleanup();
 });
 
 test("pointer response is local and refresh rate does not change speed", () => {

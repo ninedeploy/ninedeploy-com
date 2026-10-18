@@ -31,6 +31,10 @@
 .hero-shell { padding-top: clamp(2.5rem, 4.5vw, 5rem); padding-bottom: var(--section-compact); }
 .site-background { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.35; }
 .dark .site-background { opacity: 0.45; }
+/* Body-level siblings: interaction ink crosses panel/section stacking contexts.
+   Navigation (50) and dialogs (60+) remain above the decorative foreground. */
+.site-interactions { position: fixed; inset: 0; z-index: 40; width: 100%; height: 100%; overflow: visible; pointer-events: none; opacity: 0.65; }
+.dark .site-interactions { opacity: 0.8; }
 footer { position: relative; z-index: 1; }
 .page-hero-content { padding-top: clamp(3.5rem, 5.5vw, 6rem); padding-bottom: var(--section-compact); }
 .footer-space { margin-top: var(--section-space); }
