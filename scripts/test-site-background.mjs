@@ -73,6 +73,40 @@ test("hidden site pauses, resumes one loop without a time jump, and cleans up", 
 
 const position = el => el?.attrs.transform?.match(/translate\(([-\d.]+) ([-\d.]+)/)?.slice(1).map(Number);
 
+test("disabling mouse effects keeps ambient motion alive, removes pointer listeners and clears effects", () => {
+  const s = mount(); s.view(true); s.step();
+  s.move(500, 300); s.tap(); s.step(50);
+  const nodes = [...s.field.children];
+  s.cleanup.setMouseEffectsEnabled(false);
+  assert.equal(s.overlay.style.display, "none");
+  assert.equal(s.pointer.attrs.opacity, "0");
+  assert.ok(s.effects.children.every(el => el.attrs.opacity === "0"));
+  assert.ok(![...s.targets[0].keys()].some(key => key.startsWith("pointer")));
+  const positions = s.field.children.map(el => el.attrs.transform);
+  for (let n = 0; n < 40; n++) { s.move(500, 300); s.tap(); s.step(); }
+  assert.equal(s.svg.dataset.interactions, "1", "disabled input creates no additional waves");
+  assert.equal(s.frames.size, 1, "ambient loop continues");
+  assert.notDeepEqual(s.field.children.map(el => el.attrs.transform), positions, "background still moves");
+  assert.deepEqual(s.field.children, nodes, "toggling does not rebuild the background");
+  s.cleanup.setMouseEffectsEnabled(true); s.tap(); s.step();
+  assert.equal(s.overlay.style.display, "");
+  assert.equal(s.svg.dataset.interactions, "2");
+  s.cleanup(); assert.equal(s.frames.size, 0);
+  assert.ok(s.targets.every(events => events.size === 0));
+});
+
+test("reduced motion stays static with mouse effects disabled and ambient motion resumes independently", () => {
+  const s = mount({ reduced: true }); s.view(true);
+  s.cleanup.setMouseEffectsEnabled(false);
+  assert.equal(s.frames.size, 0);
+  assert.equal(s.field.children.length > 0, true);
+  s.media.matches = false; s.media.emit("change"); s.step();
+  assert.equal(s.svg.dataset.animation, "running");
+  assert.equal(s.svg.dataset.mouseEffects, "off");
+  assert.equal(s.frames.size, 1);
+  s.cleanup();
+});
+
 test("explicit enable can override the OS default and still fully clean up active effects", () => {
   const s = mount({ reduced: true, respectReducedMotion: false });
   s.view(true); s.step(); s.move(500, 300); s.tap(); s.step();

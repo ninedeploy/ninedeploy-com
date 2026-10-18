@@ -2,21 +2,21 @@
 
 import { useEffect, useId, useRef } from "react";
 import { animateSiteBackground } from "@/lib/site-background";
-import { useBackgroundAnimations } from "./animation-toggle";
+import { useMouseEffects } from "./animation-toggle";
 
 export function SiteBackground() {
-  const enabled = useBackgroundAnimations();
-  return enabled ? <ActiveBackground /> : null;
-}
-
-function ActiveBackground() {
+  const enabled = useMouseEffects();
   const ref = useRef<SVGSVGElement>(null);
   const overlay = useRef<SVGSVGElement>(null);
   const glow = useId();
+  const controller = useRef<ReturnType<typeof animateSiteBackground> | null>(null);
   useEffect(() => {
-    // The shared preference handles the OS default; an explicit choice overrides it.
-    if (ref.current && overlay.current) return animateSiteBackground(ref.current, overlay.current, false);
+    if (!ref.current || !overlay.current) return;
+    const scene = animateSiteBackground(ref.current, overlay.current);
+    controller.current = scene;
+    return () => { scene(); controller.current = null; };
   }, []);
+  useEffect(() => { controller.current?.setMouseEffectsEnabled(enabled); }, [enabled]);
   return (
     <>
       <svg ref={ref} className="site-background" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="0.8">

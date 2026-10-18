@@ -1,3 +1,4 @@
+// Preserve existing saved choices; this preference now controls mouse effects only.
 export const ANIMATION_STORAGE_KEY = "nd-animations";
 
 /** One shared preference for the header and background, including other tabs. */

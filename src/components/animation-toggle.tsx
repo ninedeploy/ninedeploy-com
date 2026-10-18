@@ -10,13 +10,13 @@ const subscribe = (listener: () => void) => getPreference().subscribe(listener);
 const getSnapshot = () => getPreference().getSnapshot();
 const getServerSnapshot = () => false;
 
-export function useBackgroundAnimations() {
+export function useMouseEffects() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 export function AnimationToggle() {
-  const enabled = useBackgroundAnimations();
-  const label = enabled ? "Animasyonları kapat" : "Animasyonları aç";
+  const enabled = useMouseEffects();
+  const label = enabled ? "Disable mouse effects" : "Enable mouse effects";
   const Icon = enabled ? Mouse : MouseOff;
   return (
     <button

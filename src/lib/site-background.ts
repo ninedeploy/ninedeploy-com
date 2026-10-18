@@ -60,6 +60,7 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
   let flow = { x: -1000, y: -1000 };
   let down: { x: number; y: number; scroll: number; id: number; at: number } | null = null;
   let interactions = 0;
+  let mouseEffectsEnabled = true, listening = false;
   const create = (name: string, attributes: Record<string, string | number>, parent: SVGElement) => {
     const el = document.createElementNS(ns, name);
     for (const [key, value] of Object.entries(attributes)) el.setAttribute(key, String(value));
@@ -302,27 +303,55 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
     pulses = [...pulses.slice(-(config.maxPulses - 1)), { x: e.clientX, y: e.clientY, age: 0, variant: interactions++ % 3, visited: new Set<number>(), relays: [], seeds: 0, budget: 0 }];
     svg.dataset.interactions = String(interactions);
   };
-  const preference = () => { reduced = media.matches; pulses = []; trails = []; pointer.inside = false; pointer.strength = 0; sync(); };
+  const preference = () => { reduced = media.matches; setMouseEffectsEnabled(mouseEffectsEnabled); sync(); };
   const scroll = () => { down = null; if (reduced && visible && !document.hidden) paint(0); };
+  const bindMouseEffects = (enabled: boolean) => {
+    if (enabled === listening) return;
+    listening = enabled;
+    if (enabled) {
+      document.addEventListener("pointermove", move, { passive: true, capture: true });
+      document.addEventListener("pointerleave", leave);
+      document.addEventListener("pointerdown", press, { passive: true, capture: true });
+      document.addEventListener("pointerup", release, { passive: true, capture: true });
+      document.addEventListener("pointercancel", leave);
+    } else {
+      document.removeEventListener("pointermove", move, true); document.removeEventListener("pointerleave", leave);
+      document.removeEventListener("pointerdown", press, true); document.removeEventListener("pointerup", release, true);
+      document.removeEventListener("pointercancel", leave);
+    }
+  };
+  const setMouseEffectsEnabled = (enabled: boolean) => {
+    if (disposed) return;
+    mouseEffectsEnabled = enabled;
+    const active = enabled && !reduced;
+    bindMouseEffects(active);
+    overlay.style.display = active ? "" : "none";
+    svg.dataset.mouseEffects = active ? "on" : "off";
+    if (!active) {
+      pulses = []; trails = []; down = null; lastTrail = -1; activity = -10;
+      pointer = { x: -1000, y: -1000, inside: false, strength: 0 };
+      flow = { x: -1000, y: -1000 };
+      for (const shape of shapes) {
+        shape.ox = shape.oy = shape.vx = shape.vy = shape.energy = 0;
+        shape.orbiting = false; shape.echoAge = config.chainLife;
+      }
+      paint(0);
+    }
+  };
   const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
   observer.observe(svg);
   const resizeObserver = new ResizeObserver(resize); resizeObserver.observe(svg);
-  document.addEventListener("pointermove", move, { passive: true, capture: true });
-  document.addEventListener("pointerleave", leave);
-  document.addEventListener("pointerdown", press, { passive: true, capture: true });
-  document.addEventListener("pointerup", release, { passive: true, capture: true });
-  document.addEventListener("pointercancel", leave);
   document.addEventListener("visibilitychange", sync);
   window.addEventListener("scroll", scroll, { passive: true });
   if (respectReducedMotion) media.addEventListener("change", preference);
   resize();
-  return () => {
+  setMouseEffectsEnabled(mouseEffectsEnabled);
+  const cleanup = () => {
     disposed = true; cancelAnimationFrame(frame); observer.disconnect(); resizeObserver.disconnect();
-    document.removeEventListener("pointermove", move, true); document.removeEventListener("pointerleave", leave);
-    document.removeEventListener("pointerdown", press, true); document.removeEventListener("pointerup", release, true);
-    document.removeEventListener("pointercancel", leave); document.removeEventListener("visibilitychange", sync);
+    bindMouseEffects(false); document.removeEventListener("visibilitychange", sync);
     window.removeEventListener("scroll", scroll);
     if (respectReducedMotion) media.removeEventListener("change", preference);
     field.replaceChildren(); effects.replaceChildren(); highlights.replaceChildren(); cursor.replaceChildren(); trailLayer.replaceChildren();
   };
+  return Object.assign(cleanup, { setMouseEffectsEnabled });
 }
