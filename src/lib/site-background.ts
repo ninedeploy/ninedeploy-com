@@ -6,8 +6,8 @@ export const backgroundConfig = {
   maxObjects: 120,
   pointerRadius: 270,
   pointerForce: 64,
-  pointerAttraction: 0.65,
-  pointerSwirl: 0.22,
+  orbitSpeed: 0.85,
+  springFrequency: 8,
   pulseRadius: 320,
   pulseForce: 48,
   pulseLife: 1.8,
@@ -18,17 +18,31 @@ export const backgroundConfig = {
   maxTrails: 14,
   trailLife: 0.65,
   glowRadius: 210,
+  chainRadius: 185,
+  chainRange: 470,
+  chainHops: 3,
+  chainBudget: 6,
+  chainSeeds: 2,
+  chainLife: 0.7,
+  chainSpeed: 750,
+  chainAttenuation: 0.62,
+  maxWaveHits: 32,
 } as const;
 
 const ns = "http://www.w3.org/2000/svg";
 const controls = "a,button,input,select,textarea,summary,[role='button'],[role='tab'],[role='dialog'],[contenteditable='true'],[data-field-ignore]";
-type Pulse = { x: number; y: number; age: number; variant: number };
+type Relay = { from: number; to: number; at: number; power: number; hop: number };
+type Pulse = { x: number; y: number; age: number; variant: number; visited: Set<number>; relays: Relay[]; seeds: number; budget: number };
 type Trail = { x: number; y: number; age: number };
-type Shape = { el: SVGGElement; highlight: SVGGElement; link: SVGElement; depth: number; slot: number; column: number };
+type Shape = {
+  el: SVGGElement; highlight: SVGGElement; link: SVGElement; depth: number; slot: number; column: number;
+  id: number; x: number; y: number; ox: number; oy: number; vx: number; vy: number;
+  angle: number; orbiting: boolean; energy: number; echoAge: number; echoX: number; echoY: number;
+};
 const seed = (n: number) => { const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v); };
 
 /** Mount once; the root SVG persists across App Router navigations. */
-export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement) {
+export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement, respectReducedMotion = true) {
   const config = backgroundConfig;
   const field = svg.querySelector<SVGGElement>("[data-field-objects]")!;
   const effects = overlay.querySelector<SVGGElement>("[data-field-effects]")!;
@@ -38,11 +52,12 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
   const media = matchMedia("(prefers-reduced-motion: reduce)");
   const coarse = matchMedia("(pointer: coarse)");
   let width = 0, height = 0, frame = 0, last = 0, clock = 0, drift = 0, activity = -10;
-  let visible = false, disposed = false, reduced = media.matches;
+  let visible = false, disposed = false, reduced = respectReducedMotion && media.matches;
   let shapes: Shape[] = [], pulses: Pulse[] = [];
   let trails: Trail[] = [];
   let lastTrail = -1;
   let pointer = { x: -1000, y: -1000, strength: 0, inside: false };
+  let flow = { x: -1000, y: -1000 };
   let down: { x: number; y: number; scroll: number; id: number; at: number } | null = null;
   let interactions = 0;
   const create = (name: string, attributes: Record<string, string | number>, parent: SVGElement) => {
@@ -71,6 +86,8 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
     const speed = clock - activity > config.idleAfter ? 0.4 : 1;
     if (!reduced) drift += dt * speed;
     pointer.strength += ((pointer.inside && !reduced ? 1 : 0) - pointer.strength) * Math.min(1, dt * 6);
+    const follow = 1 - Math.exp(-dt * 10);
+    flow.x += (pointer.x - flow.x) * follow; flow.y += (pointer.y - flow.y) * follow;
     const scroll = window.scrollY;
     pulses = pulses.filter(p => (p.age += dt) < config.pulseLife);
     trails = trails.filter(p => (p.age += dt) < config.trailLife);
@@ -86,50 +103,116 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
       item.dot.setAttribute("cx", String(p.x)); item.dot.setAttribute("cy", String(p.y));
       if (next) item.line.setAttribute("d", `M${p.x} ${p.y}L${next.x} ${next.y}`);
     });
-    let active = 0;
+    const visibleShapes: Shape[] = [];
+    const byId = new Map<number, Shape>();
+    const spring = config.springFrequency, decay = Math.exp(-spring * dt);
     for (const shape of shapes) {
       const factor = reduced ? 1 : 1 - shape.depth * 0.055;
       const world = scroll * factor;
       const tile = Math.floor(world / config.tileHeight) + shape.slot - 1;
       const id = tile * 53 + shape.column * 7;
+      if (shape.id !== id || reduced) {
+        shape.id = id; shape.ox = shape.oy = shape.vx = shape.vy = shape.energy = 0;
+        shape.orbiting = false; shape.echoAge = config.chainLife;
+      }
       const x = (0.03 + seed(id) * 0.94) * width;
       const y = (tile + seed(id + 2)) * config.tileHeight - world;
       const onScreen = y > -80 && y < height + 80;
       shape.el.style.display = onScreen ? "" : "none";
       shape.highlight.style.display = onScreen ? "" : "none";
       shape.link.style.display = onScreen ? "" : "none";
-      if (!onScreen) continue;
-      active++;
-      let px = x + Math.sin(drift * 0.16 + id) * 14 * shape.depth;
-      let py = y + Math.cos(drift * 0.12 + id) * 18 * shape.depth;
-      const dx = px - pointer.x, dy = py - pointer.y, distance = Math.hypot(dx, dy);
-      const force = Math.max(0, 1 - distance / config.pointerRadius) ** 2 * config.pointerForce * pointer.strength;
-      const direction = shape.column % 3 === 0 ? -config.pointerAttraction : 1;
-      if (distance > 0) {
-        px += (dx - dy * config.pointerSwirl) / distance * force * direction;
-        py += (dy + dx * config.pointerSwirl) / distance * force * direction;
+      if (!onScreen) {
+        shape.ox = shape.oy = shape.vx = shape.vy = shape.energy = 0;
+        shape.echoAge = config.chainLife; shape.orbiting = false;
+        if (shape.link.dataset.relay !== "idle") shape.link.dataset.relay = "idle";
+        continue;
       }
-      let pulseLight = 0;
+      const bx = x + Math.sin(drift * 0.16 + id) * 14 * shape.depth;
+      const by = y + Math.cos(drift * 0.12 + id) * 18 * shape.depth;
+      const dx = bx - flow.x, dy = by - flow.y, distance = Math.hypot(dx, dy);
+      const influence = Math.max(0, 1 - distance / config.pointerRadius) ** 2 * pointer.strength;
+      if (influence > 0.001) {
+        if (!shape.orbiting) shape.angle = Math.atan2(dy, dx);
+        shape.orbiting = true;
+        shape.angle += dt * config.orbitSpeed * (0.65 + shape.depth * 0.45) * pointer.strength;
+      } else shape.orbiting = false;
+      const radius = Math.max(52, Math.min(118, distance * 0.85));
+      let tx = flow.x + Math.cos(shape.angle) * radius - bx;
+      let ty = flow.y + Math.sin(shape.angle) * radius - by;
+      const scale = Math.min(1, config.pointerForce / Math.max(1, Math.hypot(tx, ty))) * influence;
+      tx *= scale; ty *= scale;
+      // Exact critically damped spring for each frame's target: no abrupt offsets.
+      const cx = shape.vx + spring * (shape.ox - tx), cy = shape.vy + spring * (shape.oy - ty);
+      shape.ox = tx + (shape.ox - tx + cx * dt) * decay;
+      shape.oy = ty + (shape.oy - ty + cy * dt) * decay;
+      shape.vx = (shape.vx - spring * cx * dt) * decay;
+      shape.vy = (shape.vy - spring * cy * dt) * decay;
+      const bound = Math.min(1, (config.pointerForce + config.pulseForce) / Math.max(1, Math.hypot(shape.ox, shape.oy)));
+      shape.ox *= bound; shape.oy *= bound;
+      shape.x = bx + shape.ox; shape.y = by + shape.oy;
+      shape.energy *= Math.exp(-dt * 4.5); shape.echoAge += dt;
+      visibleShapes.push(shape); byId.set(id, shape);
+    }
+    // Search neighbours only when a wave arrives, never as an all-pairs frame loop.
+    const relay = (source: Shape, pulse: Pulse, hop: number, power: number) => {
+      if (hop > config.chainHops || pulse.budget >= config.chainBudget || pulse.visited.size >= config.maxWaveHits) return false;
+      let nearest: Shape | undefined, distance: number = config.chainRadius;
+      for (const target of visibleShapes) {
+        const d = Math.hypot(target.x - source.x, target.y - source.y);
+        if (pulse.visited.has(target.id) || Math.hypot(target.x - pulse.x, target.y - pulse.y) > config.chainRange || d >= distance) continue;
+        nearest = target; distance = d;
+      }
+      if (!nearest) return false;
+      pulse.visited.add(nearest.id); pulse.budget++;
+      pulse.relays.push({ from: source.id, to: nearest.id, at: pulse.age + 0.06 + distance / config.chainSpeed, power: power * config.chainAttenuation, hop });
+      return true;
+    };
+    for (const shape of visibleShapes) {
       for (const p of pulses) {
-        const cy = p.y;
-        const d = Math.hypot(px - p.x, py - cy);
+        const d = Math.hypot(shape.x - p.x, shape.y - p.y);
         const radius = config.pulseRadius * (1 - (1 - p.age / config.pulseLife) ** 2);
         const wave = Math.max(0, 1 - Math.abs(d - radius) / 70) * (1 - p.age / config.pulseLife);
-        const push = wave * config.pulseForce;
-        pulseLight = Math.max(pulseLight, wave);
-        if (d > 0) { px += (px - p.x) / d * push; py += (py - cy) / d * push; }
+        if (wave < 0.15 || p.visited.has(shape.id) || p.visited.size >= config.maxWaveHits) continue;
+        const hitPower = 0.45 + wave * 0.55;
+        p.visited.add(shape.id); shape.energy = Math.max(shape.energy, hitPower);
+        if (d > 0) { shape.vx += (shape.x - p.x) / d * hitPower * config.pulseForce * 3; shape.vy += (shape.y - p.y) / d * hitPower * config.pulseForce * 3; }
+        if (p.seeds < config.chainSeeds && relay(shape, p, 1, hitPower)) p.seeds++;
       }
+    }
+    for (const pulse of pulses) {
+      const due = pulse.relays.filter(r => r.at <= pulse.age);
+      pulse.relays = pulse.relays.filter(r => r.at > pulse.age);
+      for (const r of due) {
+        const source = byId.get(r.from), target = byId.get(r.to);
+        if (!source || !target) continue;
+        const dx = target.x - source.x, dy = target.y - source.y, distance = Math.hypot(dx, dy);
+        if (distance > config.chainRadius * 1.5 || Math.hypot(target.x - pulse.x, target.y - pulse.y) > config.chainRange) continue;
+        target.energy = Math.max(target.energy, r.power);
+        target.echoX = source.x; target.echoY = source.y; target.echoAge = 0;
+        if (distance > 0) { target.vx += dx / distance * r.power * config.pulseForce * 3; target.vy += dy / distance * r.power * config.pulseForce * 3; }
+        relay(target, pulse, r.hop + 1, r.power);
+      }
+    }
+    for (const shape of visibleShapes) {
+      const px = shape.x, py = shape.y;
+      const distance = Math.hypot(px - pointer.x, py - pointer.y);
       const edge = Math.max(0, Math.min(1, (py + 50) / 100, (height + 50 - py) / 100));
-      const quiet = 0.42 + 0.58 * Math.min(1, Math.abs(x - width / 2) / (width / 2)) ** 1.5;
+      const quiet = 0.42 + 0.58 * Math.min(1, Math.abs(px - width / 2) / (width / 2)) ** 1.5;
       shape.el.setAttribute("opacity", String(edge * quiet * (0.45 + shape.depth * 0.3)));
-      const transform = `translate(${px.toFixed(2)} ${py.toFixed(2)}) rotate(${(Math.sin(drift * 0.08 + id) * 9).toFixed(2)})`;
+      const transform = `translate(${px.toFixed(2)} ${py.toFixed(2)}) rotate(${(Math.sin(drift * 0.08 + shape.id) * 9 + shape.ox * 0.15).toFixed(2)})`;
       shape.el.setAttribute("transform", transform);
       const proximity = Math.max(0, 1 - distance / config.pointerRadius) ** 1.5 * pointer.strength;
       // Foreground highlights use only radial falloff: no content rectangles/masks.
       shape.highlight.setAttribute("transform", transform);
-      shape.highlight.setAttribute("opacity", String(edge * Math.max(proximity * 0.85, pulseLight * 0.8)));
-      shape.link.setAttribute("opacity", String(proximity * 0.28 * edge));
-      shape.link.setAttribute("d", `M${pointer.x} ${pointer.y}L${px} ${py}`);
+      shape.highlight.setAttribute("opacity", String(edge * Math.max(proximity * 0.85, shape.energy * 0.8)));
+      const echoDistance = Math.hypot(px - shape.echoX, py - shape.echoY);
+      const echo = Math.max(0, 1 - shape.echoAge / config.chainLife) ** 2 * shape.energy * Math.max(0, 1 - Math.max(0, echoDistance - config.chainRadius) / (config.chainRadius * 0.5));
+      const sx = echo > 0.01 ? shape.echoX : pointer.x, sy = echo > 0.01 ? shape.echoY : pointer.y;
+      const bend = Math.sin(drift + shape.id) * 18;
+      shape.link.setAttribute("opacity", String(Math.max(proximity * 0.28, echo * 0.55) * edge));
+      shape.link.setAttribute("d", `M${sx} ${sy}Q${(sx + px) / 2 + bend} ${(sy + py) / 2 - bend} ${px} ${py}`);
+      const relayState = echo > 0.01 ? "active" : "idle";
+      if (shape.link.dataset.relay !== relayState) shape.link.dataset.relay = relayState;
     }
     bursts.forEach((burst, i) => {
       const p = pulses[i];
@@ -148,7 +231,7 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
       });
     });
     // State is only diagnostic; no React renders or layout reads in the loop.
-    if (svg.dataset.active !== String(active)) svg.dataset.active = String(active);
+    if (svg.dataset.active !== String(visibleShapes.length)) svg.dataset.active = String(visibleShapes.length);
   };
   const tick = (now: number) => {
     frame = 0;
@@ -158,7 +241,10 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
   };
   const sync = () => {
     cancelAnimationFrame(frame); frame = 0; last = 0;
-    if (!visible || document.hidden) { pulses = []; trails = []; down = null; pointer.inside = false; pointer.strength = 0; }
+    if (!visible || document.hidden) {
+      pulses = []; trails = []; down = null; pointer.inside = false; pointer.strength = 0;
+      for (const shape of shapes) { shape.energy = 0; shape.echoAge = config.chainLife; }
+    }
     svg.dataset.animation = reduced ? "reduced" : visible && !document.hidden ? "running" : "paused";
     if (visible && !document.hidden) {
       if (reduced) paint(0);
@@ -184,7 +270,7 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
         const highlight = el.cloneNode(true) as SVGGElement;
         highlight.setAttribute("opacity", "0"); highlights.appendChild(highlight);
         const link = create("path", { stroke: column % 2 ? "var(--green)" : "var(--blue)", opacity: 0 }, highlights);
-        shapes.push({ el, highlight, link, depth, slot, column });
+        shapes.push({ el, highlight, link, depth, slot, column, id: NaN, x: 0, y: 0, ox: 0, oy: 0, vx: 0, vy: 0, angle: 0, orbiting: false, energy: 0, echoAge: config.chainLife, echoX: 0, echoY: 0 });
       }
     }
     svg.dataset.objects = String(shapes.length);
@@ -199,6 +285,7 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
       trails = [...trails.slice(-(config.maxTrails - 1)), { x: e.clientX, y: e.clientY, age: 0 }];
       lastTrail = clock;
     }
+    if (!pointer.inside) flow = { x: e.clientX, y: e.clientY };
     pointer = { x: e.clientX, y: e.clientY, strength: pointer.strength, inside: true };
     activity = clock;
   };
@@ -212,7 +299,7 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
     if (!start || excluded(e) || reduced || start.id !== e.pointerId || performance.now() - start.at > 600) return;
     if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > config.tapSlop || Math.abs(window.scrollY - start.scroll) > config.tapSlop || window.getSelection()?.toString()) return;
     activity = clock;
-    pulses = [...pulses.slice(-(config.maxPulses - 1)), { x: e.clientX, y: e.clientY, age: 0, variant: interactions++ % 3 }];
+    pulses = [...pulses.slice(-(config.maxPulses - 1)), { x: e.clientX, y: e.clientY, age: 0, variant: interactions++ % 3, visited: new Set<number>(), relays: [], seeds: 0, budget: 0 }];
     svg.dataset.interactions = String(interactions);
   };
   const preference = () => { reduced = media.matches; pulses = []; trails = []; pointer.inside = false; pointer.strength = 0; sync(); };
@@ -227,14 +314,15 @@ export function animateSiteBackground(svg: SVGSVGElement, overlay: SVGSVGElement
   document.addEventListener("pointercancel", leave);
   document.addEventListener("visibilitychange", sync);
   window.addEventListener("scroll", scroll, { passive: true });
-  media.addEventListener("change", preference);
+  if (respectReducedMotion) media.addEventListener("change", preference);
   resize();
   return () => {
     disposed = true; cancelAnimationFrame(frame); observer.disconnect(); resizeObserver.disconnect();
     document.removeEventListener("pointermove", move, true); document.removeEventListener("pointerleave", leave);
     document.removeEventListener("pointerdown", press, true); document.removeEventListener("pointerup", release, true);
     document.removeEventListener("pointercancel", leave); document.removeEventListener("visibilitychange", sync);
-    window.removeEventListener("scroll", scroll); media.removeEventListener("change", preference);
+    window.removeEventListener("scroll", scroll);
+    if (respectReducedMotion) media.removeEventListener("change", preference);
     field.replaceChildren(); effects.replaceChildren(); highlights.replaceChildren(); cursor.replaceChildren(); trailLayer.replaceChildren();
   };
 }

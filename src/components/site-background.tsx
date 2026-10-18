@@ -2,13 +2,20 @@
 
 import { useEffect, useId, useRef } from "react";
 import { animateSiteBackground } from "@/lib/site-background";
+import { useBackgroundAnimations } from "./animation-toggle";
 
 export function SiteBackground() {
+  const enabled = useBackgroundAnimations();
+  return enabled ? <ActiveBackground /> : null;
+}
+
+function ActiveBackground() {
   const ref = useRef<SVGSVGElement>(null);
   const overlay = useRef<SVGSVGElement>(null);
   const glow = useId();
   useEffect(() => {
-    if (ref.current && overlay.current) return animateSiteBackground(ref.current, overlay.current);
+    // The shared preference handles the OS default; an explicit choice overrides it.
+    if (ref.current && overlay.current) return animateSiteBackground(ref.current, overlay.current, false);
   }, []);
   return (
     <>

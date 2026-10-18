@@ -7,7 +7,7 @@ import ts from "typescript";
 const source = await readFile(new URL("../src/lib/site-background.ts", import.meta.url), "utf8");
 const code = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
 
-function mount({ width = 1440, height = 1080, reduced = false, coarse = false } = {}) {
+function mount({ width = 1440, height = 1080, reduced = false, coarse = false, respectReducedMotion = true } = {}) {
   const targets = [], observers = [], frames = new Map();
   let now = 100, serial = 0;
   const target = () => {
@@ -41,15 +41,16 @@ function mount({ width = 1440, height = 1080, reduced = false, coarse = false } 
     IntersectionObserver: observer("view"), ResizeObserver: observer("resize"),
     requestAnimationFrame: fn => { frames.set(++serial, fn); return serial; }, cancelAnimationFrame: id => frames.delete(id),
   });
-  const cleanup = exports.animateSiteBackground(svg, overlay);
+  const cleanup = exports.animateSiteBackground(svg, overlay, respectReducedMotion);
   const step = (dt = 16) => { now += dt; const pending = [...frames.values()]; frames.clear(); pending.forEach(fn => fn(now)); };
   const view = value => observers.find(o => o.kind === "view").fn([{ isIntersecting: value }]);
   const event = (x, y, excluded = false) => ({ clientX: x, clientY: y, pointerId: 1, isPrimary: true, button: 0, pointerType: coarse ? "touch" : "mouse", target: new Element(excluded) });
   const tap = (options = {}) => {
-    doc.emit("pointerdown", event(500, 300, options.excluded));
+    const x = options.x ?? 500, y = options.y ?? 300;
+    doc.emit("pointerdown", event(x, y, options.excluded));
     if (options.swipe) { win.scrollY += 100; win.emit("scroll"); }
     if (options.cancel) doc.emit("pointercancel");
-    doc.emit("pointerup", event(500, 300, options.excluded));
+    doc.emit("pointerup", event(x, y, options.excluded));
   };
   return { svg, overlay, field, effects, highlights, pointer, trails, doc, win, media, frames, targets, observers, step, view, tap, cleanup,
     move: (x, y, excluded = false) => doc.emit("pointermove", event(x, y, excluded)),
@@ -68,6 +69,70 @@ test("hidden site pauses, resumes one loop without a time jump, and cleans up", 
   assert.ok(s.targets.every(events => events.size === 0)); assert.ok(s.observers.every(o => o.disconnected));
   assert.equal(s.field.children.length + s.effects.children.length, 0);
   assert.equal(s.highlights.children.length + s.pointer.children.length + s.trails.children.length, 0);
+});
+
+const position = el => el?.attrs.transform?.match(/translate\(([-\d.]+) ([-\d.]+)/)?.slice(1).map(Number);
+
+test("explicit enable can override the OS default and still fully clean up active effects", () => {
+  const s = mount({ reduced: true, respectReducedMotion: false });
+  s.view(true); s.step(); s.move(500, 300); s.tap(); s.step();
+  assert.equal(s.svg.dataset.animation, "running");
+  assert.equal(s.frames.size, 1);
+  s.cleanup();
+  assert.equal(s.frames.size, 0);
+  assert.ok(s.targets.every(events => events.size === 0));
+  assert.equal(s.effects.children.length + s.trails.children.length + s.pointer.children.length, 0);
+});
+
+test("vortex eases into an orbit and settles after the pointer leaves", () => {
+  const s = mount(), c = mount(); s.view(true); c.view(true); s.step(); c.step();
+  const index = s.field.children.findIndex(el => { const p = position(el); return p && p[0] > 120 && p[0] < 1300 && p[1] > 100 && p[1] < 900; });
+  const [x, y] = position(s.field.children[index]);
+  s.move(x + 35, y); c.move(-1000, -1000); s.step(); c.step();
+  let a = position(s.field.children[index]), b = position(c.field.children[index]);
+  assert.ok(Math.hypot(a[0] - b[0], a[1] - b[1]) < 2, "no first-frame jump");
+  for (let n = 0; n < 30; n++) { s.step(); c.step(); }
+  a = position(s.field.children[index]); b = position(c.field.children[index]);
+  const early = [a[0] - b[0], a[1] - b[1]];
+  for (let n = 0; n < 150; n++) { s.step(); c.step(); }
+  a = position(s.field.children[index]); b = position(c.field.children[index]);
+  const late = [a[0] - b[0], a[1] - b[1]];
+  const cross = Math.abs(early[0] * late[1] - early[1] * late[0]);
+  assert.ok(cross / (Math.hypot(...early) * Math.hypot(...late)) > 0.3, "stationary pointer produces rotation, not a fixed radial offset");
+  s.doc.emit("pointerleave");
+  for (let n = 0; n < 220; n++) { s.step(); c.step(); }
+  a = position(s.field.children[index]); b = position(c.field.children[index]);
+  assert.ok(Math.hypot(a[0] - b[0], a[1] - b[1]) < 0.1, "returns to its ambient path"); s.cleanup(); c.cleanup();
+});
+
+test("waves relay between neighbours with bounded pools and expire without cycles", () => {
+  const s = mount(); s.view(true); s.step();
+  const el = s.field.children.find(el => { const p = position(el); return p && p[0] > 120 && p[0] < 1300 && p[1] > 100 && p[1] < 900; });
+  const [x, y] = position(el), count = s.highlights.children.length;
+  for (let n = 0; n < 100; n++) s.tap({ x, y });
+  let relayed = false, peak = 0;
+  for (let n = 0; n < 200; n++) {
+    s.step();
+    const active = s.highlights.children.filter(el => el.dataset.relay === "active");
+    peak = Math.max(peak, active.length); relayed ||= active.length > 0;
+    assert.equal(s.highlights.children.length, count);
+    for (const link of active) {
+      const coordinates = link.attrs.d.match(/[-\d.]+/g).map(Number);
+      assert.ok(Math.hypot(coordinates[0] - coordinates[4], coordinates[1] - coordinates[5]) < 280, "no distant cross-page connection");
+    }
+  }
+  assert.ok(relayed, "a hit shape passes its reaction to a neighbour"); assert.ok(peak <= 24, "four clicks, at most six relays each");
+  assert.ok(s.highlights.children.every(el => el.dataset.relay !== "active")); assert.equal(s.effects.children.length, 4); s.cleanup();
+});
+
+test("organic pointer motion remains consistent at 60 and 120 Hz", () => {
+  const run = hz => {
+    const s = mount(); s.view(true); s.step(); s.move(220, 210);
+    for (let n = 0; n < hz * 2; n++) s.step(1000 / hz);
+    const points = s.field.children.map(position); s.cleanup(); return points;
+  };
+  const slow = run(60), fast = run(120);
+  slow.forEach((p, i) => { if (p && fast[i]) assert.ok(Math.hypot(p[0] - fast[i][0], p[1] - fast[i][1]) < 0.8); });
 });
 
 test("hover tracking continues over text and interactive content", () => {

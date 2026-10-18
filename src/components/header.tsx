@@ -9,6 +9,7 @@ import { nav, site } from "@/lib/site";
 import { Wordmark } from "./brand";
 import { SearchButton } from "./command-palette";
 import { ThemePicker } from "./theme";
+import { AnimationToggle } from "./animation-toggle";
 import { GitHubIcon } from "./icons";
 
 export function Header() {
@@ -62,8 +63,8 @@ export function Header() {
         Skip to content
       </a>
       <div className="site-container flex h-16 items-center gap-3 sm:gap-6">
-        <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
-          <Wordmark />
+        <Link href="/" className="shrink-0" aria-label="NineDeploy home" onClick={() => setOpen(false)}>
+          <Wordmark className="max-[400px]:[&>span]:hidden" />
         </Link>
 
         <nav aria-label="Main" className="hidden flex-1 justify-center xl:flex">
@@ -102,6 +103,7 @@ export function Header() {
             <GitHubIcon className="size-[18px]" />
           </a>
           <ThemePicker />
+          <AnimationToggle />
           <Link
             href="/docs/installation"
             className="hidden rounded-full bg-green px-4 py-2 text-sm font-semibold text-bg transition-transform hover:-translate-y-0.5 sm:inline-block"
