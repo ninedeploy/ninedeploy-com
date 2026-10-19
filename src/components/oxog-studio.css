@@ -1,0 +1,96 @@
+@font-face {
+  font-family: "Oxog Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/oxog/manrope-latin-wght-normal.woff2") format("woff2");
+}
+
+/* Scoped Mammoth studio styles; the surrounding NineDeploy footer keeps its theme. */
+.oxog-studio {
+  --oxog-text: #191c32;
+  --oxog-muted: #65605a;
+  --oxog-line: #ded4c2;
+  --oxog-accent: #333957;
+  --oxog-purple: #692d91;
+  display: flex;
+  align-items: center;
+  gap: clamp(30px, 4vw, 70px);
+  margin-top: 55px;
+  padding: 35px 45px;
+  border: 1px solid var(--oxog-line);
+  border-radius: 7px;
+  background: radial-gradient(ellipse at 15% 30%, color-mix(in srgb, #ed0878 4%, transparent), transparent 65%);
+  color: var(--oxog-text);
+  font: 15px / 1.7 "Oxog Manrope", sans-serif;
+  text-decoration: none;
+}
+.dark .oxog-studio {
+  --oxog-text: #f6f0e4;
+  --oxog-muted: #b5b2b9;
+  --oxog-line: #373b50;
+  --oxog-accent: #e7d2a4;
+  --oxog-purple: #b477e4;
+}
+.oxog-studio-mark { width: 105px; height: auto; flex-shrink: 0; }
+.oxog-studio-eyebrow {
+  display: block;
+  margin-bottom: 9px;
+  font: 8px / 1.6 SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.12em;
+  color: var(--oxog-accent);
+}
+.oxog-studio h2 {
+  margin: 0;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+}
+.oxog-studio h2 > span { color: var(--oxog-muted); }
+.oxog-studio p { margin: 9px 0 0; font-size: 11px; color: var(--oxog-muted); }
+.oxog-studio-link {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--oxog-accent);
+}
+.oxog-studio:hover { border-color: #ed0878; }
+
+@media (max-width: 1100px) {
+  .oxog-studio { padding: 30px; gap: 30px; }
+  .oxog-studio h2 { font-size: 29px; }
+}
+@media (max-width: 800px) {
+  .oxog-studio { flex-wrap: wrap; }
+  .oxog-studio-link { width: 100%; margin: 0; justify-content: end; }
+}
+@media (max-width: 520px) {
+  .oxog-studio { padding: 25px; gap: 22px; }
+  .oxog-studio-mark { width: 65px; }
+  .oxog-studio > div { flex: 1; min-width: 0; }
+  .oxog-studio-eyebrow { font-size: 6px; }
+  .oxog-studio h2 { font-size: 25px; }
+  .oxog-studio h2 > span { display: block; }
+  .oxog-studio p { font-size: 9px; }
+  .oxog-studio-link { font-size: 10px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .oxog-studio-mark path {
+    stroke-dasharray: 400;
+    animation: oxog-studio-draw 6s ease-in-out var(--draw-delay, 0s) infinite;
+    animation-play-state: paused;
+  }
+  .oxog-studio[data-visible="true"][data-page-visible="true"] .oxog-studio-mark path { animation-play-state: running; }
+  .oxog-studio-mark path:nth-child(2) { --draw-delay: 0.15s; }
+  .oxog-studio-mark path:nth-child(3) { --draw-delay: 0.3s; }
+  .oxog-studio-mark path:nth-child(4) { --draw-delay: 0.45s; }
+}
+@keyframes oxog-studio-draw {
+  0% { stroke-dashoffset: 400; }
+  33%, 100% { stroke-dashoffset: 0; }
+}

@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useInView } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
-import { useRef } from "react";
 import { oxog, site } from "@/lib/site";
-import { OxogMark, OxogWordmark, Wordmark } from "./brand";
+import { Wordmark } from "./brand";
+import { OxogStudio } from "./oxog-studio";
 
 const columns = [
   {
@@ -38,8 +36,6 @@ const columns = [
 ];
 
 export function Footer() {
-  const ref = useRef<HTMLDivElement>(null);
-  const seen = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
 
   return (
     <footer className="footer-space relative border-t border-rail bg-bg-2">
@@ -84,55 +80,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* The studio behind it */}
-        <div
-          ref={ref}
-          className="relative mt-16 overflow-hidden rounded-[28px] border border-rail bg-panel p-6 sm:p-10"
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full opacity-25 blur-3xl"
-            style={{ background: "radial-gradient(circle, #ed0878, transparent 65%)" }}
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-32 right-40 size-80 rounded-full opacity-20 blur-3xl"
-            style={{ background: "radial-gradient(circle, #692d91, transparent 65%)" }}
-          />
-          <div className="relative grid items-center gap-8 md:grid-cols-[auto_1fr_auto]">
-            <a href={oxog.url} target="_blank" rel="noreferrer" aria-label="OXOGNET" className="block w-32 sm:w-40">
-              {seen ? <OxogMark draw className="w-full" /> : <OxogMark className="w-full opacity-0" />}
-            </a>
-            <div className="max-w-xl">
-              <p className="text-sm text-muted">
-                NineDeploy is built and maintained by
-              </p>
-              <a href={oxog.url} target="_blank" rel="noreferrer" className="group mt-1 inline-flex items-baseline gap-2">
-                <OxogWordmark className="text-3xl sm:text-4xl" />
-                <ArrowUpRight className="size-5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </a>
-              <p className="mt-3 text-muted">
-                A small studio in Estonia building AI agents, developer tools and the infrastructure behind them. We
-                run NineDeploy on our own servers first.
-              </p>
-            </div>
-            <ul className="studio-projects grid grid-cols-2 gap-2 md:grid-cols-1">
-              {oxog.siblings.map((s) => (
-                <li key={s.name}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex flex-col rounded-xl border border-rail px-3 py-2 transition-colors hover:border-[#ed0878]/60"
-                  >
-                    <span className="text-sm font-semibold">{s.name}</span>
-                    <span className="text-xs text-muted">{s.what}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <OxogStudio />
 
         <div className="flex flex-col gap-3 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
