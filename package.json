@@ -10,7 +10,9 @@
     "installer": "node scripts/fetch-installer.mjs",
     "sync:content": "node scripts/sync-content.mjs",
     "verify:export": "node scripts/verify-export.mjs",
-    "test:background": "node --test scripts/test-site-background.mjs scripts/test-animation-preference.mjs"
+    "verify:ui": "node scripts/verify-ui-export.mjs",
+    "test:background": "node --test scripts/test-site-background.mjs scripts/test-animation-preference.mjs",
+    "test:ui": "node --test scripts/test-ui-accessibility.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.52.0",

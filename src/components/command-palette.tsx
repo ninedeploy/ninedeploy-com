@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { BookOpen, CornerDownLeft, FileText, Search } from "lucide-react";
+import { BookOpen, CornerDownLeft, FileText, Search, X } from "lucide-react";
+import { containTab } from "@/lib/focus";
 import {
   createContext,
   useCallback,
@@ -45,6 +46,7 @@ export function CommandPalette({ children }: { children: ReactNode }) {
   // The index (docs + templates) is a separate chunk, fetched on first open
   // instead of being serialized into every page.
   const [index, setIndex] = useState<SearchItem[]>([]);
+  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const q = useDeferredValue(query.trim().toLowerCase());
@@ -53,12 +55,20 @@ export function CommandPalette({ children }: { children: ReactNode }) {
   const listRef = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
   const id = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  const loadIndex = useCallback(() => {
+    setStatus("loading");
+    import("@/lib/search-index")
+      .then((m) => { setIndex(m.buildSearchIndex()); setStatus("ready"); })
+      .catch(() => setStatus("error"));
+  }, []);
 
   const show = useCallback(() => {
     returnFocus.current = document.activeElement as HTMLElement | null;
     setOpen(true);
-    import("@/lib/search-index").then((m) => setIndex((prev) => (prev.length ? prev : m.buildSearchIndex())));
-  }, []);
+    if (!index.length) loadIndex();
+  }, [index.length, loadIndex]);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -83,7 +93,10 @@ export function CommandPalette({ children }: { children: ReactNode }) {
   }, [open, show, close]);
 
   useEffect(() => {
-    document.documentElement.style.overflow = open ? "hidden" : "";
+    if (!open) return;
+    const previous = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    return () => { document.documentElement.style.overflow = previous; };
   }, [open]);
 
   const results = useMemo(() => {
@@ -115,21 +128,20 @@ export function CommandPalette({ children }: { children: ReactNode }) {
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
+    if (e.key === "ArrowDown" && e.target === inputRef.current) {
       e.preventDefault();
-      setActive((a) => Math.min(a + 1, results.length - 1));
-    } else if (e.key === "ArrowUp") {
+      setActive((a) => Math.max(0, Math.min(a + 1, results.length - 1)));
+    } else if (e.key === "ArrowUp" && e.target === inputRef.current) {
       e.preventDefault();
       setActive((a) => Math.max(a - 1, 0));
-    } else if (e.key === "Enter") {
+    } else if (e.key === "Enter" && e.target === inputRef.current) {
       e.preventDefault();
       go(results[active]);
     } else if (e.key === "Escape") {
       e.preventDefault();
       close();
     } else if (e.key === "Tab") {
-      // the input is the only focusable control; keep focus inside the dialog
-      e.preventDefault();
+      if (dialogRef.current) containTab(e, dialogRef.current);
     }
   };
 
@@ -143,7 +155,7 @@ export function CommandPalette({ children }: { children: ReactNode }) {
       </div>
       <AnimatePresence>
         {open && (
-          <div className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-[12vh]">
+          <div className="site-search-overlay">
             <motion.div
               className="absolute inset-0 bg-[#0a101b]/60 backdrop-blur-sm"
               initial={{ opacity: 0 }}
@@ -153,6 +165,7 @@ export function CommandPalette({ children }: { children: ReactNode }) {
               aria-hidden
             />
             <motion.div
+              ref={dialogRef}
               role="dialog"
               aria-modal="true"
               aria-label="Search the site"
@@ -164,14 +177,16 @@ export function CommandPalette({ children }: { children: ReactNode }) {
               onKeyDown={onKeyDown}
               // clicks on labels or padding must not pull focus off the input
               onMouseDown={(e) => {
-                if (e.target !== inputRef.current) e.preventDefault();
+                if (e.target !== inputRef.current && !(e.target as HTMLElement).closest("button")) e.preventDefault();
               }}
-              className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-rail-strong bg-panel shadow-[0_40px_120px_-30px_rgb(0_0_0/0.55)]"
+              className="site-search-panel relative w-full max-w-xl overflow-hidden rounded-3xl border border-rail-strong bg-panel shadow-[0_40px_120px_-30px_rgb(0_0_0/0.55)]"
             >
               <div className="lane-rule h-[2px]" aria-hidden />
               <div className="flex items-center gap-3 border-b border-rail px-5">
+                <label htmlFor={`${id}-query`} className="sr-only">Search docs, templates and pages</label>
                 <Search className="size-5 shrink-0 text-muted" />
                 <input
+                  id={`${id}-query`}
                   ref={inputRef}
                   autoFocus
                   value={query}
@@ -185,12 +200,14 @@ export function CommandPalette({ children }: { children: ReactNode }) {
                   aria-controls={`${id}-list`}
                   aria-activedescendant={results.length ? `${id}-o${active}` : undefined}
                   aria-autocomplete="list"
-                  className="h-16 min-w-0 flex-1 bg-transparent text-lg outline-none placeholder:text-muted focus-visible:outline-none"
+                  className="h-16 min-w-0 flex-1 rounded-lg bg-transparent px-2 text-lg placeholder:text-muted focus-visible:outline-2 focus-visible:outline-green focus-visible:-outline-offset-2"
                 />
-                <kbd className="hidden rounded-md border border-rail px-1.5 py-0.5 font-mono text-[11px] text-muted sm:block">esc</kbd>
+                <button type="button" onClick={close} aria-label="Close search" className="grid size-9 shrink-0 place-items-center rounded-full border border-rail text-muted hover:bg-bg-2 hover:text-ink">
+                  <X className="size-4" aria-hidden="true" />
+                </button>
               </div>
 
-              <div ref={listRef} id={`${id}-list`} role="listbox" aria-label="Results" className="max-h-[min(60vh,440px)] overflow-y-auto p-2">
+              <div ref={listRef} id={`${id}-list`} role="listbox" aria-label="Results" aria-busy={status === "loading"} className="site-search-results max-h-[min(60dvh,440px)] overflow-y-auto p-2">
                 {groups.map((g) => (
                   <div key={g.kind} role="group" aria-labelledby={`${id}-g-${g.kind}`}>
                     <p id={`${id}-g-${g.kind}`} className="px-3 pb-1 pt-3 text-xs font-medium text-muted">
@@ -238,9 +255,14 @@ export function CommandPalette({ children }: { children: ReactNode }) {
                   </div>
                 ))}
               </div>
-              {results.length === 0 && index.length > 0 && (
+              {status === "loading" && <p role="status" className="px-5 py-6 text-sm text-muted">Loading search…</p>}
+              {status === "error" && <div role="alert" className="px-5 py-6 text-sm">
+                <p>Search couldn’t load. Please try again.</p>
+                <button type="button" onClick={loadIndex} className="mt-3 rounded-full border border-rail px-4 py-2 font-medium hover:bg-bg-2">Retry search</button>
+              </div>}
+              {results.length === 0 && status === "ready" && (
                 <div className="px-4 pb-10 pt-6 text-center" role="status">
-                  <p className="font-medium">Nothing matches &ldquo;{query}&rdquo;.</p>
+                  <p className="font-medium [overflow-wrap:anywhere]">Nothing matches &ldquo;{query}&rdquo;.</p>
                   <p className="mt-1 text-sm text-muted">Try a template name like postgres, or a topic like backups.</p>
                 </div>
               )}

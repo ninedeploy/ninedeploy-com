@@ -22,7 +22,7 @@
   --muted: #536279;
   --blue: #4f46e5;
   --green: #0f7a72;
-  --amber: #c7781a;
+  --amber: #975810;
   --pink: #d93a66;
   --glow-blue: rgb(79 70 229 / 0.14);
   --glow-green: rgb(15 122 114 / 0.16);
@@ -118,6 +118,20 @@ body {
   letter-spacing: -0.03em;
   line-height: 1.08;
 }
+
+/* Long document titles and registry names must reflow at narrow widths/zoom. */
+h1, h2, h3 { overflow-wrap: anywhere; }
+
+/* Keep the full modal inside short screens and the mobile visual viewport. */
+.site-search-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: flex-start; justify-content: center;
+  height: 100dvh;
+  padding: clamp(1rem, 8dvh, 6rem) 1rem max(1rem, env(safe-area-inset-bottom));
+}
+.site-search-panel { display: flex; flex-direction: column; max-height: 100%; }
+.site-search-panel > :not([role="listbox"]) { flex-shrink: 0; }
+.site-search-results { min-height: 0; }
 
 
 .blueprint {
@@ -260,7 +274,7 @@ body {
 }
 
 /* Code tokens (always on the dark code surface) */
-.c-com { color: #6b7d96; font-style: italic; }
+.c-com { color: #8495ad; font-style: italic; }
 .c-str { color: #a5e8c8; }
 .c-key { color: #8fa6ff; }
 .c-kw { color: #4ecdc4; }

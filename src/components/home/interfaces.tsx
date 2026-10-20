@@ -1,8 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { Bot, Braces, FileCode2, SquareTerminal } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePageVisible } from "@/lib/page-visibility";
 import { highlight } from "@/components/code";
 import { tabListKeys } from "@/lib/tabs";
 import { site } from "@/lib/site";
@@ -95,19 +96,23 @@ previews:
 const DURATION = 8000;
 
 export function Interfaces() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref);
+  const pageVisible = usePageVisible();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
   const slide = slides[index];
 
   useEffect(() => {
-    if (paused || reduce) return;
+    if (paused || reduce || !inView || !pageVisible) return;
     const t = setTimeout(() => setIndex((i) => (i + 1) % slides.length), DURATION);
     return () => clearTimeout(t);
-  }, [index, paused, reduce]);
+  }, [index, paused, reduce, inView, pageVisible]);
 
   return (
     <section
+      ref={ref}
       className="relative overflow-hidden border-y border-rail bg-bg-2 section-space"
       aria-labelledby="interfaces-heading"
       onMouseEnter={() => setPaused(true)}
@@ -168,7 +173,7 @@ export function Interfaces() {
           aria-labelledby={`interfaces-tab-${slide.id}`}
           className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start layout-gap lg:grid-cols-[0.8fr_1.2fr]"
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={slide.id}
               initial={{ opacity: 0, x: -16 }}
@@ -190,8 +195,11 @@ export function Interfaces() {
                 <span className="size-2.5 rounded-full bg-[#4ecdc4]" />
                 <span className="ml-3 font-mono text-[11px] text-white/50">{slide.file}</span>
               </div>
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.pre
+                  tabIndex={0}
+                  role="region"
+                  aria-label={`${slide.file} code`}
                   key={slide.id}
                   initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}

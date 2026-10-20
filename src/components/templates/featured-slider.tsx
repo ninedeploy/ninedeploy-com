@@ -5,10 +5,12 @@ import { ArrowLeft, ArrowRight, BadgeCheck } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { TemplateSummary } from "@/lib/content";
 import { TemplateIcon } from "./template-icon";
+import { useReducedMotion } from "motion/react";
 
 /** A swipeable, snap-scrolling rail of large featured cards with arrow controls. */
 export function FeaturedSlider({ items }: { items: TemplateSummary[] }) {
   const rail = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
   const [edge, setEdge] = useState({ start: true, end: false });
   const [progress, setProgress] = useState(0);
 
@@ -33,7 +35,7 @@ export function FeaturedSlider({ items }: { items: TemplateSummary[] }) {
 
   const page = (dir: 1 | -1) => {
     const el = rail.current;
-    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: reduce ? "auto" : "smooth" });
   };
 
   return (

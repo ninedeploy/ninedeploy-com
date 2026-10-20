@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useInView } from "motion/react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
+import { usePageVisible } from "@/lib/page-visibility";
 import { GitCommitHorizontal, Globe, Route, Bug } from "lucide-react";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
@@ -62,6 +63,8 @@ export function CutoverStage() {
   const logRef = useRef<HTMLOListElement>(null);
 
   const inView = useInView(stageRef, { margin: "-10% 0px" });
+  const pageVisible = usePageVisible();
+  const reduce = useReducedMotion();
   const [live, setLive] = useState<Lane>("blue");
   const liveRef = useRef<Lane>("blue");
   const [slots, setSlots] = useState<Record<Lane, Slot>>({
@@ -161,13 +164,13 @@ export function CutoverStage() {
 
   // One orchestrated moment: the first time the stage is seen, it deploys itself.
   useEffect(() => {
-    if (!inView || autoplayed.current) return;
+    if (!inView || !pageVisible || reduce || autoplayed.current) return;
     const t = setTimeout(() => {
       autoplayed.current = true;
       deploy(false);
     }, 1100);
     return () => clearTimeout(t);
-  }, [inView, deploy]);
+  }, [inView, pageVisible, reduce, deploy]);
 
   useEffect(() => {
     alive.current = true;
@@ -178,8 +181,8 @@ export function CutoverStage() {
 
   useEffect(() => {
     const el = logRef.current;
-    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, [logs]);
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: reduce ? "auto" : "smooth" });
+  }, [logs, reduce]);
 
   // Canvas: wires and request dots, anchored to the real card positions.
   const anchors = useRef<{
@@ -242,9 +245,7 @@ export function CutoverStage() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx || !inView) return;
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!canvas || !ctx || !inView || !pageVisible) return;
     const dots: Dot[] = [];
     let raf = 0;
     let last = performance.now();
@@ -373,7 +374,7 @@ export function CutoverStage() {
       cancelAnimationFrame(raf);
       clearTimeout(timer);
     };
-  }, [inView]);
+  }, [inView, pageVisible, reduce]);
 
   return (
     <div className="relative">
@@ -474,7 +475,7 @@ export function CutoverStage() {
             {logs.map((l) => (
               <motion.li
                 key={l.id}
-                initial={{ opacity: 0, x: -6 }}
+                initial={l.id === 0 ? false : { opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="flex gap-3 whitespace-pre-wrap"
               >

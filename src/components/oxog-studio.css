@@ -1,11 +1,3 @@
-@font-face {
-  font-family: "Oxog Manrope";
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url("/fonts/oxog/manrope-latin-wght-normal.woff2") format("woff2");
-}
-
 /* Scoped Mammoth studio styles; the surrounding NineDeploy footer keeps its theme. */
 .oxog-studio {
   --oxog-text: #191c32;
@@ -22,7 +14,7 @@
   border-radius: 7px;
   background: radial-gradient(ellipse at 15% 30%, color-mix(in srgb, #ed0878 4%, transparent), transparent 65%);
   color: var(--oxog-text);
-  font: 15px / 1.7 "Oxog Manrope", sans-serif;
+  font: 15px / 1.7 var(--font-sans);
   text-decoration: none;
 }
 .dark .oxog-studio {
@@ -36,7 +28,7 @@
 .oxog-studio-eyebrow {
   display: block;
   margin-bottom: 9px;
-  font: 8px / 1.6 SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font: 8px / 1.6 var(--font-sans);
   letter-spacing: 0.12em;
   color: var(--oxog-accent);
 }
@@ -80,7 +72,7 @@
   .oxog-studio-link { font-size: 10px; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .oxog-studio-mark path {
+  .oxog-studio[data-page-visible] .oxog-studio-mark path {
     stroke-dasharray: 400;
     animation: oxog-studio-draw 6s ease-in-out var(--draw-delay, 0s) infinite;
     animation-play-state: paused;

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { containTab } from "@/lib/focus";
 import { nav, site } from "@/lib/site";
 import { Wordmark } from "./brand";
 import { SearchButton } from "./command-palette";
@@ -16,6 +17,8 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const scope = useRef<HTMLDivElement>(null);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -34,15 +37,28 @@ export function Header() {
 
   useEffect(() => {
     if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    const trigger = menuTrigger.current;
     document.body.style.overflow = "hidden";
+    const background = Array.from(document.querySelectorAll<HTMLElement>("main, footer"));
+    const previousInert = background.map(el => el.inert);
+    background.forEach(el => { el.inert = true; });
+    scope.current?.querySelector<HTMLElement>("#mobile-nav a")?.focus({ preventScroll: true });
     const wide = window.matchMedia("(min-width: 1280px)");
     const close = () => setOpen(false);
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    const onKey = (e: KeyboardEvent) => {
+      // Theme/search own their Escape while a child dialog is open.
+      if (e.defaultPrevented || document.querySelector('[role="dialog"]:not([data-navigation-dialog])')) return;
+      if (e.key === "Escape") { e.preventDefault(); close(); }
+      else if (scope.current) containTab(e, scope.current);
+    };
     const onWide = (e: MediaQueryListEvent) => e.matches && close();
     window.addEventListener("keydown", onKey);
     wide.addEventListener("change", onWide);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
+      background.forEach((el, i) => { el.inert = previousInert[i]; });
+      if (trigger?.getClientRects().length) trigger.focus({ preventScroll: true });
       window.removeEventListener("keydown", onKey);
       wide.removeEventListener("change", onWide);
     };
@@ -62,6 +78,7 @@ export function Header() {
       >
         Skip to content
       </a>
+      <div ref={scope} role={open ? "dialog" : undefined} aria-modal={open ? true : undefined} aria-label={open ? "Site navigation" : undefined} data-navigation-dialog="">
       <div className="site-container flex h-16 items-center gap-3 sm:gap-6">
         <Link href="/" className="shrink-0" aria-label="NineDeploy home" onClick={() => setOpen(false)}>
           <Wordmark className="max-[400px]:[&>span]:hidden" />
@@ -111,6 +128,7 @@ export function Header() {
             Install
           </Link>
           <button
+            ref={menuTrigger}
             type="button"
             className="grid size-10 place-items-center rounded-full border border-rail xl:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -172,6 +190,7 @@ export function Header() {
           </motion.nav>
         )}
       </AnimatePresence>
+      </div>
     </header>
   );
 }

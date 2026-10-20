@@ -50,7 +50,7 @@ export function CodeBlock({ code, lang = "bash", file }: { code: string; lang?: 
   return (
     <div className="overflow-hidden rounded-2xl border border-rail bg-code text-code-ink">
       {file && <div className="border-b border-white/10 px-4 py-2 font-mono text-[11px] text-white/50">{file}</div>}
-      <pre className="overflow-x-auto px-4 py-4 font-mono text-[13px] leading-6">
+      <pre tabIndex={0} role="region" aria-label={file ? `${file} code` : `${lang} code example`} className="overflow-x-auto px-4 py-4 font-mono text-[13px] leading-6">
         <code>{highlight(code, lang)}</code>
       </pre>
     </div>

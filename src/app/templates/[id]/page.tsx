@@ -53,7 +53,7 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
               <span className="rise grid size-28 shrink-0 place-items-center rounded-[32px] border border-rail bg-panel text-ink">
                 <TemplateIcon t={t} className="size-14" />
               </span>
-              <div>
+              <div className="min-w-0">
                 <div className="flex flex-wrap gap-2 text-xs">
                   {t.verified && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-green/12 px-2.5 py-1 font-medium text-green">
@@ -72,9 +72,9 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
             </div>
             <dl className="rounded-3xl border border-rail bg-panel p-5 font-mono text-[13px]">
               {spec.map(([k, v]) => (
-                <div key={k} className="flex justify-between gap-4 border-b border-rail py-2.5 last:border-0">
+                <div key={k} className="grid grid-cols-[max-content_minmax(0,1fr)] gap-4 border-b border-rail py-2.5 last:border-0">
                   <dt className="text-muted">{k}</dt>
-                  <dd className="truncate text-right">{v}</dd>
+                  <dd className="text-right [overflow-wrap:anywhere]">{v}</dd>
                 </div>
               ))}
             </dl>
@@ -112,10 +112,10 @@ export default async function TemplatePage({ params }: PageProps<"/templates/[id
                 {t.env.map((e) => (
                   <li
                     key={e.key}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-rail bg-panel px-2.5 py-1 font-mono text-xs"
+                    className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-rail bg-panel px-2.5 py-1 font-mono text-xs"
                   >
                     {e.secret && <KeyRound className="size-3 text-amber" aria-label="Secret" />}
-                    {e.key}
+                    <span className="min-w-0 [overflow-wrap:anywhere]">{e.key}</span>
                   </li>
                 ))}
               </ul>

@@ -34,7 +34,7 @@ export function Comparison() {
       <p className="mt-4 max-w-2xl text-lg text-muted">
         The honest pitch: you get the managed-platform experience and keep the bill and the data of a box you rent.
       </p>
-      <div className="mt-10 overflow-x-auto rounded-3xl border border-rail bg-panel">
+      <div role="region" aria-label="Platform comparison" tabIndex={0} className="mt-10 overflow-x-auto rounded-3xl border border-rail bg-panel">
         <table className="data-table w-full min-w-[720px] border-collapse text-left">
           <thead>
             <tr className="border-b border-rail">

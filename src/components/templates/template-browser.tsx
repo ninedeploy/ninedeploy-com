@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { BadgeCheck, Search, X } from "lucide-react";
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useRef, useState } from "react";
 import type { TemplateSummary } from "@/lib/content";
 import { TemplateCard } from "./template-card";
 
@@ -14,6 +14,7 @@ export function TemplateBrowser({
   categories: { name: string; count: number }[];
 }) {
   const [query, setQuery] = useState("");
+  const search = useRef<HTMLInputElement>(null);
   const [category, setCategory] = useState<string | null>(null);
   const [certifiedOnly, setCertifiedOnly] = useState(false);
   const q = useDeferredValue(query.trim().toLowerCase());
@@ -38,6 +39,7 @@ export function TemplateBrowser({
             <span className="sr-only">Search templates</span>
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
             <input
+              ref={search}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search n8n, postgres, analytics…"
@@ -46,7 +48,7 @@ export function TemplateBrowser({
             {query && (
               <button
                 type="button"
-                onClick={() => setQuery("")}
+                onClick={() => { setQuery(""); search.current?.focus(); }}
                 aria-label="Clear search"
                 className="absolute right-3 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-muted hover:text-ink"
               >
@@ -119,6 +121,7 @@ export function TemplateBrowser({
               setQuery("");
               setCategory(null);
               setCertifiedOnly(false);
+              search.current?.focus();
             }}
             className="mt-4 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-bg"
           >

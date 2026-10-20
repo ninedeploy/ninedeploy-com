@@ -65,7 +65,7 @@ export function FeatureRooms() {
         </div>
 
         <div className="min-h-[520px]">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={room.id}
               id={`panel-${room.id}`}

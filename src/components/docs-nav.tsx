@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { matchesPathname } from "@/lib/navigation";
 
 type Groups = { name: string; docs: { slug: string; title: string }[] }[];
 
@@ -18,7 +19,7 @@ export function DocsNav({ groups, onNavigate, layoutId = "docs-active" }: { grou
           <ul className="mt-2 space-y-0.5">
             {g.docs.map((d) => {
               const href = `/docs/${d.slug}`;
-              const on = pathname === href;
+              const on = matchesPathname(pathname, href);
               return (
                 <li key={d.slug} className="relative">
                   {on && (
@@ -53,13 +54,29 @@ export function DocsNav({ groups, onNavigate, layoutId = "docs-active" }: { grou
 export function MobileDocsNav({ groups }: { groups: Groups }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const current = groups.flatMap((g) => g.docs).find((d) => pathname === `/docs/${d.slug}`);
+  const panelId = useId();
+  const trigger = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !event.defaultPrevented && trigger.current?.parentElement?.contains(event.target as Node)) {
+        event.preventDefault(); setOpen(false); trigger.current?.focus({ preventScroll: true });
+      }
+    };
+    const wide = window.matchMedia("(min-width: 1024px)");
+    const close = () => setOpen(false);
+    document.addEventListener("keydown", onKey);
+    wide.addEventListener("change", close);
+    return () => { document.removeEventListener("keydown", onKey); wide.removeEventListener("change", close); };
+  }, [open]);
+  const current = groups.flatMap((g) => g.docs).find((d) => matchesPathname(pathname, `/docs/${d.slug}`));
   return (
     <div className="site-edge sticky top-16 z-30 border-b border-rail bg-bg/90 backdrop-blur-xl lg:hidden">
       <button
+        ref={trigger}
         type="button"
         aria-expanded={open}
-        aria-controls="mobile-docs"
+        aria-controls={panelId}
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between gap-3 py-3 text-left text-sm"
       >
@@ -72,7 +89,7 @@ export function MobileDocsNav({ groups }: { groups: Groups }) {
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
-            id="mobile-docs"
+            id={panelId}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

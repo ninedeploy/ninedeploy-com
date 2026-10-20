@@ -33,6 +33,7 @@ import {
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { TemplateIcon } from "@/components/templates/template-icon";
 import { tabListKeys } from "@/lib/tabs";
+import { usePageVisible } from "@/lib/page-visibility";
 
 /*
  * The NineDeploy dashboard, redrawn in code rather than screenshotted, so it
@@ -596,13 +597,14 @@ export function PanelTour() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-15% 0px" });
   const reduce = useReducedMotion();
+  const pageVisible = usePageVisible();
   const [index, setIndex] = useState(0);
   // `held` pauses while the pointer or keyboard focus is inside the section;
   // `stopped` is the user's explicit choice via the pause button.
   const [held, setHeld] = useState(false);
   const [stopped, setStopped] = useState(false);
   const view = views[index];
-  const live = inView && !reduce; // live numbers and charts
+  const live = inView && pageVisible && !reduce; // live numbers and charts
   const autoplay = live && !held && !stopped;
 
   useEffect(() => {
@@ -729,7 +731,7 @@ export function PanelTour() {
             </div>
             {/* content */}
             <div className="min-w-0 flex-1 p-4 sm:p-5">
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={view.id}
                   initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
@@ -747,7 +749,7 @@ export function PanelTour() {
             </div>
           </div>
         </div>
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.p
             key={view.id}
             initial={{ opacity: 0 }}

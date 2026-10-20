@@ -50,6 +50,7 @@ footer { position: relative; z-index: 1; }
 .sidebar-layout > *, .docs-detail > *, .catalog-grid > *, .adaptive-grid > * { min-width: 0; }
 .sidebar-layout--trailing { --sidebar-width: 22rem; }
 .reading-flow p, .doc-blocks > ul { max-inline-size: var(--reading-width); }
+.reading-flow { overflow-wrap: anywhere; }
 .docs-detail { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--layout-gap); }
 .docs-shell { padding-block: 0 2.5rem; }
 

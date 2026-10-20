@@ -40,9 +40,12 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
+      - run: pnpm test:background
+      - run: pnpm test:ui
       # Build refreshes product content and installer from the same commit.
       - run: pnpm build
       - run: pnpm verify:export
+      - run: pnpm verify:ui
 
       # out/ already holds CNAME (ninedeploy.com) and .nojekyll from public/.
       - uses: actions/upload-pages-artifact@v4
