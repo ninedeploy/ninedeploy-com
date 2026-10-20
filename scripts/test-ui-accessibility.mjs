@@ -90,3 +90,29 @@ test("documentation marks the current page with and without a trailing slash", (
     assert.equal(links.find(link => link.href === "/docs/mcp")["aria-current"], undefined);
   }
 });
+
+const themeSource = await readFile(new URL("../src/components/theme.tsx", import.meta.url), "utf8");
+const themeCode = ts.transpileModule(themeSource, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText;
+test("theme Escape consumes the event before parent navigation and restores focus", () => {
+  const exports = {}, effects = [], listeners = new Map();
+  let refs = 0, focused = 0, closed = 0;
+  const modules = {
+    react: {
+      useState: () => [true, value => { if (value === false) closed++; }],
+      useRef: () => ({ current: refs++ === 0 ? { querySelector: () => ({ focus() {} }) } : { focus: () => focused++ } }),
+      useEffect: effect => effects.push(effect), useId: () => "theme-test", useSyncExternalStore: (_subscribe, getSnapshot) => getSnapshot(),
+    },
+    "react/jsx-runtime": { jsx: (type, props) => ({ type, props }), jsxs: (type, props) => ({ type, props }) },
+    "lucide-react": {}, "motion/react": {}, "next-themes": { useTheme: () => ({ theme: "system" }) },
+  };
+  runInNewContext(themeCode, { exports, require: name => { assert.ok(name in modules, name); return modules[name]; },
+    document: { addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name) } });
+  exports.ThemePicker();
+  const cleanups = effects.map(effect => effect());
+  let prevented = false;
+  listeners.get("keydown")({ key: "ArrowRight", preventDefault: () => { prevented = true; } });
+  assert.equal(closed, 0); assert.equal(prevented, false);
+  listeners.get("keydown")({ key: "Escape", preventDefault: () => { prevented = true; } });
+  assert.equal(closed, 1); assert.equal(focused, 1); assert.equal(prevented, true);
+  cleanups.forEach(fn => fn?.()); assert.equal(listeners.size, 0);
+});

@@ -1,27 +1,49 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function CopyButton({ text, className = "" }: { text: string; className?: string }) {
-  const [copied, setCopied] = useState(false);
+  const [result, setResult] = useState<{ text: string; status: "copied" | "error" } | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const request = useRef(0);
+  const status = result?.text === text ? result.status : "idle";
+  const copied = status === "copied";
+  const failed = status === "error";
+
+  useEffect(() => () => {
+    request.current++;
+    if (timer.current !== null) clearTimeout(timer.current);
+    timer.current = null;
+  }, []);
+
   return (
     <button
       type="button"
       onClick={async () => {
+        const current = ++request.current;
+        if (timer.current !== null) clearTimeout(timer.current);
+        timer.current = null;
+        setResult(null);
         try {
           await navigator.clipboard.writeText(text);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1600);
+          if (current !== request.current) return;
+          setResult({ text, status: "copied" });
+          timer.current = setTimeout(() => {
+            setResult(null);
+            timer.current = null;
+          }, 1600);
         } catch {
-          /* clipboard blocked: the text is still selectable */
+          if (current === request.current) setResult({ text, status: "error" });
         }
       }}
-      aria-label={copied ? "Copied" : "Copy command"}
+      aria-label={copied ? "Copied" : failed ? "Copy failed. Retry copying command" : "Copy command"}
+      title={failed ? "Clipboard unavailable. Retry or select and copy the command manually." : undefined}
       className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${className}`}
     >
       {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-      <span>{copied ? "Copied" : "Copy"}</span>
+      <span>{copied ? "Copied" : failed ? "Retry" : "Copy"}</span>
+      <span role="status" className="sr-only">{copied ? "Command copied to clipboard." : failed ? "Copy failed. Retry or select and copy the command manually." : ""}</span>
     </button>
   );
 }

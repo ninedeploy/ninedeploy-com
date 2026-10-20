@@ -57,6 +57,7 @@ export function ThemePicker() {
     };
     const escape = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
+      event.preventDefault();
       setOpen(false);
       trigger.current?.focus();
     };
