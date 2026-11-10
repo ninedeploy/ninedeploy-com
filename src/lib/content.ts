@@ -40,6 +40,7 @@ export interface Release {
   date: string;
   tagline: string;
   groups: { title: string; total: number; items: string[] }[];
+  markdown: string;
 }
 
 /** Featured first, then alphabetical — the order the panel's hub uses. */
@@ -61,5 +62,7 @@ export const templateCategories = Object.entries(
 
 export const getTemplate = (id: string) => templates.find((t) => t.id === id);
 
-export const releases = changelogData.releases as Release[];
+export const allReleases = changelogData.releases as Release[];
+export const releases = allReleases.slice(0, 24);
+export const unreleased = changelogData.unreleased;
 export const releaseTotal = changelogData.total;

@@ -3,6 +3,8 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import * as simpleIcons from "simple-icons";
 import { openUpstream, publishInstaller, root, validateInstaller } from "./upstream.mjs";
+import { parseChangelog } from "./changelog.mjs";
+import { canonicalInstall, describeGuide, guideAliases } from './document-sources.mjs';
 
 const source = await openUpstream(process.argv[2]);
 const files = ["package.json", "apps/server/src/templates/registry.json", "CHANGELOG.md", "install.sh",
@@ -13,9 +15,35 @@ const pkg = JSON.parse(pkgBytes.toString("utf8"));
 const registry = JSON.parse(registryBytes.toString("utf8"));
 const installerSha256 = validateInstaller(installerBytes);
 if (!/^\d+\.\d+\.\d+$/.test(pkg.version) || !registry.templates?.length) throw new Error("Invalid upstream product metadata");
+const countTools = (bytes) => [...bytes.toString("utf8").matchAll(/^    name: '([^']+)',/gm)].map((match) => match[1]);
+const mcpTools = new Set([...countTools(toolsBytes), ...countTools(specToolsBytes)]).size;
+const tables = [...schemaBytes.toString("utf8").matchAll(/= sqliteTable\(/g)].length;
+if (!mcpTools || !tables || !pkg.engines?.node) throw new Error("Upstream tools, schema or runtime metadata is missing");
+const facts = { templates: registry.templates.length, certified: registry.templates.filter(t => t.runtimeVerified === true).length, categories: new Set(registry.templates.map(t => t.category)).size, mcpTools, tables };
 const outputs = new Map();
 const out = (name, data) =>
   outputs.set(join(root, "src/content", name), `${JSON.stringify(data, null, 1)}\n`);
+
+const paths = await source.documents();
+const guides = [];
+for (let i = 0; i < paths.length; i += 8) {
+  guides.push(...await Promise.all(paths.slice(i, i + 8).map(async path => {
+    let markdown = canonicalInstall((await source.read(path)).toString('utf8'));
+    if (['README.md', 'ARCHITECTURE.md'].includes(path)) {
+      // These overview documents retain old inventory counts. Use the actual
+      // registry/schema/tool definitions; never rewrite dated release records.
+      markdown = markdown.replace(/\b\d+(?= tables\b)/g, String(tables))
+        .replace(/\b\d+(?= tools\b)/g, String(mcpTools))
+        .replace(/\b\d+(?= (?:one-click )?templates\b| entries; bundled JSON)/g, String(facts.templates))
+        .replace(/\b\d+(?=-entry (?:template )?registry)/g, String(facts.templates))
+        .replace(/\b\d+(?= categories\b)/g, String(facts.categories))
+        .replace(/\b\d+(?= are marked verified in the Hub)/g, String(facts.certified))
+        .replace(/\b\d+(?= hand-written ones)/g, String(countTools(toolsBytes).length));
+    }
+    return describeGuide(path, markdown);
+  })));
+}
+out('upstream-docs.json', { commit: source.ref, aliases: guideAliases, docs: guides });
 
 // Template logos come from Simple Icons, and only when the mark is the
 // project's own. Anything without one renders the site's fixed container
@@ -88,62 +116,16 @@ outputs.set(
 `,
 );
 
-// Changelog: the newest releases, groups and items trimmed for the web.
+// Keep the complete history. The overview is compact; each release has full notes.
 const md = changelogBytes.toString("utf8");
-const clean = (s) =>
-  s
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/\*\*/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-const releases = [];
-let rel = null;
-let group = null;
-let item = null;
-const flush = () => {
-  if (item && rel && group) group.items.push(clean(item));
-  item = null;
-};
-for (const line of md.split(/\r?\n/)) {
-  const h = /^## \[([^\]]+)\](?:\s*-\s*(\S+))?/.exec(line);
-  if (h) {
-    flush();
-    if (h[1] === "Unreleased") { rel = null; continue; }
-    rel = { version: h[1], date: h[2] ?? "", tagline: "", groups: [] };
-    group = null;
-    releases.push(rel);
-    continue;
-  }
-  if (!rel) continue;
-  const g = /^### (.+)/.exec(line);
-  if (g) { flush(); group = { title: g[1].trim(), items: [] }; rel.groups.push(group); continue; }
-  const q = /^> ?(.*)/.exec(line);
-  if (q && rel.groups.length === 0) { rel.tagline = clean(`${rel.tagline} ${q[1]}`); continue; }
-  const b = /^- (.+)/.exec(line);
-  if (b && group) { flush(); item = b[1]; continue; }
-  if (item && /^\s{2,}\S/.test(line)) { item += ` ${line.trim().replace(/^- /, "")}`; continue; }
-  if (/^\s*$/.test(line)) flush();
-}
-flush();
-const trimmed = releases.slice(0, 24).map((r) => ({
-  ...r,
-  groups: r.groups
-    .filter((g) => g.items.length)
-    .map((g) => ({
-      title: g.title,
-      total: g.items.length,
-      items: g.items.slice(0, 5).map((i) => (i.length > 240 ? `${i.slice(0, 237).replace(/\s+\S*$/, "")}…` : i)),
-    })),
-}));
-out("changelog.json", { total: releases.length, releases: trimmed });
+const changelog = parseChangelog(md);
+const releases = changelog.releases;
+out("changelog.json", changelog);
 if (!releases.some((release) => release.version === pkg.version)) throw new Error("Product version is missing from CHANGELOG.md");
-const countTools = (bytes) => [...bytes.toString("utf8").matchAll(/^    name: '([^']+)',/gm)].map((match) => match[1]);
-const mcpTools = new Set([...countTools(toolsBytes), ...countTools(specToolsBytes)]).size;
-const tables = [...schemaBytes.toString("utf8").matchAll(/= sqliteTable\(/g)].length;
-if (!mcpTools || !tables) throw new Error("Upstream MCP tools or schema could not be counted");
-out("product.json", { version: pkg.version, commit: source.ref, installerSha256, tables, mcpTools });
+out("product.json", { version: pkg.version, commit: source.ref, installerSha256, ...facts, node: pkg.engines.node,
+  releaseHeadline: releases[0]?.tagline.split(':')[0].slice(0, 90) || 'Features, fixes and upgrade notes' });
 // Validate the whole snapshot before replacing any committed content.
 for (const [target, body] of outputs) writeFileSync(target, body);
 await publishInstaller(installerBytes);
-console.log(`templates: ${templates.length} (${templates.filter((t) => t.icon).length} with logos), releases: ${releases.length} (kept ${trimmed.length})`);
+console.log(`templates: ${templates.length} (${templates.filter((t) => t.icon).length} with logos), releases: ${releases.length}, complete source guides: ${guides.length}`);
 console.log(`NineDeploy ${pkg.version}: ${mcpTools} MCP tools, ${tables} tables, source ${source.ref ?? "local clone"}`);

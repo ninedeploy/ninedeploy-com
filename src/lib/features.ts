@@ -45,7 +45,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Rollback and cancel",
-        text: "Every deployment records the exact image digest, so a rollback redeploys that precise image — never a moved :latest. In-flight deploys cancel at any stage.",
+        text: "Manual rollback redeploys a recorded commit or image with current settings and environment. Recorded Docker artifacts and inline Compose releases offer explicit promotion and restore paths with documented limits. In-flight deploys cancel at any stage.",
       },
       {
         title: "Watch paths and cron",
@@ -63,6 +63,10 @@ export const rooms: FeatureRoom[] = [
         title: "Ephemeral PR previews",
         text: "A pull request spins up service-pr-123 with the parent's non-secret config, capped by a max-active limit and destroyed when the PR closes.",
       },
+      {"title": "Protected lanes and approval gates", "text": "Production lanes can hide variables and logs from members while still allowing deploys, hold changes for an admin's approval, and apply deploy freezes. Pushes, schedules and deploy hooks follow the same gate."},
+      {"title": "Canaries, replicas and autoscaling", "text": "Docker services can use staged traffic, resource or request-rate scaling, and scale to zero on supported placements. Node canaries and RPS scaling require explicit capabilities; node sleep/wake remains work in progress. Swarm uses native rolling updates and its configured replicas."},
+      {"title": "CI on your own runners", "text": "Run pipeline jobs on enrolled runners, inspect attempts and logs, and require CI before deployment. Cancellation, lease expiry, retry and capacity are tracked by the panel."},
+      {"title": "Deploy without a repository", "text": "Upload source archives, use an inline Dockerfile, paste a Compose stack, or trigger image redeploys from registry webhooks. File mounts, deploy hooks and container options have explicit operator and runtime boundaries."},
       {
         title: "One-click demo stack",
         text: "A pre-configured stack with PostgreSQL, a Next.js standalone container and a Next.js PM2 cluster — to see the whole loop in a minute.",
@@ -107,6 +111,8 @@ export const rooms: FeatureRoom[] = [
         title: "Container file manager",
         text: "Browse a container's filesystem in the browser, edit files, and drag and drop uploads and downloads.",
       },
+      {"title": "Restore verification and PostgreSQL PITR", "text": "Verify backups of every managed engine by restoring into isolated copies and checking named data. PostgreSQL WAL archiving adds point-in-time recovery into a new database. RabbitMQ restores definitions, not queued messages; structural drills do not prove a real restore."},
+      {"title": "Panel self-backup and backup policies", "text": "Back up panel state and encryption keys, schedule database and volume recovery points, and manage retention and off-site replicas. Recovery documentation separates restore success from cleanup and verification results."},
       {
         title: "One SQLite core",
         text: "All panel state in one .data directory — no PostgreSQL or Redis to babysit for the panel itself. Migrations apply on every start.",
@@ -121,7 +127,7 @@ export const rooms: FeatureRoom[] = [
     items: [
       {
         title: "Traefik ingress and middlewares",
-        text: "Dynamic routing with IP allowlists, rate limits, basic auth, www→apex redirects and custom headers. Only 80 and 443 are open on the host.",
+        text: "Dynamic routing with IP allowlists, rate limits, basic auth, redirects and custom headers. Traefik owns 80/443; the panel first-boot port and explicitly published service or database ports need their own access policy.",
       },
       {
         title: "Wildcard HTTPS",
@@ -148,6 +154,12 @@ export const rooms: FeatureRoom[] = [
         text: "Interactive diagrams of services, databases and routes, with live inspectors and one-click endpoint copying.",
       },
       {
+        title: "Cloud nodes and private networking",
+        text: "Provision nodes on Hetzner Cloud, DigitalOcean or Vultr. SSH bootstrap can enroll an agent over Tailscale or Headscale with its listener on the private tailnet. Provider guides state image, region, permission and deletion boundaries.",
+      },
+      {"title": "Service-domain controls", "text": "Maintenance mode, custom error pages, panel sign-in through forward auth, sticky sessions and path routes apply on supported runtimes. The generated capability matrix explains refusals before settings are saved."},
+      {"title": "Uptime monitors and status pages", "text": "Configure monitors and public status pages alongside resource alerts. Operators can investigate failures with the configured AI provider; integrations remain optional."},
+      {
         title: "Direct port publishing",
         text: "Expose a service on a dedicated TCP port when you need to. Reserved ports (the panel, 22, 80, 443) are refused outright.",
       },
@@ -165,7 +177,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Serious auth",
-        text: "Argon2id, passkeys (WebAuthn), TOTP with replay protection, OIDC for Google, GitHub, Okta and Keycloak, and a 5-fails-then-15-minutes lockout.",
+        text: "Argon2id, passkeys (WebAuthn), TOTP, OIDC and SAML sign-in, account-linking controls and lockouts. An optional panel IP allowlist protects sessions and can also restrict API and remote-MCP tokens.",
       },
       {
         title: "Pinned Git SSH host keys",
@@ -173,7 +185,7 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Secrets vault",
-        text: "AES-256-GCM in versioned envelopes with a rotatable master-key ring. Resolve Infisical, Doppler, HashiCorp Vault / OpenBao and AWS Secrets Manager references at deploy time.",
+        text: "AES-256-GCM with a rotatable master-key ring. Resolve Infisical, Doppler, Vault/OpenBao, AWS, GCP, Azure, 1Password or an operator-configured command at deploy time, with each provider's documented network policy.",
       },
       {
         title: "Alerts and notifications",
@@ -181,12 +193,16 @@ export const rooms: FeatureRoom[] = [
       },
       {
         title: "Log drains and audit",
-        text: "Forward logs to Loki, Datadog, Vector or syslog. Every destructive action lands in the audit log.",
+        text: "Forward and search shipped logs, export Prometheus or OTLP/HTTP metrics, track Sentry-compatible error events, and inspect usage and cost. Audit history records sensitive operations. Integrations and retention remain operator-configurable.",
       },
       {
         title: "Plugins on a microkernel",
         text: "An event bus, hook pipeline, config center and menu registry; write plugins against @ninedeploy/plugin-sdk.",
       },
+      {"title": "Remote MCP with OAuth", "text": "Connect AI clients over HTTP using OAuth 2.1 or scoped API tokens, or run the local stdio server. Tools use the same role, scope, 2FA and IP checks as direct API requests. Inspection agents can use read-only mode."},
+      {"title": "AI diagnosis and proposed fixes", "text": "Use Claude or an OpenAI-compatible provider for failed-deploy diagnosis, sanitized log analysis, alert investigations and manifest suggestions. Review proposed changes before applying them; operators configure the provider and encrypted API key."},
+      {"title": "Instance GitOps, import and desktop", "text": "Review configuration drift and apply or write back changes with instance GitOps. Plan and apply imports from other self-hosted platforms, then migrate supported database contents. A desktop client, translated panel and template mirrors extend the platform."},
+      {"title": "First-boot HTTPS and stable updates", "text": "Set --domain and --email during installation, create the first admin with a one-time setup token, and choose the stable update channel when wanted. Keep port 3000 reachable from Docker; use an upstream firewall to block public access once HTTPS routing is ready."},
       {
         title: "Every interface",
         text: `Web dashboard with a ⌘K palette, the ninedeploy CLI, a typed REST SDK, an authenticated OpenAPI 3.1 document, and ${site.stats.mcpTools} MCP tools including generated read-only tools and API search.`,

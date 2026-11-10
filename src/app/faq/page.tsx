@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: "How is this different from Dokploy or Coolify?",
-    a: "NineDeploy is deliberately smaller and stricter: a single SQLite core with no external database, coverage floors enforced in CI across the whole monorepo, a typed-operation agent protocol instead of raw shell over the wire, digest-pinned rollbacks, and a microkernel plugin SDK. If you want a self-hosted PaaS that reads like an audited codebase, this is it.",
+    a: "NineDeploy keeps panel state in SQLite and combines typed remote operations, isolated restore verification, PostgreSQL PITR, protected production lanes and remote MCP with the same access checks as the API. The support matrix states runtime limits. Compare those workflows against your needs; feature names alone do not establish parity with another platform.",
   },
   {
     q: "Does it really need only SQLite?",
@@ -32,7 +32,7 @@ const faqs = [
   },
   {
     q: "Is there an API, CLI and AI integration?",
-    a: `Everything is API-first: a scoped /v1 REST API with an authenticated OpenAPI 3.1 document, a typed SDK, the ninedeploy CLI and ${site.stats.mcpTools} MCP tools. Generated tools inspect traffic, grants, terminal history and more; search_api discovers operations without calling them. Existing tools can mutate. Pair NINEDEPLOY_MCP_READONLY=1 with a read-scoped token for inspection agents.`,
+    a: `Everything is API-first: a scoped /v1 REST API with an authenticated OpenAPI 3.1 document, a typed SDK, the ninedeploy CLI and ${site.stats.mcpTools} MCP tools. Connect remotely over HTTP with OAuth 2.1 or scoped API tokens, or use local stdio. Tools use the same role, scope, 2FA and IP checks as direct API calls. Pair NINEDEPLOY_MCP_READONLY=1 with a read-scoped token for inspection agents.`,
   },
   {
     q: "Can nodes build apps and host databases now?",
@@ -48,7 +48,7 @@ const faqs = [
   },
   {
     q: "Which sign-in methods are supported?",
-    a: "Passkeys (WebAuthn), OpenID Connect for Google, GitHub, Okta, Keycloak and custom providers, TOTP two-factor with replay protection, and Argon2id passwords with brute-force lockout.",
+    a: "Passkeys (WebAuthn), OpenID Connect, SAML, controlled SSO account linking, TOTP two-factor and Argon2id passwords with brute-force lockout. Operators can enable a panel IP allowlist and optionally apply it to API and remote-MCP tokens.",
   },
   {
     q: "What happens to my data on upgrade?",
@@ -74,6 +74,13 @@ const faqs = [
     q: "Can guests access only one project or environment?",
     a: "Workspace admins can grant access to a project, an environment or their intersection. Grants raise access within that workspace, and guests see only matching resources. They never grant workspace administration or instance-operator privileges, and guests cannot create services or databases.",
   },
+  {"q": "How do I create the first admin and enable HTTPS?", "a": "The installer prints a one-time setup token required by the first-admin form. Pass --domain panel.example.com --email you@example.com for an HTTPS panel domain from the first boot. Keep port 3000 reachable from Docker so Traefik can forward to the panel; block public access with a firewall in front of the host. --private selects loopback for a deliberate private setup."},
+  {"q": "Which Linux and Node versions are supported?", "a": "The installer supports Debian/Ubuntu, RPM-based distributions, openSUSE/SLES and Arch-family hosts. Alpine uses Docker mode under OpenRC and needs bash and curl first. Bare-metal Node versions must satisfy the supported patch levels in the installation guide; Docker mode requires no host Node."},
+  {"q": "Are canaries, autoscaling and scale to zero available everywhere?", "a": "No. Check the generated runtime support matrix. Node RPS scaling needs proxy traffic observation; a node canary needs a single replica and strict HTTP readiness. Node scale to zero is still being built. Swarm keeps configured replicas, skips canary logic for native rolling updates, and does not sleep."},
+  {"q": "Do backup drills prove that I can restore?", "a": "Structural drills check archives; real restore verification loads a backup into an isolated copy and checks named data. Verification covers all eleven managed engines. PostgreSQL also supports point-in-time recovery into a new database. RabbitMQ backups contain definitions and topology, not queued messages."},
+  {"q": "Can production deployments require approval?", "a": "Yes. Protected lanes can hide variables and logs while allowing members to deploy, require an admin approval for every deploy trigger, and apply deploy freezes. Required CI can run on your own enrolled runners."},
+  {"q": "Does the AI assistant send my data outside the server?", "a": "AI features use the provider, model and encrypted API key configured by the operator. Sanitized logs and the relevant context are sent to that provider. Access is restricted, log context follows lane permissions, and proposed fixes require review before applying them."},
+  {"q": "Can I track stable releases or edge code?", "a": "The default installs the newest published release. --channel stable follows the stable tag and fails clearly if none exists; the panel also exposes an update-channel setting. --channel main explicitly selects edge code. The changelog labels Unreleased changes separately."},
 ];
 
 export default function FaqPage() {

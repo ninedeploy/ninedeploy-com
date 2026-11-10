@@ -14,14 +14,14 @@ export default function DocsIndex() {
     <div className="page-in">
       <h1 className="display text-[clamp(2.25rem,6.5vw,5rem)]">Documentation.</h1>
       <p className="mt-5 max-w-2xl text-lg text-muted">
-        Start with the installer, then read how a deploy actually runs. Everything else is reference for when you need it.
+        Complete guides from the product repository at v{site.version}. Start with installation and the runtime support matrix. Dated project records are labeled separately from operating guides.
       </p>
       <CopyCommand command={site.install} className="mt-8 max-w-2xl" />
 
       <div className="mt-14 space-y-12">
         {docGroups.map((g) => (
-          <section key={g.name} aria-labelledby={`g-${g.name}`}>
-            <h2 id={`g-${g.name}`} className="heading text-2xl">
+          <section key={g.name} aria-labelledby={`g-${g.name.replaceAll(' ', '-')}`}>
+            <h2 id={`g-${g.name.replaceAll(' ', '-')}`} className="heading text-2xl">
               {g.name}
             </h2>
             <ul className="adaptive-grid mt-4 gap-3">

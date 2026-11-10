@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AlertTriangle, ArrowLeft, ArrowRight, Info } from "lucide-react";
-import { CodeBlock } from "@/components/code";
-import { Prose } from "@/components/page-hero";
-import { docs, getDoc, guessLang, orderedDocs, slugify } from "@/lib/docs";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { SourceDocument } from "@/components/source-document";
+import { docs, getDoc, orderedDocs } from "@/lib/docs";
 import { site } from "@/lib/site";
 
 export const dynamicParams = false;
@@ -16,7 +15,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/docs/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const doc = getDoc(slug);
-  return doc ? { title: doc.title, description: doc.description } : { title: "Not found" };
+  return doc ? { title: doc.title, description: doc.description, alternates: { canonical: `/docs/${doc.aliasOf ?? doc.slug}/` } } : { title: "Not found" };
 }
 
 export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
@@ -24,10 +23,10 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
   const doc = getDoc(slug);
   if (!doc) notFound();
 
-  const index = orderedDocs.findIndex((d) => d.slug === slug);
+  const index = orderedDocs.findIndex((d) => d.slug === (doc.aliasOf ?? slug));
   const prev = orderedDocs[index - 1];
   const next = orderedDocs[index + 1];
-  const toc = doc.blocks.filter((b) => b.kind === "h2").map((b) => (b as { text: string }).text);
+  const toc = doc.document.headings.filter(heading => heading.depth === 2);
 
   return (
     <div className="page-in docs-detail">
@@ -36,62 +35,10 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
         <h1 className="display mt-2 text-[clamp(2.25rem,5vw,4rem)]">{doc.title}</h1>
         <p className="mt-4 text-xl text-muted">{doc.description}</p>
 
-        <div className="doc-blocks mt-10 space-y-6">
-          {doc.blocks.map((b, i) => {
-            switch (b.kind) {
-              case "p":
-                return (
-                  <p key={i} className="text-[17px] leading-[1.75] text-ink/85">
-                    <Prose text={b.text} />
-                  </p>
-                );
-              case "h2":
-                return (
-                  <h2 key={i} id={slugify(b.text)} className="heading scroll-mt-24 pt-6 text-3xl">
-                    {b.text}
-                  </h2>
-                );
-              case "h3":
-                return (
-                  <h3 key={i} className="pt-2 text-xl font-semibold">
-                    {b.text}
-                  </h3>
-                );
-              case "code":
-                return <CodeBlock key={i} code={b.body} file={b.file} lang={guessLang(b.body, b.file)} />;
-              case "list":
-                return (
-                  <ul key={i} className="space-y-3">
-                    {b.items.map((item, j) => (
-                      <li key={j} className="flex gap-3 text-[17px] leading-[1.7] text-ink/85">
-                        <span className="mt-[0.7em] size-1.5 shrink-0 rounded-full bg-green" />
-                        <span>
-                          <Prose text={item} />
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                );
-              case "callout": {
-                const warn = b.tone === "warn";
-                const Icon = warn ? AlertTriangle : Info;
-                return (
-                  <aside
-                    key={i}
-                    className={`flex gap-4 rounded-2xl border p-5 ${warn ? "border-amber/40 bg-amber/[0.07]" : "border-blue/30 bg-blue/[0.06]"}`}
-                  >
-                    <Icon className={`mt-0.5 size-5 shrink-0 ${warn ? "text-amber" : "text-blue"}`} />
-                    <div>
-                      <p className="font-semibold">{b.title}</p>
-                      <p className="mt-1 leading-relaxed text-muted">
-                        <Prose text={b.text} />
-                      </p>
-                    </div>
-                  </aside>
-                );
-              }
-            }
-          })}
+        <p className="mt-4 text-sm text-muted">Product v{site.version} · Complete source guide</p>
+        {doc.record && <aside className="mt-6 rounded-xl border border-amber/40 bg-amber/10 p-4 text-sm">Project record: this dated document may describe work in progress. Check the runtime support matrix before enabling a feature.</aside>}
+        <div className="doc-blocks mt-10">
+          <SourceDocument tokens={doc.document.tokens} source={doc.source} />
         </div>
 
         <nav aria-label="Pagination" className="mt-16 grid grid-cols-[minmax(0,1fr)] gap-3 border-t border-rail pt-8 sm:grid-cols-2">
@@ -115,8 +62,8 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
           )}
         </nav>
         <p className="mt-8 text-sm text-muted">
-          The canonical guides live in the repository&apos;s{" "}
-          <a href={doc.source ? `${site.github}/blob/main/docs/${doc.source}` : `${site.github}/tree/main/docs`} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-ink">
+          Source guide (installer links and live inventory counts are normalized for this site):{" "}
+          <a href={doc.source ? `${site.github}/blob/${site.sourceCommit}/${doc.source}` : `${site.github}/tree/${site.sourceCommit}/docs`} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-ink">
             {doc.source ?? "docs folder"}
           </a>
           .
@@ -128,9 +75,9 @@ export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {
           <p className="text-sm font-semibold">On this page</p>
           <ul className="mt-3 space-y-2 border-l border-rail">
             {toc.map((t) => (
-              <li key={t}>
-                <a href={`#${slugify(t)}`} className="-ml-px block border-l border-transparent pl-3 text-sm text-muted hover:border-green hover:text-ink">
-                  {t}
+              <li key={t.id}>
+                <a href={`#${t.id}`} className="-ml-px block border-l border-transparent pl-3 text-sm text-muted hover:border-green hover:text-ink">
+                  {t.text}
                 </a>
               </li>
             ))}

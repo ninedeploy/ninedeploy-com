@@ -13,7 +13,7 @@ const modes = [
     id: "metal",
     label: "Bare metal",
     command: site.install,
-    note: "Recommended for production on Linux. Provisions Node and Docker on Debian/Ubuntu, verifies the release checksum, and starts a hardened systemd service.",
+    note: "Recommended for production on Linux with systemd. Provisions supported Node and Docker packages, verifies the release checksum, and prints a one-time first-admin setup token. Add --domain and --email for HTTPS from the first boot.",
   },
   {
     id: "docker",

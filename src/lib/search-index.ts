@@ -1,5 +1,5 @@
 import templatesData from "@/content/templates.json";
-import { docs, slugify } from "@/lib/docs";
+import { docs } from "@/lib/docs";
 import { nav } from "@/lib/site";
 
 export type SearchKind = "Page" | "Docs" | "Template";
@@ -21,13 +21,13 @@ export function buildSearchIndex(): SearchItem[] {
     { kind: "Page", title: "Home", hint: "Ship like you mean it", href: "/" },
     ...nav.map((n) => ({ kind: "Page" as const, title: n.label, hint: `ninedeploy.com${n.href}`, href: n.href })),
   ];
-  const docItems: SearchItem[] = docs.flatMap((d) => [
+  const docItems: SearchItem[] = docs.filter(d => !d.aliasOf).flatMap((d) => [
     { kind: "Docs" as const, title: d.title, hint: d.description, href: `/docs/${d.slug}`, keywords: d.group },
     ...d.blocks
       .filter((b) => b.kind === "h2")
       .map((b) => {
         const text = (b as { text: string }).text;
-        return { kind: "Docs" as const, title: text, hint: d.title, href: `/docs/${d.slug}#${slugify(text)}` };
+        return { kind: "Docs" as const, title: text, hint: d.title, href: `/docs/${d.slug}#${b.id}` };
       }),
   ]);
   const templateItems: SearchItem[] = templatesData.templates.map((t) => ({

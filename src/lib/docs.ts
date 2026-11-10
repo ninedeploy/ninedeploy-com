@@ -3,11 +3,11 @@ import { docs, type Doc } from "@/content/docs";
 export type { Doc };
 export { docs };
 
-const ORDER = ["Start", "Core", "Security", "Interfaces", "Extend", "Reference"];
+const ORDER = ["Start", "Core", "Security", "Interfaces", "Extend", "Reference", "Project records"];
 
 export const docGroups = ORDER.map((name) => ({
   name,
-  docs: docs.filter((d) => d.group === name).map((d) => ({ slug: d.slug, title: d.title, description: d.description })),
+  docs: docs.filter((d) => !d.aliasOf && d.group === name).map((d) => ({ slug: d.slug, title: d.title, description: d.description })),
 })).filter((g) => g.docs.length);
 
 /** Docs in sidebar order, for prev/next links. */

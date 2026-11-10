@@ -72,7 +72,7 @@ export function Comparison() {
 
 const plate: [string, string][] = [
   ["Release", `v${site.version}`],
-  ["Runtime", "Node ≥ 22.13 + Docker"],
+  ["Runtime", `Node ${site.runtime} + Docker`],
   ["Panel state", `1 SQLite file, ${site.stats.tables} tables`],
   ["API contract", "OpenAPI 3.1 + typed SDK"],
   ["Database engines", String(site.stats.dbEngines)],
@@ -145,8 +145,8 @@ const limits = [
     text: "Updated nodes support Nixpacks and Railpack. Missing capabilities or disabled node switches give an explicit refusal. PM2 remains on the panel host.",
   },
   {
-    title: "Remote health is container state, not an HTTP probe.",
-    text: "Probing would mean publishing ports on the node's public interface. The deploy log says so.",
+    title: "Runtime support varies by placement.",
+    text: "Node HTTP/TCP readiness is opt-in. Node scale to zero is still being built; Swarm uses its configured replicas and native rolling updates. Read the support matrix for the current boundaries.",
   },
   {
     title: "PM2 services have no blue-green window.",

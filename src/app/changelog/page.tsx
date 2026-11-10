@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { PageHero, Prose } from "@/components/page-hero";
-import { releaseTotal, releases } from "@/lib/content";
+import { allReleases, releaseTotal, releases, unreleased } from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ export default function ChangelogPage() {
           rel="noreferrer"
           className="font-semibold underline decoration-rail-strong underline-offset-4 hover:decoration-green"
         >
-          Read the full CHANGELOG.md
+          Read the source CHANGELOG.md
         </a>
       </PageHero>
 
@@ -57,7 +58,7 @@ export default function ChangelogPage() {
             <details open={i < 3} className="group rounded-3xl border border-rail bg-panel">
               <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
                 <span className="release-summary text-[15px] leading-relaxed">
-                  {r.tagline || "Maintenance release."}
+                  {r.tagline || "Release notes and upgrade guidance."}
                   {i === 0 && (
                     <span className="ml-2 rounded-full bg-green/12 px-2 py-0.5 align-middle font-mono text-[11px] text-green">
                       latest
@@ -67,28 +68,28 @@ export default function ChangelogPage() {
                 <ChevronDown className="mt-1 size-4 shrink-0 text-muted transition-transform group-open:rotate-180" />
               </summary>
               <div className="space-y-5 border-t border-rail p-5">
-                <a href={`${site.changelogFull}#${r.version.replace(/\./g, "")}${r.date ? `---${r.date}` : ""}`} target="_blank" rel="noreferrer" className="text-sm font-semibold underline underline-offset-4 hover:text-green">
+                <a href={`/changelog/${r.version}/`} className="text-sm font-semibold underline underline-offset-4 hover:text-green">
                   Full v{r.version} release and upgrade notes
                 </a>
                 {r.groups.length === 0 && <p className="text-sm text-muted">See CHANGELOG.md for details.</p>}
                 <div className="release-groups">
-                {r.groups.map((g) => (
-                  <div key={g.title}>
+                {r.groups.map((g, groupIndex) => (
+                  <div key={`${g.title}-${groupIndex}`}>
                     <h3 className={`text-sm font-semibold ${tone[g.title] ?? "text-ink"}`}>
                       {g.title}
                       <span className="ml-2 font-mono text-xs font-normal text-muted">{g.total}</span>
                     </h3>
                     <ul className="mt-2 space-y-2">
-                      {g.items.map((item, j) => (
+                      {g.items.slice(0, 5).map((item, j) => (
                         <li key={j} className="flex gap-3 text-sm leading-relaxed text-muted">
                           <span className="mt-2 size-1 shrink-0 rounded-full bg-rail-strong" />
                           <span>
-                            <Prose text={item} />
+                            <Prose text={item.length > 240 ? `${item.slice(0, 237)}…` : item} />
                           </span>
                         </li>
                       ))}
-                      {g.total > g.items.length && (
-                        <li className="pl-4 text-xs text-muted">and {g.total - g.items.length} more</li>
+                      {g.total > 5 && (
+                        <li className="pl-4 text-xs text-muted">and {g.total - 5} more in the full release notes</li>
                       )}
                     </ul>
                   </div>
@@ -99,6 +100,14 @@ export default function ChangelogPage() {
           </li>
         ))}
       </ol>
+      <section className="site-container section-compact" aria-labelledby="release-archive">
+        <h2 id="release-archive" className="heading text-3xl">Complete release archive</h2>
+        <p className="mt-3 max-w-2xl text-muted">Every version has its complete notes, including upgrade instructions, verification records and runtime limits.</p>
+        {unreleased && <Link href="/changelog/unreleased/" className="mt-5 inline-block rounded-full border border-amber/40 px-4 py-2 font-semibold text-amber">Unreleased — work on main, not a published release</Link>}
+        <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6">
+          {allReleases.map(release => <li key={release.version}><a href={`/changelog/${release.version}/`} className="block rounded-xl border border-rail bg-panel p-4 hover:border-rail-strong"><span className="font-mono font-semibold">v{release.version}</span><span className="mt-1 block text-xs text-muted">{formatDate(release.date)}</span></a></li>)}
+        </ul>
+      </section>
     </div>
   );
 }

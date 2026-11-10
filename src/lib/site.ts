@@ -1,12 +1,13 @@
 import product from "@/content/product.json";
-import templateData from "@/content/templates.json";
-import changelog from "@/content/changelog.json";
 
 export const site = {
   name: "NineDeploy",
   url: "https://ninedeploy.com",
   version: product.version,
-  releaseHeadline: changelog.releases[0]?.tagline.split(":")[0].slice(0, 90) || "Latest release notes",
+  sourceCommit: product.commit ?? "main",
+  runtime: product.node,
+  releaseSeries: product.version.split('.').slice(0, 2).join('.'),
+  releaseHeadline: product.releaseHeadline,
   tagline: "Ship like you mean it.",
   description:
     "NineDeploy is a self-hosted PaaS for servers you own: zero-downtime blue-green deploys, managed databases, wildcard HTTPS, multi-server agents and an MCP server for AI agents — all in one SQLite file.",
@@ -17,12 +18,11 @@ export const site = {
   installDocker: "curl -fsSL https://ninedeploy.com/install.sh | bash -s -- --docker",
   installerSource: `https://github.com/ninedeploy/ninedeploy/blob/${product.commit ?? "main"}/install.sh`,
   stats: {
-    templates: templateData.templates.length,
-    certified: templateData.templates.filter((template) => template.verified).length,
+    templates: product.templates,
+    certified: product.certified,
     tables: product.tables,
     mcpTools: product.mcpTools,
     dbEngines: 11,
-    cliCommands: 40,
   },
 };
 
